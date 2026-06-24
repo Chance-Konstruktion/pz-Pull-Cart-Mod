@@ -31,6 +31,11 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 - Dev-Doku nach `docs/` verschoben, Blender-Skript nach `tools/`.
 
 ### Fixed
+- **Crafting erzeugte nichts – Pflichtfeld `timedAction` ergänzt.** Hand-Craft-
+  Rezepte in B42 brauchen ein `timedAction`; ohne das lief der Balken durch, die
+  Aktion committete aber nicht (Material zurück, kein Ergebnis, kein Fehler).
+  Allen Rezepten `timedAction = Making` (generische Vanilla-Crafting-Aktion)
+  hinzugefügt.
 - **Crafting erzeugte nichts** (Balken lief durch, Material kam zurück, kein
   Fehler). Skill-/Lern-Gate als Ursache isoliert: für diese Testrunde das
   Skill-Gating (`SkillRequired`/`AutoLearnAny`) entfernt → Rezepte sind von jedem
