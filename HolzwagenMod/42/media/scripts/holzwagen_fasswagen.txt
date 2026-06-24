@@ -72,6 +72,7 @@ module Base
         time =120,
         category = Carpentry,
         tags = AnySurfaceCraft,
+        timedAction = Making,
         inputs
         {
             item 4 [Base.SheetMetal],
@@ -87,6 +88,7 @@ module Base
         time =40,
         category = Carpentry,
         tags = AnySurfaceCraft,
+        timedAction = Making,
         inputs
         {
             item 2 [Base.DuctTape],
@@ -102,6 +104,7 @@ module Base
         time =40,
         category = Carpentry,
         tags = AnySurfaceCraft,
+        timedAction = Making,
         inputs
         {
             item 1 [Base.SheetMetal],
@@ -117,6 +120,7 @@ module Base
         time =150,
         category = Carpentry,
         tags = AnySurfaceCraft,
+        timedAction = Making,
         inputs
         {
             item 1 [Base.Holzwagen_T2],
@@ -134,6 +138,7 @@ module Base
         time =80,
         category = Carpentry,
         tags = AnySurfaceCraft,
+        timedAction = Making,
         inputs
         {
             item 1 [Base.Holzwagen_Fasswagen],
