@@ -2,6 +2,9 @@
 
 A realistic **pullable one-axle wooden cart** inspired by Valheim. Finally stop carrying everything on your back!
 
+> **Status:** working & loads cleanly on B42 42.19 · actively developed
+> 🇩🇪 Deutsche Version: [README.md](README.md)
+
 ### Features
 
 - **Two-handed pulling mechanic** – realistic movement speed while dragging the cart
@@ -18,7 +21,7 @@ A realistic **pullable one-axle wooden cart** inspired by Valheim. Finally stop 
 
 | Feature              | Tier 1     | Tier 2     | Barrel Cart |
 |----------------------|------------|------------|-------------|
-| Base Speed           | 80%        | 100%       | 90%         |
+| Base Speed           | 80%        | 100%       | like wheels |
 | Bag Slots            | 2          | 4          | 3           |
 | Fluid Capacity       | -          | -          | 450 units   |
 | Crafting Cost        | Low        | Medium     | High        |

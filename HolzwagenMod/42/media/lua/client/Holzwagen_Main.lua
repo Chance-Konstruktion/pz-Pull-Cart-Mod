@@ -32,20 +32,36 @@ function HW.speedMult(cart)
     return CFG.speed[HW.wheelTier(cart)] or 1.0
 end
 
--- ====== EINZIGER VERIFY-PUNKT ======
--- Setzt die Bewegungsgeschwindigkeit. Die exakte API morgen gegen die
--- Bicycle-Mod / 42.19 pruefen. pcall faengt einen falschen Namen ab,
--- damit der Mod auch dann sauber laedt (nur ohne Tempo-Effekt).
-function HW.applySpeed(player, mult)
-    pcall(function()
-        player:setWalkSpeedModifier(mult)   -- <-- ggf. Methodennamen anpassen
-        player:setRunSpeedModifier(mult)
-    end)
+-- ====== Tempo-Steuerung (B42-API: IsoGameCharacter:setSpeedMod) ======
+-- setSpeedMod(mult) skaliert die Bewegungsgeschwindigkeit (1.0 = normal,
+-- < 1.0 = langsamer). Das Bewegungssystem setzt den Wert JEDEN Frame zurueck,
+-- daher wird er pro Tick neu gesetzt, solange gezogen wird (onPlayerUpdate).
+--
+-- Einmaliger Capability-Check: ein fehlender API-Name landet sichtbar im Log
+-- (statt still in einem pcall verschluckt zu werden).
+HW.speedApiOk = nil  -- nil = noch nicht geprueft, danach true/false
+
+local function ensureSpeedApi(player)
+    if HW.speedApiOk == nil and player then
+        HW.speedApiOk = (player.setSpeedMod ~= nil)
+        if HW.speedApiOk then
+            print("[Holzwagen] Tempo-API ok: IsoGameCharacter:setSpeedMod gefunden.")
+        else
+            print("[Holzwagen] WARNUNG: setSpeedMod fehlt - Wagen-Tempo ohne Effekt. API pruefen.")
+        end
+    end
+    return HW.speedApiOk
 end
+
+function HW.applySpeed(player, mult)
+    if ensureSpeedApi(player) then
+        player:setSpeedMod(mult)
+    end
+end
+
 function HW.resetSpeed(player)
     HW.applySpeed(player, 1.0)
 end
--- ===================================
 
 -- ---------- Ziehen / Loslassen ----------
 function HW.startPulling(player, cart)
