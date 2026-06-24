@@ -5,10 +5,10 @@ nicht in Stein gemeißelt – Feedback per Issue ist willkommen.
 
 ## 🎯 Als Nächstes (Kernfunktion absichern)
 
-- [ ] **Tempo-API robust machen.** `HW.applySpeed` nutzt aktuell geratene
-      Methodennamen in einem `pcall`. Gegen die echte B42-42.19-API (bzw. die
-      Bicycle-Mod) verifizieren, `pcall` durch sauberes Feature-Detect ersetzen
-      und die Tick-Logik entschlacken. Ohne das ist der Tempo-Effekt evtl. wirkungslos.
+- [x] **Tempo-API robust machen.** Erledigt: `HW.applySpeed` nutzt jetzt die
+      echte B42-API `IsoGameCharacter:setSpeedMod(mult)` statt geratener Namen im
+      `pcall`, mit Capability-Check der eine fehlende API sichtbar loggt.
+      → [CHANGELOG](CHANGELOG.md). _In-Game-Wirkung noch zu bestätigen._
 - [ ] **In-Game-Verifikation der Modelle.** `scale = 1.0` gegen eine Spielfigur
       prüfen, danach Rotation/Offset feinjustieren.
 

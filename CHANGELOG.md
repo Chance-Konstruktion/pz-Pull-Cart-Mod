@@ -23,6 +23,12 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 - Dev-Doku nach `docs/` verschoben, Blender-Skript nach `tools/`.
 
 ### Fixed
+- **Tempo-Steuerung repariert.** `HW.applySpeed` rief zuvor geratene, nicht
+  existierende Methoden (`setWalkSpeedModifier`/`setRunSpeedModifier`) in einem
+  `pcall` auf – der Tempo-Effekt lief dadurch wirkungslos durch. Jetzt über die
+  echte B42-API `IsoGameCharacter:setSpeedMod(mult)`, mit einmaligem
+  Capability-Check, der eine fehlende API sichtbar ins Log schreibt statt sie
+  zu verschlucken.
 - Kaputtes Stein-Rad-Rezept entfernt: referenzierte `Base.Stone`, das es in
   B42 42.19 nicht gibt und beim Laden einen `WorldDictionary`-Fehler warf.
 
