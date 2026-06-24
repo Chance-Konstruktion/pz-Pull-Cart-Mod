@@ -31,6 +31,12 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 - Dev-Doku nach `docs/` verschoben, Blender-Skript nach `tools/`.
 
 ### Fixed
+- **Rezepte erschienen nicht im Crafting-Menü.** Allen craftRecipes fehlte der
+  Tag `tags = AnySurfaceCraft` – dadurch waren sie nirgends sichtbar (weder unter
+  Carpentry noch per Suche). Jetzt überall craftbar.
+- **Crash bei Kontextmenü/Item-Interaktion behoben.** `HW.isCart` rief `hasTag()`
+  auf jedem Item auf; bei manchen Klassen (z. B. `ComboItem`) wirft das einen
+  Fehler. Wagen-Erkennung läuft jetzt über den Item-Typ statt über Tags.
 - **Tempo-Steuerung repariert.** `HW.applySpeed` rief zuvor geratene, nicht
   existierende Methoden (`setWalkSpeedModifier`/`setRunSpeedModifier`) in einem
   `pcall` auf – der Tempo-Effekt lief dadurch wirkungslos durch. Jetzt über die

@@ -9,17 +9,20 @@ Holzwagen = Holzwagen or {}
 local HW = Holzwagen
 
 -- ---------- Helfer ----------
+-- Wagen-Erkennung ueber den Item-Typ (robust). hasTag() wirft bei manchen
+-- Item-Klassen (z. B. ComboItem) einen Fehler, darum NICHT verwenden.
+HW.cartTypes = { Holzwagen_T1 = "T1", Holzwagen_T2 = "T2", Holzwagen_Fasswagen = "FASS" }
+
 function HW.isCart(item)
-    return item and instanceof(item, "InventoryItem") and item:hasTag(CFG.cartTag)
+    return item ~= nil and item.getType ~= nil and HW.cartTypes[item:getType()] ~= nil
 end
 
 function HW.cartTier(cart)
-    if cart:hasTag("HolzwagenFass") then return "FASS" end
-    return cart:hasTag("HolzwagenT2") and "T2" or "T1"
+    return HW.cartTypes[cart:getType()] or "T1"
 end
 
 function HW.isFasswagen(cart)
-    return HW.isCart(cart) and cart:hasTag("HolzwagenFass")
+    return HW.isCart(cart) and HW.cartTier(cart) == "FASS"
 end
 
 -- Welche Raeder sind verbaut? In modData gespeichert (Default aus Config).
