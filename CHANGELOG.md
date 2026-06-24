@@ -31,6 +31,11 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 - Dev-Doku nach `docs/` verschoben, Blender-Skript nach `tools/`.
 
 ### Fixed
+- **Crafting erzeugte nichts** (Balken lief durch, Material kam zurück, kein
+  Fehler). Skill-/Lern-Gate als Ursache isoliert: für diese Testrunde das
+  Skill-Gating (`SkillRequired`/`AutoLearnAny`) entfernt → Rezepte sind von jedem
+  craftbar. Außerdem Feldname `Time` → `time` (Vanilla-Schreibweise) korrigiert.
+  Sinnvolle Woodwork-Stufung kommt nach bestätigtem Craften zurück.
 - **Rezepte erschienen nicht im Crafting-Menü.** Allen craftRecipes fehlte der
   Tag `tags = AnySurfaceCraft` – dadurch waren sie nirgends sichtbar (weder unter
   Carpentry noch per Suche). Jetzt überall craftbar.

@@ -1,15 +1,16 @@
 module Base
 {
-    /* B42-craftRecipe im verifizierten Minimalformat (Vorlage: Vanilla MakeCoffeeMug).
-       Skill-Gating + tool-keep folgen, sobald das Laden bestaetigt ist. */
+    /* B42-craftRecipe. HINWEIS (Testrunde): Skill-Gating voruebergehend
+       entfernt, damit jeder Charakter craften kann -> isoliert, ob das
+       "Balken laeuft, nichts entsteht"-Problem am Lern-/Skill-Gate lag.
+       Nach bestaetigtem Craften kommt eine sinnvolle Woodwork-Stufung
+       (+ optional Rezeptheft) zurueck. */
 
     craftRecipe Holzwagen_WagenkastenT1
     {
-        Time = 120,
+        time = 120,
         category = Carpentry,
         tags = AnySurfaceCraft,
-        SkillRequired = Woodwork:3,
-        AutoLearnAny = Woodwork:3,
         inputs
         {
             item 15 [Base.Plank],
@@ -25,11 +26,9 @@ module Base
 
     craftRecipe Holzwagen_WagenkastenT2
     {
-        Time = 120,
+        time = 120,
         category = Carpentry,
         tags = AnySurfaceCraft,
-        SkillRequired = Woodwork:5,
-        AutoLearnAny = Woodwork:5,
         inputs
         {
             item 12 [Base.Plank],
@@ -45,11 +44,9 @@ module Base
 
     craftRecipe Holzwagen_UpgradeT2
     {
-        Time = 100,
+        time = 100,
         category = Carpentry,
         tags = AnySurfaceCraft,
-        SkillRequired = Woodwork:5,
-        AutoLearnAny = Woodwork:5,
         inputs
         {
             item 1 [Base.Holzwagen_T1],
@@ -64,11 +61,9 @@ module Base
 
     craftRecipe Holzwagen_RadT1_Holz
     {
-        Time = 60,
+        time = 60,
         category = Carpentry,
         tags = AnySurfaceCraft,
-        SkillRequired = Woodwork:2,
-        AutoLearnAny = Woodwork:2,
         inputs
         {
             item 1 [Base.Log],
@@ -82,11 +77,9 @@ module Base
 
     craftRecipe Holzwagen_Speichengestell
     {
-        Time = 80,
+        time = 80,
         category = Carpentry,
         tags = AnySurfaceCraft,
-        SkillRequired = Woodwork:4,
-        AutoLearnAny = Woodwork:4,
         inputs
         {
             item 1 [Base.Log],
@@ -101,11 +94,9 @@ module Base
 
     craftRecipe Holzwagen_Speichenrad_Schmieden
     {
-        Time = 90,
+        time = 90,
         category = Carpentry,
         tags = AnySurfaceCraft,
-        SkillRequired = Woodwork:4,
-        AutoLearnAny = Woodwork:4,
         inputs
         {
             item 1 [Base.Holzwagen_Speichengestell],
