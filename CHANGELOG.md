@@ -31,6 +31,14 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 - Dev-Doku nach `docs/` verschoben, Blender-Skript nach `tools/`.
 
 ### Fixed
+- **Crafting erzeugte nichts – falsche Werkzeug-Tags (DER Bug).** Rezepte
+  referenzierten Werkzeuge als `tags[Hammer]` / `tags[Saw]`. In B42 heißen die
+  Tags `base:hammer` bzw. `base:saw;base:smallsaw;base:crudesaw` (kleingeschrieben,
+  mit `base:`-Präfix). Das alte Format matchte kein Werkzeug → die Anforderung war
+  unerfüllbar, der Craft committete nicht (Balken lief, Material+Werkzeug zurück,
+  kein Fehler). Alle Rezepte exakt an die Vanilla-Carpentry-Rezepte
+  (MakeWoodenToolbox/-Bucket aus den entpackten B42.16-Dateien) angeglichen:
+  `timedAction = Making`, `Tags = AnySurfaceCraft;Carpentry`, korrekte Werkzeug-Tags.
 - **Crafting erzeugte nichts – Pflichtfeld `timedAction` ergänzt.** Hand-Craft-
   Rezepte in B42 brauchen ein `timedAction`; ohne das lief der Balken durch, die
   Aktion committete aber nicht (Material zurück, kein Ergebnis, kein Fehler).
