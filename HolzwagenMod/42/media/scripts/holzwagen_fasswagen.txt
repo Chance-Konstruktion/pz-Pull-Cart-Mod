@@ -1,0 +1,157 @@
+module Base
+{
+    /* Eigenes Modell: Wagen MIT Fass/Schlauch/Trichter.
+       Mesh kommt aus holzwagen_fass_blender.py -> holzwagen_fass.fbx
+       in 42/media/models_X/. Textur wird mitbenutzt (gleicher Atlas). */
+    /* MODELL vorerst deaktiviert (siehe holzwagen_items.txt).
+    model Holzwagen_Fass { mesh = WorldItems/holzwagen_fass, texture = WorldItems/holzwagen_tex, scale = 0.32, }
+    */
+
+    /* =========================================================
+       FASSWAGEN – Holzwagen mit fest verbautem Fass.
+       Transportiert Fluessigkeiten; dafuer nur noch 3 Taschen-Slots.
+       Fluid-Syntax verifiziert am Spielcode (Build 42.18: WaterBottle/GasCan).
+       ========================================================= */
+    item Holzwagen_Fasswagen
+    {
+        DisplayName      = Fasswagen,
+        Type             = Container,      /* fuer die 3 Taschen (siehe VERIFY unten) */
+        Weight           = 16.0,
+        Capacity         = 50,
+        WeightReduction  = 55,
+        /* WorldStaticModel = Holzwagen_Fass, */
+        TwoHandWeapon    = TRUE,
+        Tags             = Holzwagen;HolzwagenFass,
+        Icon             = Crate,
+
+        /* Das fest verbaute Fass als Fluid-Container.
+           Capacity in Fluid-Einheiten (Wasserflasche = 1.0 ~ 1 Liter Basis).
+           450 = grosser Tank; bei Bedarf runterdrehen. */
+        component FluidContainer
+        {
+            ContainerName = Holzwagen_Fass,
+            Capacity = 450.0,
+            Fluids
+            {
+                fluid = Water:1.0,
+                fluid = TaintedWater:1.0,
+                fluid = Petrol:1.0,
+                fluid = Milk:1.0,
+                /* weitere Fluids aus der B42-Fluid-Liste hier ergaenzbar */
+            }
+        }
+    }
+
+    /* ---- Komponenten (selbst definiert, damit keine ungueltigen Vanilla-IDs den Mod brechen) ---- */
+    item Holzwagen_Fass
+    {
+        DisplayName = Fass (leer),
+        Type = Normal, Weight = 6.0,
+        Tags = HolzwagenFassItem,
+        Icon = Crate,
+    }
+    item Holzwagen_Schlauch
+    {
+        DisplayName = Schlauch,
+        Type = Normal, Weight = 0.5,
+        Tags = HolzwagenSchlauch,
+        Icon = Hose,
+    }
+    item Holzwagen_Trichter
+    {
+        DisplayName = Trichter,
+        Type = Normal, Weight = 0.4,
+        Tags = HolzwagenTrichter,
+        Icon = Funnel,
+    }
+
+    /* =========================================================
+       REZEPTE  (B42-Minimalformat, verifiziert; Skill/Tools spaeter)
+       ========================================================= */
+    craftRecipe Holzwagen_Fass_Bauen
+    {
+        Time = 120,
+        category = Carpentry,
+        inputs
+        {
+            item 4 [Base.SheetMetal],
+        }
+        outputs
+        {
+            item 1 Base.Holzwagen_Fass,
+        }
+    }
+
+    craftRecipe Holzwagen_Schlauch_Bauen
+    {
+        Time = 40,
+        category = Carpentry,
+        inputs
+        {
+            item 2 [Base.DuctTape],
+        }
+        outputs
+        {
+            item 1 Base.Holzwagen_Schlauch,
+        }
+    }
+
+    craftRecipe Holzwagen_Trichter_Bauen
+    {
+        Time = 40,
+        category = Carpentry,
+        inputs
+        {
+            item 1 [Base.SheetMetal],
+        }
+        outputs
+        {
+            item 1 Base.Holzwagen_Trichter,
+        }
+    }
+
+    craftRecipe Holzwagen_Umbau_Fasswagen
+    {
+        Time = 150,
+        category = Carpentry,
+        inputs
+        {
+            item 1 [Base.Holzwagen_T2],
+            item 1 [Base.Holzwagen_Fass],
+            item 1 tags[Hammer],
+        }
+        outputs
+        {
+            item 1 Base.Holzwagen_Fasswagen,
+        }
+    }
+
+    craftRecipe Holzwagen_Rueckbau_Fasswagen
+    {
+        Time = 80,
+        category = Carpentry,
+        inputs
+        {
+            item 1 [Base.Holzwagen_Fasswagen],
+            item 1 tags[Hammer],
+        }
+        outputs
+        {
+            item 1 Base.Holzwagen_T2,
+            item 1 Base.Holzwagen_Fass,
+        }
+    }
+}
+
+/* =========================================================
+   VERIFY (mit PZ, morgen):
+   1) Darf EIN Item gleichzeitig Type=Container (Taschen) UND
+      component FluidContainer (Fass) sein? Falls B42 das nicht erlaubt:
+      Fasswagen nur als FluidContainer fuehren und die 3 Taschen-Slots
+      ueber das Lua-Slotsystem an einem separaten, versteckten Container
+      haengen (Config-Schalter dafuer ist vorbereitet).
+   2) Fluid-Namen (Milk etc.) gegen die B42-Fluid-Liste pruefen.
+   3) Befuellen/Ablassen laeuft ueber PZ-eigene Fluid-Mechanik
+      (Zapfen/See/Umfuellen). Schlauch+Trichter sind aktuell
+      Bau-Komponenten; optionale eigene Kontext-Aktionen siehe Lua.
+   ========================================================= */

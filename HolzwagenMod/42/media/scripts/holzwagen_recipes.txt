@@ -1,0 +1,115 @@
+module Base
+{
+    /* B42-craftRecipe im verifizierten Minimalformat (Vorlage: Vanilla MakeCoffeeMug).
+       Skill-Gating + tool-keep folgen, sobald das Laden bestaetigt ist. */
+
+    craftRecipe Holzwagen_WagenkastenT1
+    {
+        Time = 120,
+        category = Carpentry,
+        inputs
+        {
+            item 15 [Base.Plank],
+            item 30 [Base.Nails],
+            item 2 [Base.Holzwagen_RadT1],
+            item 1 tags[Hammer],
+        }
+        outputs
+        {
+            item 1 Base.Holzwagen_T1,
+        }
+    }
+
+    craftRecipe Holzwagen_WagenkastenT2
+    {
+        Time = 120,
+        category = Carpentry,
+        inputs
+        {
+            item 12 [Base.Plank],
+            item 24 [Base.Nails],
+            item 2 [Base.Holzwagen_RadT2],
+            item 1 tags[Hammer],
+        }
+        outputs
+        {
+            item 1 Base.Holzwagen_T2,
+        }
+    }
+
+    craftRecipe Holzwagen_UpgradeT2
+    {
+        Time = 100,
+        category = Carpentry,
+        inputs
+        {
+            item 1 [Base.Holzwagen_T1],
+            item 2 [Base.Holzwagen_RadT2],
+            item 1 tags[Hammer],
+        }
+        outputs
+        {
+            item 1 Base.Holzwagen_T2,
+        }
+    }
+
+    craftRecipe Holzwagen_RadT1_Holz
+    {
+        Time = 60,
+        category = Carpentry,
+        inputs
+        {
+            item 1 [Base.Log],
+            item 1 tags[Saw],
+        }
+        outputs
+        {
+            item 1 Base.Holzwagen_RadT1,
+        }
+    }
+
+    craftRecipe Holzwagen_RadT1_Stein
+    {
+        Time = 60,
+        category = Carpentry,
+        inputs
+        {
+            item 2 [Base.Stone],
+        }
+        outputs
+        {
+            item 1 Base.Holzwagen_RadT1,
+        }
+    }
+
+    craftRecipe Holzwagen_Speichengestell
+    {
+        Time = 80,
+        category = Carpentry,
+        inputs
+        {
+            item 1 [Base.Log],
+            item 6 [Base.Nails],
+            item 1 tags[Saw],
+        }
+        outputs
+        {
+            item 1 Base.Holzwagen_Speichengestell,
+        }
+    }
+
+    craftRecipe Holzwagen_Speichenrad_Schmieden
+    {
+        Time = 90,
+        category = Carpentry,
+        inputs
+        {
+            item 1 [Base.Holzwagen_Speichengestell],
+            item 2 [Base.SheetMetal],
+        }
+        outputs
+        {
+            item 1 Base.Holzwagen_RadT2,
+        }
+    }
+}

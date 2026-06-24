@@ -1,0 +1,70 @@
+module Base
+{
+    /* =========================================================
+       MODELLE (je Stufe eigenes Rad)
+       FBX in media/models_X/: holzwagen_t1 (Vollholzrad),
+       holzwagen_t2 (Speichenrad). Textur gemeinsam: holzwagen_tex.png
+       scale/rotation nach erstem In-Game-Blick justieren.
+       ========================================================= */
+    /* MODELLE vorerst deaktiviert: Mesh-Dateien liegen noch nicht in models_X
+       (bzw. Format unbestaetigt). Mit aktivem WorldStaticModel auf fehlendes
+       Mesh verwirft B42 das ganze Item -> Rezept findet es nicht. Reaktivieren,
+       sobald holzwagen_t1/_t2 als gueltiges Mesh im Ordner liegen.
+    model HolzwagenModel_T1 { mesh = WorldItems/holzwagen_t1, texture = WorldItems/holzwagen_tex, scale = 0.32, }
+    model HolzwagenModel_T2 { mesh = WorldItems/holzwagen_t2, texture = WorldItems/holzwagen_tex, scale = 0.32, }
+    */
+
+    /* =========================================================
+       WAGEN ALS AUSRUESTBARES CONTAINER-ITEM (Fahrrad-Prinzip)
+       Kein Engine-Fahrzeug. Ziehen + Tempo macht die Lua-Logik.
+       ========================================================= */
+    item Holzwagen_T1
+    {
+        DisplayName      = Holzwagen (T1),
+        Type             = Container,
+        Weight           = 12.0,
+        Capacity         = 50,     /* B42-Cap; 150 via Lua-Slots/Taschen, siehe README */
+        WeightReduction  = 40,
+        AcceptItemFunction = HolzwagenAccept,  /* nur Taschen/lose Items, definiert in Lua */
+        /* WorldStaticModel = HolzwagenModel_T1, */
+        TwoHandWeapon    = TRUE,    /* belegt beide Haende beim Ziehen */
+        Tags             = Holzwagen;HolzwagenT1,
+        Icon             = Crate,   /* Platzhalter-Icon, spaeter ersetzbar */
+    }
+
+    item Holzwagen_T2
+    {
+        DisplayName      = Holzwagen (T2),
+        Type             = Container,
+        Weight           = 11.0,
+        Capacity         = 50,     /* 300 via Lua-Slots/Taschen */
+        WeightReduction  = 60,
+        /* WorldStaticModel = HolzwagenModel_T2, */
+        TwoHandWeapon    = TRUE,
+        Tags             = Holzwagen;HolzwagenT2,
+        Icon             = Crate,
+    }
+
+    /* Bau-Komponenten */
+    item Holzwagen_RadT1
+    {
+        DisplayName = Wagenrad (Holz/Stein),
+        Type = Normal, Weight = 3.0,
+        Tags = HolzwagenRad;HolzwagenRadT1,
+        Icon = Wheel,
+    }
+    item Holzwagen_Speichengestell
+    {
+        DisplayName = Speichenrad-Gestell (roh),
+        Type = Normal, Weight = 2.5,
+        Tags = HolzwagenRadGestell,
+        Icon = Wheel,
+    }
+    item Holzwagen_RadT2
+    {
+        DisplayName = Speichenrad (beschlagen),
+        Type = Normal, Weight = 3.5,
+        Tags = HolzwagenRad;HolzwagenRadT2,
+        Icon = Wheel,
+    }
+}
