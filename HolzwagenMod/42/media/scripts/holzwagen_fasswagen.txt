@@ -69,11 +69,9 @@ module Base
        ========================================================= */
     craftRecipe Holzwagen_Fass_Bauen
     {
-        Time = 120,
+        time =120,
         category = Carpentry,
         tags = AnySurfaceCraft,
-        SkillRequired = Woodwork:4,
-        AutoLearnAny = Woodwork:4,
         inputs
         {
             item 4 [Base.SheetMetal],
@@ -86,11 +84,9 @@ module Base
 
     craftRecipe Holzwagen_Schlauch_Bauen
     {
-        Time = 40,
+        time =40,
         category = Carpentry,
         tags = AnySurfaceCraft,
-        SkillRequired = Woodwork:2,
-        AutoLearnAny = Woodwork:2,
         inputs
         {
             item 2 [Base.DuctTape],
@@ -103,11 +99,9 @@ module Base
 
     craftRecipe Holzwagen_Trichter_Bauen
     {
-        Time = 40,
+        time =40,
         category = Carpentry,
         tags = AnySurfaceCraft,
-        SkillRequired = Woodwork:2,
-        AutoLearnAny = Woodwork:2,
         inputs
         {
             item 1 [Base.SheetMetal],
@@ -120,11 +114,9 @@ module Base
 
     craftRecipe Holzwagen_Umbau_Fasswagen
     {
-        Time = 150,
+        time =150,
         category = Carpentry,
         tags = AnySurfaceCraft,
-        SkillRequired = Woodwork:5,
-        AutoLearnAny = Woodwork:5,
         inputs
         {
             item 1 [Base.Holzwagen_T2],
@@ -139,11 +131,9 @@ module Base
 
     craftRecipe Holzwagen_Rueckbau_Fasswagen
     {
-        Time = 80,
+        time =80,
         category = Carpentry,
         tags = AnySurfaceCraft,
-        SkillRequired = Woodwork:5,
-        AutoLearnAny = Woodwork:5,
         inputs
         {
             item 1 [Base.Holzwagen_Fasswagen],
