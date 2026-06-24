@@ -68,20 +68,6 @@ module Base
         }
     }
 
-    craftRecipe Holzwagen_RadT1_Stein
-    {
-        Time = 60,
-        category = Carpentry,
-        inputs
-        {
-            item 2 [Base.Stone],
-        }
-        outputs
-        {
-            item 1 Base.Holzwagen_RadT1,
-        }
-    }
-
     craftRecipe Holzwagen_Speichengestell
     {
         Time = 80,
