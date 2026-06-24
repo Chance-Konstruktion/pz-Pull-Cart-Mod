@@ -145,10 +145,28 @@ local function onContext(playerNum, context, items)
 end
 Events.OnFillInventoryObjectContextMenu.Add(onContext)
 
+-- Ist das Item eine Tasche/ein Rucksack (eigener Container)?
+function HW.isBagItem(item)
+    if not item then return false end
+    if instanceof(item, "InventoryContainer") then return true end
+    return item.getItemCapacity ~= nil and (item:getItemCapacity() or 0) > 0
+end
+
+-- Hat dieser Wagen ein gesperrtes Bett (keine lose Ladung, nur Taschen)?
+function HW.bedLocked(cart)
+    local t = CFG.tiers[HW.cartTier(cart)]
+    return t and t.bedLocked == true
+end
+
 -- ---------- AcceptItemFunction (im Item-Script referenziert) ----------
--- Verhindert, dass man Unsinn in den Wagen legt; Taschen + lose Gueter ok.
+-- Offene Ladeflaeche: alles erlaubt. Gesperrtes Bett (Fasswagen): nur Taschen,
+-- damit die seitlichen Slots weiter funktionieren, aber kein loser Loot aufs Fass.
 function HolzwagenAccept(container, item)
-    return true   -- offen halten; bei Bedarf hier filtern
+    local cart = container and container.getContainingItem and container:getContainingItem()
+    if cart and HW.bedLocked(cart) then
+        return HW.isBagItem(item)
+    end
+    return true
 end
 
 return HW

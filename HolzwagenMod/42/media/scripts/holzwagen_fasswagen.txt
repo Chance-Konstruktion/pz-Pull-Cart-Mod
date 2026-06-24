@@ -7,16 +7,17 @@ module Base
 
     /* =========================================================
        FASSWAGEN – Holzwagen mit fest verbautem Fass.
-       Transportiert Fluessigkeiten; dafuer nur noch 3 Taschen-Slots.
+       Transportiert Fluessigkeiten; Bett vom Fass belegt, dafuer 4 Taschen-Slots.
        Fluid-Syntax verifiziert am Spielcode (Build 42.18: WaterBottle/GasCan).
        ========================================================= */
     item Holzwagen_Fasswagen
     {
         DisplayName      = Fasswagen,
-        Type             = Container,      /* fuer die 3 Taschen (siehe VERIFY unten) */
+        Type             = Container,      /* haelt die seitlichen Taschen-Slots */
         Weight           = 16.0,
         Capacity         = 50,
         WeightReduction  = 55,
+        AcceptItemFunction = HolzwagenAccept,  /* Bett gesperrt: nur Taschen, kein loser Loot */
         WorldStaticModel = wagenFass,
         TwoHandWeapon    = TRUE,
         Tags             = Holzwagen;HolzwagenFass,
@@ -155,7 +156,7 @@ module Base
    VERIFY (mit PZ, morgen):
    1) Darf EIN Item gleichzeitig Type=Container (Taschen) UND
       component FluidContainer (Fass) sein? Falls B42 das nicht erlaubt:
-      Fasswagen nur als FluidContainer fuehren und die 3 Taschen-Slots
+      Fasswagen nur als FluidContainer fuehren und die 4 Taschen-Slots
       ueber das Lua-Slotsystem an einem separaten, versteckten Container
       haengen (Config-Schalter dafuer ist vorbereitet).
    2) Fluid-Namen (Milk etc.) gegen die B42-Fluid-Liste pruefen.

@@ -55,8 +55,9 @@ genau **drei** Stellen, die du beim ersten Test kurz prüfen solltest:
 ## 6. Fasswagen (Flüssigkeits-Variante)
 Umbau aus dem T2-Wagen: **T2 + Fass + Schlauch + Trichter** → Fasswagen
 (`scripts/holzwagen_fasswagen.txt`). Das Fass ist fest verbaut (450er Fluid-Tank,
-Wasser/Benzin/Milch u. a.), dafür nur noch **3 Taschen-Slots** statt 4. Rückbau
-zu T2 ist möglich (Fass bleibt erhalten). Fass/Schlauch/Trichter sind craftbar.
+Wasser/Benzin/Milch u. a.). Das Bett ist vom Fass belegt – **keine lose Ladung**,
+aber weiterhin **4 Taschen-Slots** seitlich. Rückbau zu T2 ist möglich
+(Fass bleibt erhalten). Fass/Schlauch/Trichter sind craftbar.
 
 Befüllen/Ablassen läuft über PZs eigene Fluid-Mechanik (Zapfen/See/Umfüllen) –
 der Schlauch und Trichter sind Bau-Komponenten.
@@ -64,5 +65,5 @@ der Schlauch und Trichter sind Bau-Komponenten.
 VERIFY (im `holzwagen_fasswagen.txt` markiert): ob B42 ein Item gleichzeitig als
 Taschen-Container UND Fluid-Container erlaubt. Falls nicht, in
 `Holzwagen_Config.lua` den Schalter `fassUsesSeparateBagContainer` auf `true`
-setzen – dann hängen die 3 Taschen an einem separaten Container. Außerdem die
+setzen – dann hängen die 4 Taschen an einem separaten Container. Außerdem die
 Fluid-Namen (Milk etc.) gegen die laufende B42-Fluid-Liste prüfen.

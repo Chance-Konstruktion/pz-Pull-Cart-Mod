@@ -8,6 +8,10 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 ## [Unreleased]
 
 ### Added
+- **Stauraum-Design überarbeitet:** alle Wagen haben jetzt **4 seitliche
+  Taschen-Slots**. Normaler Wagen: offene Loot-Ladefläche zusätzlich. Fasswagen:
+  Bett vom Fass belegt – **keine lose Ladung** (`bedLocked`), nur die 4 Taschen.
+  Durchgesetzt über `AcceptItemFunction` (nur Container-Items auf gesperrtem Bett).
 - **Gewichtsabhängiges Tempo** (vorbereitet, standardmäßig AUS): voll beladener
   Wagen zieht langsamer. Aktivierbar über `HolzwagenConfig.weightSpeed.enabled`,
   Stärke über `fullPenalty`. Nutzt die verifizierte API
