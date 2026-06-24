@@ -4,15 +4,12 @@ module Base
        MODELLE (je Stufe eigenes Rad)
        FBX in media/models_X/: holzwagen_t1 (Vollholzrad),
        holzwagen_t2 (Speichenrad). Textur gemeinsam: holzwagen_tex.png
-       scale/rotation nach erstem In-Game-Blick justieren.
+       scale = 1.0 Startwert: Modell ist in echten Metern gebaut (Wagen ~2,2 m),
+       PZ zeigt metrische Weltmodelle bei scale = 1.0 ungefaehr lebensgross.
+       Bei zu klein -> 1.5/2.0, bei zu gross -> 0.6/0.4. rotation/offset danach.
        ========================================================= */
-    /* MODELLE vorerst deaktiviert: Mesh-Dateien liegen noch nicht in models_X
-       (bzw. Format unbestaetigt). Mit aktivem WorldStaticModel auf fehlendes
-       Mesh verwirft B42 das ganze Item -> Rezept findet es nicht. Reaktivieren,
-       sobald holzwagen_t1/_t2 als gueltiges Mesh im Ordner liegen.
-    model HolzwagenModel_T1 { mesh = WorldItems/holzwagen_t1, texture = WorldItems/holzwagen_tex, scale = 0.32, }
-    model HolzwagenModel_T2 { mesh = WorldItems/holzwagen_t2, texture = WorldItems/holzwagen_tex, scale = 0.32, }
-    */
+    model wagenT1 { mesh = holzwagen_t1, texture = holzwagen_tex, scale = 1.0, }
+    model wagenT2 { mesh = holzwagen_t2, texture = holzwagen_tex, scale = 1.0, }
 
     /* =========================================================
        WAGEN ALS AUSRUESTBARES CONTAINER-ITEM (Fahrrad-Prinzip)
@@ -26,7 +23,7 @@ module Base
         Capacity         = 50,     /* B42-Cap; 150 via Lua-Slots/Taschen, siehe README */
         WeightReduction  = 40,
         AcceptItemFunction = HolzwagenAccept,  /* nur Taschen/lose Items, definiert in Lua */
-        /* WorldStaticModel = HolzwagenModel_T1, */
+        WorldStaticModel = wagenT1,
         TwoHandWeapon    = TRUE,    /* belegt beide Haende beim Ziehen */
         Tags             = Holzwagen;HolzwagenT1,
         Icon             = Crate,   /* Platzhalter-Icon, spaeter ersetzbar */
@@ -39,7 +36,7 @@ module Base
         Weight           = 11.0,
         Capacity         = 50,     /* 300 via Lua-Slots/Taschen */
         WeightReduction  = 60,
-        /* WorldStaticModel = HolzwagenModel_T2, */
+        WorldStaticModel = wagenT2,
         TwoHandWeapon    = TRUE,
         Tags             = Holzwagen;HolzwagenT2,
         Icon             = Crate,

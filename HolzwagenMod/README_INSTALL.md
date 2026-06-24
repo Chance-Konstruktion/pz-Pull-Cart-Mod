@@ -48,8 +48,9 @@ genau **drei** Stellen, die du beim ersten Test kurz prüfen solltest:
   daher über die Taschen-Slots (Rucksäcke im Wagen), nicht über rohe Capacity.
   Wenn du echte 150/300 willst, ist der gleiche Bypass nötig wie bei
   Wheelbarrow/Bicycle (eigener Schritt).
-- Modell-Maßstab/Rotation im `model`-Block (`scale = 0.32`) nach erstem
-  Blick justieren – PZ-Achsen ≠ Blender.
+- Modell-Maßstab/Rotation im `model`-Block (`scale = 1.0` Startwert, da das
+  Modell in echten Metern gebaut ist – Wagen ~2,2 m) nach erstem Blick
+  justieren – PZ-Achsen ≠ Blender. Zu klein → 1.5/2.0, zu groß → 0.6/0.4.
 
 ## 6. Fasswagen (Flüssigkeits-Variante)
 Umbau aus dem T2-Wagen: **T2 + Fass + Schlauch + Trichter** → Fasswagen

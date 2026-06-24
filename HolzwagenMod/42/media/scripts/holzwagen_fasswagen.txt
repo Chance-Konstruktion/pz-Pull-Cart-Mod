@@ -3,9 +3,7 @@ module Base
     /* Eigenes Modell: Wagen MIT Fass/Schlauch/Trichter.
        Mesh kommt aus holzwagen_fass_blender.py -> holzwagen_fass.fbx
        in 42/media/models_X/. Textur wird mitbenutzt (gleicher Atlas). */
-    /* MODELL vorerst deaktiviert (siehe holzwagen_items.txt).
-    model Holzwagen_Fass { mesh = WorldItems/holzwagen_fass, texture = WorldItems/holzwagen_tex, scale = 0.32, }
-    */
+    model wagenFass { mesh = holzwagen_fass, texture = holzwagen_tex, scale = 1.0, }
 
     /* =========================================================
        FASSWAGEN – Holzwagen mit fest verbautem Fass.
@@ -19,7 +17,7 @@ module Base
         Weight           = 16.0,
         Capacity         = 50,
         WeightReduction  = 55,
-        /* WorldStaticModel = Holzwagen_Fass, */
+        WorldStaticModel = wagenFass,
         TwoHandWeapon    = TRUE,
         Tags             = Holzwagen;HolzwagenFass,
         Icon             = Crate,
