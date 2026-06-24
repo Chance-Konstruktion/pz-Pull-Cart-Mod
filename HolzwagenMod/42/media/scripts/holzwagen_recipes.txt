@@ -7,6 +7,7 @@ module Base
     {
         Time = 120,
         category = Carpentry,
+        tags = AnySurfaceCraft,
         SkillRequired = Woodwork:3,
         AutoLearnAny = Woodwork:3,
         inputs
@@ -26,6 +27,7 @@ module Base
     {
         Time = 120,
         category = Carpentry,
+        tags = AnySurfaceCraft,
         SkillRequired = Woodwork:5,
         AutoLearnAny = Woodwork:5,
         inputs
@@ -45,6 +47,7 @@ module Base
     {
         Time = 100,
         category = Carpentry,
+        tags = AnySurfaceCraft,
         SkillRequired = Woodwork:5,
         AutoLearnAny = Woodwork:5,
         inputs
@@ -63,6 +66,7 @@ module Base
     {
         Time = 60,
         category = Carpentry,
+        tags = AnySurfaceCraft,
         SkillRequired = Woodwork:2,
         AutoLearnAny = Woodwork:2,
         inputs
@@ -80,6 +84,7 @@ module Base
     {
         Time = 80,
         category = Carpentry,
+        tags = AnySurfaceCraft,
         SkillRequired = Woodwork:4,
         AutoLearnAny = Woodwork:4,
         inputs
@@ -98,6 +103,7 @@ module Base
     {
         Time = 90,
         category = Carpentry,
+        tags = AnySurfaceCraft,
         SkillRequired = Woodwork:4,
         AutoLearnAny = Woodwork:4,
         inputs
