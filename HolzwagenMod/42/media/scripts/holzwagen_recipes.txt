@@ -7,12 +7,14 @@ module Base
     {
         Time = 120,
         category = Carpentry,
+        SkillRequired = Woodwork:3,
+        AutoLearnAny = Woodwork:3,
         inputs
         {
             item 15 [Base.Plank],
             item 30 [Base.Nails],
             item 2 [Base.Holzwagen_RadT1],
-            item 1 tags[Hammer],
+            item 1 tags[Hammer] mode:keep flags[MayDegradeLight],
         }
         outputs
         {
@@ -24,12 +26,14 @@ module Base
     {
         Time = 120,
         category = Carpentry,
+        SkillRequired = Woodwork:5,
+        AutoLearnAny = Woodwork:5,
         inputs
         {
             item 12 [Base.Plank],
             item 24 [Base.Nails],
             item 2 [Base.Holzwagen_RadT2],
-            item 1 tags[Hammer],
+            item 1 tags[Hammer] mode:keep flags[MayDegradeLight],
         }
         outputs
         {
@@ -41,11 +45,13 @@ module Base
     {
         Time = 100,
         category = Carpentry,
+        SkillRequired = Woodwork:5,
+        AutoLearnAny = Woodwork:5,
         inputs
         {
             item 1 [Base.Holzwagen_T1],
             item 2 [Base.Holzwagen_RadT2],
-            item 1 tags[Hammer],
+            item 1 tags[Hammer] mode:keep flags[MayDegradeLight],
         }
         outputs
         {
@@ -57,10 +63,12 @@ module Base
     {
         Time = 60,
         category = Carpentry,
+        SkillRequired = Woodwork:2,
+        AutoLearnAny = Woodwork:2,
         inputs
         {
             item 1 [Base.Log],
-            item 1 tags[Saw],
+            item 1 tags[Saw] mode:keep flags[MayDegradeLight],
         }
         outputs
         {
@@ -72,11 +80,13 @@ module Base
     {
         Time = 80,
         category = Carpentry,
+        SkillRequired = Woodwork:4,
+        AutoLearnAny = Woodwork:4,
         inputs
         {
             item 1 [Base.Log],
             item 6 [Base.Nails],
-            item 1 tags[Saw],
+            item 1 tags[Saw] mode:keep flags[MayDegradeLight],
         }
         outputs
         {
@@ -88,6 +98,8 @@ module Base
     {
         Time = 90,
         category = Carpentry,
+        SkillRequired = Woodwork:4,
+        AutoLearnAny = Woodwork:4,
         inputs
         {
             item 1 [Base.Holzwagen_Speichengestell],
