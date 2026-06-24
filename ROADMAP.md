@@ -14,7 +14,9 @@ nicht in Stein gemeißelt – Feedback per Issue ist willkommen.
 
 ## 🧱 Substanz (Tiefgang & Balancing)
 
-- [ ] **Gewichtsabhängiges Tempo** – voll beladener Wagen zieht langsamer.
+- [~] **Gewichtsabhängiges Tempo** – implementiert, aber **standardmäßig AUS**
+      (`HolzwagenConfig.weightSpeed.enabled`). Nach bestätigtem Basis-Tempo
+      einschalten. → [CHANGELOG](CHANGELOG.md)
 - [ ] **Radverschleiß** über `modData` – Räder nutzen sich ab und müssen ersetzt werden.
 - [ ] **Annahme-Filter** in `HolzwagenAccept` (aktuell `return true`), damit nur
       sinnvolle Güter in den Wagen passen.
@@ -24,6 +26,9 @@ nicht in Stein gemeißelt – Feedback per Issue ist willkommen.
 
 - [ ] **Sound-Effekte** beim Ziehen (Rollen/Knarzen).
 - [ ] **Zieh-Animation** statt nur belegter Hände.
+- [ ] **Poster-Bild korrigieren** – `poster.png` zeigt aktuell einen Wagen mit
+      **zwei Achsen**, der Wagen ist aber einachsig. Das 3D-Modell selbst ist korrekt
+      einachsig; nur das Menü-Vorschaubild muss ersetzt werden.
 - [ ] **Eigene Item-Icons** statt der Platzhalter (`Crate`/`Wheel`).
 - [ ] **Bessere Texturen** / Material-Varianten.
 

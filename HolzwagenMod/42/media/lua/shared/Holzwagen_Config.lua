@@ -9,6 +9,14 @@ HolzwagenConfig.speed = {
     T2 = 1.00,   -- Speichenraeder  -> 100 %
 }
 
+-- Gewichtsabhaengiges Tempo: ein voll beladener Wagen zieht langsamer.
+-- Standardmaessig AUS - erst einschalten, wenn das Basis-Tempo (setSpeedMod)
+-- im Spiel bestaetigt ist. Dann genuegt enabled = true.
+HolzwagenConfig.weightSpeed = {
+    enabled     = false,  -- true = Feature aktiv
+    fullPenalty = 0.30,   -- max. Tempo-Abzug bei vollem Wagen (0.30 = -30 %)
+}
+
 -- Eigene Kapazitaet des Wagens + Anzahl Taschen-Slots an den Seiten.
 HolzwagenConfig.tiers = {
     T1   = { capacity = 150, bagSlots = 2 },
