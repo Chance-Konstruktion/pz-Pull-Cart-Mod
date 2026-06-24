@@ -28,8 +28,26 @@ function HW.wheelTier(cart)
     return md.wheelTier or CFG.defaultWheels
 end
 
+-- Fuellgrad des Wagens: 0.0 (leer) .. 1.0 (voll), anhand Container-Gewicht.
+-- Verifizierte B42-API: ItemContainer:getContentsWeight() / getCapacity().
+function HW.loadFactor(cart)
+    local inv = cart and cart:getInventory()
+    if not inv or not inv.getContentsWeight or not inv.getCapacity then return 0 end
+    local cap = inv:getCapacity()
+    if not cap or cap <= 0 then return 0 end
+    local f = inv:getContentsWeight() / cap
+    if f < 0 then return 0 elseif f > 1 then return 1 end
+    return f
+end
+
 function HW.speedMult(cart)
-    return CFG.speed[HW.wheelTier(cart)] or 1.0
+    local base = CFG.speed[HW.wheelTier(cart)] or 1.0
+    local ws = CFG.weightSpeed
+    if ws and ws.enabled then
+        -- voll beladen -> base * (1 - fullPenalty)
+        base = base * (1.0 - ws.fullPenalty * HW.loadFactor(cart))
+    end
+    return base
 end
 
 -- ====== Tempo-Steuerung (B42-API: IsoGameCharacter:setSpeedMod) ======

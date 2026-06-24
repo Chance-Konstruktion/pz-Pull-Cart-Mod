@@ -8,6 +8,10 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 ## [Unreleased]
 
 ### Added
+- **Gewichtsabhängiges Tempo** (vorbereitet, standardmäßig AUS): voll beladener
+  Wagen zieht langsamer. Aktivierbar über `HolzwagenConfig.weightSpeed.enabled`,
+  Stärke über `fullPenalty`. Nutzt die verifizierte API
+  `ItemContainer:getContentsWeight()` / `getCapacity()`.
 - Skill-Gating für alle Rezepte (`SkillRequired` + `AutoLearnAny`, Woodwork 2–5).
 - Werkzeuge (Säge/Hammer) bleiben beim Bauen erhalten
   (`mode:keep flags[MayDegradeLight]`) statt verbraucht zu werden.
