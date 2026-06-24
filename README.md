@@ -16,11 +16,14 @@ Schluss damit, 50 kg Beute einzeln nach Hause zu schleppen.
 - Vollständige Rezepte inkl. **Rückbau**
 - Zentrale **Balance-Konfiguration** (`Holzwagen_Config.lua`)
 
-| Variante       | Tempo | Taschen-Slots | Flüssigkeit | Woodwork |
-|----------------|:-----:|:-------------:|:-----------:|:--------:|
-| **T1** (Holzrad)     | 80 %  | 2 | – | 3 |
-| **T2** (Speichenrad) | 100 % | 4 | – | 5 |
-| **Fasswagen**        | wie Räder | 3 | 450 Einheiten | 5 |
+| Variante       | Tempo | Ladefläche | Taschen-Slots | Flüssigkeit | Woodwork |
+|----------------|:-----:|:----------:|:-------------:|:-----------:|:--------:|
+| **T1** (Holzrad)     | 80 %  | offener Loot | 4 | – | 3 |
+| **T2** (Speichenrad) | 100 % | offener Loot (größer) | 4 | – | 5 |
+| **Fasswagen**        | wie Räder | Fass (gesperrt) | 4 | 450 Einheiten | 5 |
+
+> Taschen-Slots = Rucksäcke seitlich einhängen (Rechtsklick-Menü). Die offene
+> Ladefläche nimmt zusätzlich losen Loot auf; beim Fasswagen belegt das Fass das Bett.
 
 ## 📦 Installation
 

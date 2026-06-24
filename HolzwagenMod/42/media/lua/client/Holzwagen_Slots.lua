@@ -12,11 +12,8 @@ local function slotCount(cart)
     return (CFG.tiers[tier] and CFG.tiers[tier].bagSlots) or 2
 end
 
--- ist das Item eine Tasche/Rucksack?
-local function isBag(item)
-    return item and (instanceof(item, "InventoryContainer")
-        or (item.getItemCapacity and item:getItemCapacity() and item:getItemCapacity() > 0))
-end
+-- ist das Item eine Tasche/Rucksack? (zentrale Definition in Holzwagen_Main)
+local isBag = HW.isBagItem
 
 -- Tasche aus dem Spieler-Inventar in einen Wagen-Slot legen
 function HW.attachBag(player, cart, slotIndex, bag)

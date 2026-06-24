@@ -18,10 +18,11 @@ HolzwagenConfig.weightSpeed = {
 }
 
 -- Eigene Kapazitaet des Wagens + Anzahl Taschen-Slots an den Seiten.
+-- bedLocked = true: keine lose Ladung auf dem Bett (nur Taschen), z. B. Fasswagen.
 HolzwagenConfig.tiers = {
-    T1   = { capacity = 150, bagSlots = 2 },
+    T1   = { capacity = 150, bagSlots = 4 },
     T2   = { capacity = 300, bagSlots = 4 },
-    FASS = { capacity = 300, bagSlots = 3, fluid = 450 },  -- Fasswagen: Fass + nur 3 Taschen
+    FASS = { capacity = 0,   bagSlots = 4, fluid = 450, bedLocked = true },  -- Fass belegt das Bett
 }
 
 -- Fallback-Schalter (siehe VERIFY im Fasswagen-Skript):
