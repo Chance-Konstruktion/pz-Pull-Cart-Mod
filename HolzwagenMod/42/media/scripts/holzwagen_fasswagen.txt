@@ -71,7 +71,7 @@ module Base
     {
         time =120,
         category = Carpentry,
-        tags = AnySurfaceCraft,
+        Tags = AnySurfaceCraft;Carpentry,
         timedAction = Making,
         inputs
         {
@@ -87,7 +87,7 @@ module Base
     {
         time =40,
         category = Carpentry,
-        tags = AnySurfaceCraft,
+        Tags = AnySurfaceCraft;Carpentry,
         timedAction = Making,
         inputs
         {
@@ -103,7 +103,7 @@ module Base
     {
         time =40,
         category = Carpentry,
-        tags = AnySurfaceCraft,
+        Tags = AnySurfaceCraft;Carpentry,
         timedAction = Making,
         inputs
         {
@@ -119,13 +119,13 @@ module Base
     {
         time =150,
         category = Carpentry,
-        tags = AnySurfaceCraft,
+        Tags = AnySurfaceCraft;Carpentry,
         timedAction = Making,
         inputs
         {
             item 1 [Base.Holzwagen_T2],
             item 1 [Base.Holzwagen_Fass],
-            item 1 tags[Hammer] mode:keep flags[MayDegradeLight],
+            item 1 tags[base:hammer] mode:keep flags[MayDegradeVeryLight],
         }
         outputs
         {
@@ -137,12 +137,12 @@ module Base
     {
         time =80,
         category = Carpentry,
-        tags = AnySurfaceCraft,
+        Tags = AnySurfaceCraft;Carpentry,
         timedAction = Making,
         inputs
         {
             item 1 [Base.Holzwagen_Fasswagen],
-            item 1 tags[Hammer] mode:keep flags[MayDegradeLight],
+            item 1 tags[base:hammer] mode:keep flags[MayDegradeVeryLight],
         }
         outputs
         {

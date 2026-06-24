@@ -1,23 +1,24 @@
 module Base
 {
-    /* B42-craftRecipe. HINWEIS (Testrunde): Skill-Gating voruebergehend
-       entfernt, damit jeder Charakter craften kann -> isoliert, ob das
-       "Balken laeuft, nichts entsteht"-Problem am Lern-/Skill-Gate lag.
-       Nach bestaetigtem Craften kommt eine sinnvolle Woodwork-Stufung
-       (+ optional Rezeptheft) zurueck. */
+    /* B42-craftRecipe, ausgerichtet am Vanilla-Format (MakeWoodenToolbox/
+       MakeWoodenBucket aus recipes_carpentry.txt). Werkzeug-Tags MUESSEN das
+       base:-Praefix nutzen (tags[base:hammer]/[base:saw]), sonst wird das
+       Werkzeug nicht erkannt und der Craft committet nicht.
+       Skill-Gating bewusst noch aus (Testrunde) - kommt nach bestaetigtem
+       Craften als faire Woodwork-Stufung zurueck. */
 
     craftRecipe Holzwagen_WagenkastenT1
     {
-        time = 120,
-        category = Carpentry,
-        tags = AnySurfaceCraft,
         timedAction = Making,
+        time = 120,
+        Tags = AnySurfaceCraft;Carpentry,
+        category = Carpentry,
         inputs
         {
-            item 15 [Base.Plank],
+            item 1 tags[base:hammer] mode:keep flags[MayDegradeVeryLight],
+            item 15 [Base.Plank] flags[Prop2],
             item 30 [Base.Nails],
             item 2 [Base.Holzwagen_RadT1],
-            item 1 tags[Hammer] mode:keep flags[MayDegradeLight],
         }
         outputs
         {
@@ -27,16 +28,16 @@ module Base
 
     craftRecipe Holzwagen_WagenkastenT2
     {
-        time = 120,
-        category = Carpentry,
-        tags = AnySurfaceCraft,
         timedAction = Making,
+        time = 120,
+        Tags = AnySurfaceCraft;Carpentry,
+        category = Carpentry,
         inputs
         {
-            item 12 [Base.Plank],
+            item 1 tags[base:hammer] mode:keep flags[MayDegradeVeryLight],
+            item 12 [Base.Plank] flags[Prop2],
             item 24 [Base.Nails],
             item 2 [Base.Holzwagen_RadT2],
-            item 1 tags[Hammer] mode:keep flags[MayDegradeLight],
         }
         outputs
         {
@@ -46,15 +47,15 @@ module Base
 
     craftRecipe Holzwagen_UpgradeT2
     {
-        time = 100,
-        category = Carpentry,
-        tags = AnySurfaceCraft,
         timedAction = Making,
+        time = 100,
+        Tags = AnySurfaceCraft;Carpentry,
+        category = Carpentry,
         inputs
         {
+            item 1 tags[base:hammer] mode:keep flags[MayDegradeVeryLight],
             item 1 [Base.Holzwagen_T1],
             item 2 [Base.Holzwagen_RadT2],
-            item 1 tags[Hammer] mode:keep flags[MayDegradeLight],
         }
         outputs
         {
@@ -64,14 +65,14 @@ module Base
 
     craftRecipe Holzwagen_RadT1_Holz
     {
-        time = 60,
-        category = Carpentry,
-        tags = AnySurfaceCraft,
         timedAction = Making,
+        time = 60,
+        Tags = AnySurfaceCraft;Carpentry,
+        category = Carpentry,
         inputs
         {
-            item 1 [Base.Log],
-            item 1 tags[Saw] mode:keep flags[MayDegradeLight],
+            item 1 tags[base:saw;base:smallsaw;base:crudesaw] mode:keep flags[MayDegradeLight],
+            item 1 [Base.Log] flags[Prop2],
         }
         outputs
         {
@@ -81,15 +82,15 @@ module Base
 
     craftRecipe Holzwagen_Speichengestell
     {
-        time = 80,
-        category = Carpentry,
-        tags = AnySurfaceCraft,
         timedAction = Making,
+        time = 80,
+        Tags = AnySurfaceCraft;Carpentry,
+        category = Carpentry,
         inputs
         {
-            item 1 [Base.Log],
+            item 1 tags[base:saw;base:smallsaw;base:crudesaw] mode:keep flags[MayDegradeLight],
+            item 1 [Base.Log] flags[Prop2],
             item 6 [Base.Nails],
-            item 1 tags[Saw] mode:keep flags[MayDegradeLight],
         }
         outputs
         {
@@ -99,13 +100,13 @@ module Base
 
     craftRecipe Holzwagen_Speichenrad_Schmieden
     {
-        time = 90,
-        category = Carpentry,
-        tags = AnySurfaceCraft,
         timedAction = Making,
+        time = 90,
+        Tags = AnySurfaceCraft;Carpentry,
+        category = Carpentry,
         inputs
         {
-            item 1 [Base.Holzwagen_Speichengestell],
+            item 1 [Base.Holzwagen_Speichengestell] flags[Prop2],
             item 2 [Base.SheetMetal],
         }
         outputs
