@@ -1,0 +1,16 @@
+# Blender
+*.blend1
+*.blend2
+*.blend@
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+
+# Project Zomboid logs / temp
+console.txt
+*.log
