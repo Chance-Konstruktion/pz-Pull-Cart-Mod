@@ -1,69 +1,95 @@
-# Holzwagen – Installation & Test (morgen)
+# Holzwagen – Installation (Singleplayer & Multiplayer)
 
-## 1. Mod installieren
-Den Ordner `HolzwagenMod` kopieren nach:
-`C:\Users\Chris\Zomboid\mods\HolzwagenMod`
-Dann im Spiel unter **Mods** aktivieren und ein neues Sandbox-Spiel starten.
+> **WICHTIG bei Multiplayer:** Beim Crafting im MP ist der **Server**
+> maßgeblich – er prüft das Rezept und erzeugt das Item. Wenn der Server eine
+> **alte** oder **gar keine** Mod-Version hat, wird beim Bauen das Material nur
+> verbraucht und wieder zurückgelegt (es entsteht nichts). **Client UND Server
+> müssen dieselbe, aktuelle Mod-Version haben.**
 
-## 2. Das eine fehlende Teil (Modell) – mit PZ
-WICHTIG: Den ZomboidAssetConverter brauchst du dafuer NICHT. Der geht in die
-andere Richtung (PZ-Assets -> Blender), ist ein Assimp-Wrapper.
+---
 
-PZ importiert Modelle ueber Assimp; FBX ist seit B41 ein unterstuetztes Format.
-- `holzwagen.fbx` (aus `C:\Users\Chris\HolzwagenExport\`) nach `42/media/models_X/` legen.
-- Textur liegt schon unter `42/media/textures/holzwagen_tex.png`.
-- Der `model`-Block in `scripts/holzwagen_items.txt` verweist bereits darauf.
+## 1. Singleplayer
 
-VERIFY mit installiertem PZ (geht erst morgen): ob B42 die FBX direkt laedt oder
-eine `.X`-Konvertierung will, und wie der `mesh =`-Pfad exakt heissen muss. Falls
-der Wagen unsichtbar bleibt, im `model`-Block den Pfad/das Format anpassen oder
-kurz im PZ-Modding-Discord nachfragen. Ohne Modelldatei laeuft der Mod, der Wagen
-ist dann nur funktional (Platzhalter/unsichtbar).
+Den Ordner `HolzwagenMod` (den mit `42/` darin) kopieren nach:
 
-## 3. Was alles fertig ist
-- Items: Holzwagen T1/T2, Räder T1/T2, Speichenrad-Gestell
-- Rezepte: Wagenkasten T1/T2, T1→T2-Upgrade, Räder (Holz/Stein), Schmiede-Pfad fürs T2-Rad
-- Logik: Ziehen/Loslassen, Tempo 80%/100% je nach Rädern, Taschen-Slots
-  (einhängen, entnehmen, Inhalt mit Rücken-Rucksack tauschen), Kontextmenüs
+```
+C:\Users\<DU>\Zomboid\mods\HolzwagenMod
+```
 
-## 4. Verify-Checkliste (5 Minuten beim ersten Laden)
-Weil B42 noch Unstable ist und die offizielle API-Doku gesperrt war, gibt es
-genau **drei** Stellen, die du beim ersten Test kurz prüfen solltest:
+Dann im Hauptmenü unter **Mods** aktivieren und ein Spiel starten.
 
-1. **Lädt der Mod sauber?** Konsole (Optionen → Debug, oder `console.txt`)
-   auf rote Fehler prüfen. Tippfehler im Rezept-Format sind die häufigste Ursache.
+---
 
-2. **Tempo-Funktion** – die EINZIGE unsichere API. In
-   `42/media/lua/client/Holzwagen_Main.lua`, Funktion `HW.applySpeed`:
-   stehen dort `setWalkSpeedModifier` / `setRunSpeedModifier`. Falls das Ziehen
-   das Tempo NICHT verändert, schau in die **Bicycle-Mod**, wie sie das macht,
-   und ersetze die zwei Zeilen entsprechend. Alles andere bleibt unberührt
-   (durch `pcall` lädt der Mod auch bei falschem Namen, nur ohne Tempo-Effekt).
+## 2. Multiplayer – Server einrichten
 
-3. **Rezept-Felder** – `timedActionType`, `mode:keep`, `needTobeLearn` gegen
-   die laufende 42.x abgleichen, falls ein Rezept nicht auftaucht.
+### a) Mod auf den Server kopieren
+Denselben Ordner `HolzwagenMod` in den **Mods-Ordner des Servers** legen:
+
+- **Selbst gehosteter / Dedicated Server (lokal):**
+  `C:\Users\<DU>\Zomboid\mods\HolzwagenMod`
+  (gleicher Pfad wie SP – der lokale Dedicated Server liest denselben mods-Ordner)
+- **Gemieteter Server (GPORTAL, Nitrado etc.):** über FTP/Dateimanager nach
+  `.../Zomboid/mods/HolzwagenMod` hochladen.
+
+### b) Mod in der Server-Konfig aktivieren
+In der `servertest.ini` (bzw. `<Servername>.ini`) die Mod-ID eintragen:
+
+```
+Mods=HolzwagenMod
+```
+
+(mehrere Mods mit `;` trennen, z. B. `Mods=AndereMod;HolzwagenMod`)
+
+> Die ID ist `HolzwagenMod` (siehe `42/mod.info`, Zeile `id=`). **Nicht** der
+> Anzeigename „Holzwagen (Pull Cart)".
+
+Wenn die Mod über den **Steam Workshop** läuft, zusätzlich die Workshop-ID unter
+`WorkshopItems=` eintragen (lokal kopierte Mods brauchen das nicht).
+
+### c) Server NEU STARTEN
+Damit der Server die neuen/aktualisierten Scripts wirklich lädt, **muss der
+Server komplett neu gestartet werden** – ein bloßes Reconnect des Clients reicht
+nicht.
+
+### d) Jeder Mitspieler aktualisiert seinen Client
+Alle Spieler brauchen dieselbe Version im lokalen `Zomboid\mods\`-Ordner.
+
+---
+
+## 3. Bei einem Update (z. B. neuer Crafting-Fix)
+Reihenfolge, damit MP nicht „hängen bleibt":
+
+1. Neue Version in **Server**-`mods\HolzwagenMod` **und** in jeden
+   **Client**-`mods\HolzwagenMod` kopieren (alte Dateien ersetzen).
+2. **Server neu starten.**
+3. Alle Clients neu verbinden.
+
+**Schnelltest, ob der Server die richtige Version hat:** In der Server-Datei
+`mods\HolzwagenMod\42\media\scripts\holzwagen_recipes.txt` muss bei den
+Werkzeugen `tags[base:hammer]` / `tags[base:saw...]` stehen (mit `base:`-Präfix).
+Steht dort noch `tags[Hammer]` / `tags[Saw]`, ist es die **alte, kaputte**
+Version → Crafting schlägt im MP fehl.
+
+---
+
+## 4. Schnelltest nach dem Laden
+1. **Konsole** (`console.txt` oder Optionen → Debug) auf rote `ERROR` prüfen –
+   sowohl Client- als auch Server-Log.
+2. Woodwork ≥ 1 (Test-Modus), dann ein **Rad (T1)** aus **1 Baumstamm + Säge**
+   bauen → es sollte ein Wagenrad entstehen.
+3. Wagen abstellen → Rechtsklick auf das Modell: öffnen / aufnehmen / ziehen.
+
+---
 
 ## 5. Bekannte Design-Grenzen
-- B42 deckelt Item-Container hart bei 50. Die 150/300 „Ladevolumen" laufen
-  daher über die Taschen-Slots (Rucksäcke im Wagen), nicht über rohe Capacity.
-  Wenn du echte 150/300 willst, ist der gleiche Bypass nötig wie bei
-  Wheelbarrow/Bicycle (eigener Schritt).
-- Modell-Maßstab/Rotation im `model`-Block (`scale = 1.0` Startwert, da das
-  Modell in echten Metern gebaut ist – Wagen ~2,2 m) nach erstem Blick
-  justieren – PZ-Achsen ≠ Blender. Zu klein → 1.5/2.0, zu groß → 0.6/0.4.
+- B42 deckelt Item-Container hart bei 50. Das „Ladevolumen" läuft daher über die
+  4 seitlichen Taschen-Slots (Rucksäcke im Wagen), nicht über rohe Capacity.
+- Modell-Maßstab im `model`-Block: `scale = 0.001` (PZ liest die FBX-Einheiten
+  des in Metern gebauten Wagens nicht als Meter). Bei Bedarf fein justieren.
+- Echtes Material-/Skill-Balancing folgt nach dem Test (Rezepte aktuell im
+  Test-Modus: 1 Baumstamm + Woodwork 1 pro Rezept).
 
 ## 6. Fasswagen (Flüssigkeits-Variante)
-Umbau aus dem T2-Wagen: **T2 + Fass + Schlauch + Trichter** → Fasswagen
-(`scripts/holzwagen_fasswagen.txt`). Das Fass ist fest verbaut (450er Fluid-Tank,
-Wasser/Benzin/Milch u. a.). Das Bett ist vom Fass belegt – **keine lose Ladung**,
-aber weiterhin **4 Taschen-Slots** seitlich. Rückbau zu T2 ist möglich
-(Fass bleibt erhalten). Fass/Schlauch/Trichter sind craftbar.
-
-Befüllen/Ablassen läuft über PZs eigene Fluid-Mechanik (Zapfen/See/Umfüllen) –
-der Schlauch und Trichter sind Bau-Komponenten.
-
-VERIFY (im `holzwagen_fasswagen.txt` markiert): ob B42 ein Item gleichzeitig als
-Taschen-Container UND Fluid-Container erlaubt. Falls nicht, in
-`Holzwagen_Config.lua` den Schalter `fassUsesSeparateBagContainer` auf `true`
-setzen – dann hängen die 4 Taschen an einem separaten Container. Außerdem die
-Fluid-Namen (Milk etc.) gegen die laufende B42-Fluid-Liste prüfen.
+Umbau aus dem T2-Wagen (`scripts/holzwagen_fasswagen.txt`). Das Fass ist fest
+verbaut (450er Fluid-Tank). Bett vom Fass belegt – **keine lose Ladung**, aber
+weiterhin **4 Taschen-Slots** seitlich. Rückbau zu T2 möglich.
