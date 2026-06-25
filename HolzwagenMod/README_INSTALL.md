@@ -81,6 +81,52 @@ Version → Crafting schlägt im MP fehl.
 
 ---
 
+## 4b. 🔧 Position/Drehung des Wagens IN DER HAND selbst einstellen
+
+Die Lage des Wagens **in den Händen** wird **nicht** über Lua geregelt, sondern
+direkt in den Modell-Definitionen – du kannst das also selbst am PC ändern, ohne
+neuen Code. Es gibt **zwei getrennte Lagen**:
+
+| Was | Datei | Block |
+|-----|-------|-------|
+| **In der Hand** (beim Schieben) | `42/media/scripts/holzwagen_items.txt` (T1/T2) und `42/media/scripts/holzwagen_fasswagen.txt` (Fass) | `attachment Bip01_Prop1` |
+| **Auf der Map** (abgestellt) | dieselben Dateien | `attachment world` (aktuell nicht gesetzt = Standard) |
+
+Im jeweiligen `model { ... }`-Block steht z. B.:
+
+```
+model wagenT1
+{
+    mesh = holzwagen_t1, texture = holzwagen_tex, scale = 0.006,
+    attachment Bip01_Prop1 { offset = 0.0 0.0 0.0, rotate = 0.0 90.0 0.0, }
+}
+```
+
+**`rotate = a b c`** (Grad) – drei Drehachsen:
+- `a` = vor/zurück kippen (Nase hoch/runter)
+- `b` = **um die Hochachse drehen (Yaw)** – das ist die „Z-Drehung". `90` =
+  Viertel­drehung im Uhrzeigersinn, `-90` = gegen den Uhrzeigersinn, `180` = um.
+- `c` = seitlich kippen (Roll)
+
+**`offset = x y z`** (Meter) – verschieben:
+- `x` = nach rechts/links
+- `y` = nach oben/unten
+- `z` = nach vorne/hinten
+
+**`scale`** – Gesamtgröße (kleiner = z. B. `0.004`, größer = `0.008`).
+
+Vorgehen: Wert ändern → Datei speichern → **Spiel komplett neu starten** (Script-
+Dateien werden nur beim Start gelesen) → in die Hand nehmen → schauen → wiederholen.
+Beide Modelle (`wagenT1` **und** `wagenT2`, plus `wagenFass`) gleich einstellen,
+sonst sieht jede Stufe anders aus.
+
+> Hinweis: Welche Zahl welche Achse bewegt, hängt davon ab, wie das Mesh in
+> Blender ausgerichtet wurde. Die Zuordnung oben gilt empirisch für unsere FBX
+> (Blender Z-up). Wenn etwas „falsch herum" dreht: Vorzeichen tauschen
+> (`90` ↔ `-90`) oder die Zahl in eine andere der drei `rotate`-Stellen setzen.
+
+---
+
 ## 5. Bekannte Design-Grenzen
 - B42 deckelt Item-Container hart bei 50. Das „Ladevolumen" läuft daher über die
   4 seitlichen Taschen-Slots (Rucksäcke im Wagen), nicht über rohe Capacity.
