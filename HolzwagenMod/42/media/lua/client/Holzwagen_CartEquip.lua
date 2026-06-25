@@ -154,9 +154,18 @@ Events.OnPlayerUpdate.Add(autoDropLooseCarts)
 
 -- ---------- "E"-Taste: Wagen schnell schnappen / loslassen ----------
 -- E mit Wagen in der Hand -> abstellen. E neben einem Wagen am Boden -> schieben.
--- (Feste Taste E; falls neu belegt, hier anpassen.)
+-- Vergleicht gegen die echte Interact-Belegung (getCore) UND fest E als Fallback.
+local function isInteractKey(key)
+    if Keyboard and key == Keyboard.KEY_E then return true end
+    local core = getCore and getCore()
+    if core and core.getKey then
+        if key == core:getKey("Interact") then return true end
+    end
+    return false
+end
+
 local function onCartKey(key)
-    if not Keyboard or key ~= Keyboard.KEY_E then return end
+    if not isInteractKey(key) then return end
     local playerObj = getSpecificPlayer(0)
     if not playerObj then return end
 
@@ -187,7 +196,13 @@ local function onCartKey(key)
         end
     end
 end
-Events.OnKeyPressed.Add(onCartKey)
+-- OnKeyStartPressed feuert zuverlaessig beim Druck (OnKeyPressed kann beim
+-- Loslassen feuern / verschluckt werden).
+if Events.OnKeyStartPressed then
+    Events.OnKeyStartPressed.Add(onCartKey)
+else
+    Events.OnKeyPressed.Add(onCartKey)
+end
 
 -- ---------- Inventar-Kontextmenue ----------
 local function cartInventoryContext(player, context, items)
