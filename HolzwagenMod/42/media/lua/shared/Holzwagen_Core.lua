@@ -59,6 +59,26 @@ function HW.bedLocked(cart)
     return t and t.bedLocked == true
 end
 
+-- ---------- Ladeflaechen-Volumen ----------
+-- B42 deckelt die Script-Capacity hart; darum zur Laufzeit setzen.
+HW.cartCapacity = {
+    Holzwagen_T1        = 60,
+    Holzwagen_T2        = 80,
+    Holzwagen_Fasswagen = 30,
+}
+
+-- Capacity einmal auf dem Item-Container setzen (bleibt danach erhalten).
+function HW.applyCapacity(item)
+    if not item or not item.getType then return end
+    local cap = HW.cartCapacity[item:getType()]
+    if not cap then return end
+    local container = item.getItemContainer and item:getItemContainer() or nil
+    if not container and item.getInventory then container = item:getInventory() end
+    if container and container.getCapacity and container:getCapacity() ~= cap then
+        container:setCapacity(cap)
+    end
+end
+
 -- ---------- AcceptItemFunction (im Item-Script referenziert) ----------
 -- MUSS shared sein (Server ruft sie bei MP auf). Offene Ladeflaeche: alles
 -- erlaubt. Gesperrtes Bett (Fasswagen): nur Taschen.

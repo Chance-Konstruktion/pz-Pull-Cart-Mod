@@ -25,6 +25,7 @@ local function dropCartAtPlayerPosition(playerObj, cartItem)
     local square = playerObj:getCurrentSquare()
     if not square then return end
 
+    HW.applyCapacity(cartItem)
     playerObj:getInventory():Remove(cartItem)
     playerObj:removeFromHands(cartItem)
     playerObj:setVariable("RightHandMask", "")
@@ -107,14 +108,20 @@ local function equipCartFromInventory(playerObj, item)
     end
 end
 
--- ---------- Tick: Hand-Maske aufraeumen, wenn kein Wagen mehr in der Hand ----------
+-- ---------- Tick: Schiebe-Pose setzen/aufraeumen ----------
 local function onCartTick()
     local playersSum = getNumActivePlayers()
     for playerNum = 0, playersSum - 1 do
         local playerObj = getSpecificPlayer(playerNum)
-        if playerObj and playerObj:getVariableString("righthandmask") == "holdingtrolleyright" then
+        if playerObj then
             local trol = playerObj:getPrimaryHandItem()
-            if not (trol and cartCanEquip(trol:getFullType())) then
+            local hasCart = trol and cartCanEquip(trol:getFullType())
+            local maskSet = playerObj:getVariableString("righthandmask") == "holdingtrolleyright"
+            if hasCart and not maskSet then
+                -- Wagen in der Hand (z. B. via "E" ausgeruestet) -> Schiebe-Pose an
+                setCartMask(playerObj)
+            elseif maskSet and not hasCart then
+                -- Maske noch da, aber kein Wagen mehr -> aufraeumen
                 playerObj:setPrimaryHandItem(nil)
                 playerObj:setSecondaryHandItem(nil)
                 playerObj:setVariable("RightHandMask", "")
@@ -124,6 +131,63 @@ local function onCartTick()
     end
 end
 Events.OnTick.Add(onCartTick)
+
+-- ---------- Lose Wagen automatisch auf den Boden stellen ----------
+-- Gewuenscht: ein gecrafteter Wagen liegt auf der Map (wie der Fasswagen) und
+-- ist dort wie eine Kiste oeffenbar (Boden-Loot). Ein Wagen gehoert nie lose
+-- ins Rucksack-Inventar: entweder in der Hand (schieben) oder auf dem Boden.
+-- Daher: jeder NICHT ausgeruestete Wagen im Spieler-Inventar wird abgestellt.
+local function autoDropLooseCarts(playerObj)
+    if not playerObj or (playerObj.isLocalPlayer and not playerObj:isLocalPlayer()) then return end
+    local inv = playerObj:getInventory()
+    if not inv then return end
+    local items = inv:getItems()
+    for i = 0, items:size() - 1 do
+        local it = items:get(i)
+        if it and cartCanEquip(it:getFullType()) and not it:isEquipped() then
+            dropCartAtPlayerPosition(playerObj, it)
+            return -- pro Frame nur einen, Liste hat sich geaendert
+        end
+    end
+end
+Events.OnPlayerUpdate.Add(autoDropLooseCarts)
+
+-- ---------- "E"-Taste: Wagen schnell schnappen / loslassen ----------
+-- E mit Wagen in der Hand -> abstellen. E neben einem Wagen am Boden -> schieben.
+-- (Feste Taste E; falls neu belegt, hier anpassen.)
+local function onCartKey(key)
+    if not Keyboard or key ~= Keyboard.KEY_E then return end
+    local playerObj = getSpecificPlayer(0)
+    if not playerObj then return end
+
+    local primaryItem = playerObj:getPrimaryHandItem()
+    if primaryItem and cartCanEquip(primaryItem:getFullType()) then
+        dropCartAtPlayerPosition(playerObj, primaryItem)
+        return
+    end
+
+    -- naheliegenden Wagen am Boden suchen
+    local sq = playerObj:getCurrentSquare()
+    if not sq then return end
+    local cell = sq:getCell()
+    local px, py, pz = sq:getX(), sq:getY(), sq:getZ()
+    for dx = -1, 1 do
+        for dy = -1, 1 do
+            local s = cell and cell:getGridSquare(px + dx, py + dy, pz)
+            local objList = s and s:getWorldObjects()
+            if objList then
+                for i = 0, objList:size() - 1 do
+                    local wo = objList:get(i)
+                    if wo and wo:getItem() and cartCanEquip(wo:getItem():getFullType()) then
+                        HW.equipCartFromWorld(playerObj, wo)
+                        return
+                    end
+                end
+            end
+        end
+    end
+end
+Events.OnKeyPressed.Add(onCartKey)
 
 -- ---------- Inventar-Kontextmenue ----------
 local function cartInventoryContext(player, context, items)

@@ -7,6 +7,24 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+### Fixed
+- **Modell-Lage in der Hand/am Boden.** Alle drei Wagen-Modelle (wagenT1/T2/Fass)
+  haben jetzt einen `attachment world`-Block (`rotate = 0 90 0`, `offset =
+  0 0 -1.2`) – Wagen ist 90° gedreht und sitzt hinter der Figur. Reine
+  Tuning-Werte (Drehrichtung über Vorzeichen yaw, Abstand über offset).
+- **Fasswagen startete halb voll.** Der initiale `Fluids{}`-Inhalt wurde
+  entfernt – das Fass startet jetzt leer und nimmt Fluids beim Befüllen an.
+- **T1/T2-Ladefläche / Platzierung auf der Map.** Ein gecrafteter Wagen wird
+  nicht mehr ins Rucksack-Inventar gelegt, sondern automatisch auf den Boden
+  gestellt (wie der Fasswagen). Dort ist die Ladefläche wie eine Kiste über das
+  Boden-/Loot-Fenster oeffenbar. Lose Wagen im Inventar werden generell
+  abgestellt (`autoDropLooseCarts`).
+- **„E" zum Schnappen/Loslassen.** E neben einem Wagen am Boden nimmt ihn in die
+  Hand (schieben), E mit Wagen in der Hand stellt ihn wieder ab. Die Schiebe-Pose
+  (Hand-Maske) wird jetzt automatisch gesetzt, sobald ein Wagen in der Hand ist.
+- Ladeflächen-Volumen zentral in `Holzwagen_Core.lua` (`HW.applyCapacity`),
+  greift auch beim Ablegen, nicht nur in der Hand.
+
 ### Added
 - **Welt-Interaktion am abgestellten Wagen.** Rechtsklick auf das stehende
   3D-Modell bietet jetzt „Wagen öffnen" (hinlaufen + Loot-Fenster), „Wagen
