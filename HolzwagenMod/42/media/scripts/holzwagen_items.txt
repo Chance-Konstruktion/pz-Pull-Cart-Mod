@@ -8,19 +8,26 @@ module Base
        NICHT als Meter, daher scale = 0.006 (sonst ~1000x zu gross).
        Feintuning: zu klein -> 0.002/0.005, zu gross -> 0.0008/0.0005.
        ========================================================= */
-    /* attachment world = Lage beim Ablegen auf der Map (Standard lassen!).
-       attachment Bip01_Prop1 = Lage des Modells IN DER HAND (eigene Kategorie!).
-       rotate = pitch yaw roll (Grad); roll 90 = 90 Grad um die eigene Achse,
-       Uhrzeigersinn (falsch herum -> -90). Reiner In-Hand-Tuning-Wert. */
+    /* ===== POSITION DES WAGENS IN DER HAND EINSTELLEN =====
+       attachment Bip01_Prop1 = Lage des Modells IN DER HAND (eigene Kategorie,
+       hat NICHTS mit der Map-Platzierung zu tun).
+         rotate = a  b  c   (Grad). Empirisch (Blender Z-up -> PZ):
+            a = kippen vor/zurueck   (Nase hoch/runter)
+            b = drehen um die Hochachse / Yaw  <-- DAS ist die "Z-Drehung"
+            c = kippen seitlich / Roll
+         offset = X  Y  Z   (Meter)  verschieben.
+       Aktuell: b = 90 = 90 Grad um die Hochachse, Uhrzeigersinn.
+       Falsch herum -> -90.
+       Ausfuehrliche Anleitung steht in HolzwagenMod/README_INSTALL.md. */
     model wagenT1
     {
         mesh = holzwagen_t1, texture = holzwagen_tex, scale = 0.006,
-        attachment Bip01_Prop1 { offset = 0.0 0.0 0.0, rotate = 0.0 0.0 90.0, }
+        attachment Bip01_Prop1 { offset = 0.0 0.0 0.0, rotate = 0.0 90.0 0.0, }
     }
     model wagenT2
     {
         mesh = holzwagen_t2, texture = holzwagen_tex, scale = 0.006,
-        attachment Bip01_Prop1 { offset = 0.0 0.0 0.0, rotate = 0.0 0.0 90.0, }
+        attachment Bip01_Prop1 { offset = 0.0 0.0 0.0, rotate = 0.0 90.0 0.0, }
     }
 
     /* =========================================================
@@ -36,11 +43,14 @@ module Base
     item Holzwagen_T1
     {
         DisplayName      = Holzwagen (T1),
-        Type             = Container,
+        ItemType         = base:container,   /* B42-Container-Vorlage: oeffenbar wie ein Rucksack */
         Weight           = 12.0,
         Capacity         = 50,
         WeightReduction  = 100,
         AcceptItemFunction = HolzwagenAccept,
+        CloseSound       = CloseBag,
+        OpenSound        = OpenBag,
+        PutInSound       = PutItemInBag,
         WorldStaticModel = wagenT1,
         StaticModel      = wagenT1,
         ReplaceInPrimaryHand = wagenT1 holdingtrolleyright,
@@ -53,10 +63,14 @@ module Base
     item Holzwagen_T2
     {
         DisplayName      = Holzwagen (T2),
-        Type             = Container,
+        ItemType         = base:container,   /* B42-Container-Vorlage: oeffenbar wie ein Rucksack */
         Weight           = 11.0,
         Capacity         = 50,
         WeightReduction  = 100,
+        AcceptItemFunction = HolzwagenAccept,
+        CloseSound       = CloseBag,
+        OpenSound        = OpenBag,
+        PutInSound       = PutItemInBag,
         WorldStaticModel = wagenT2,
         StaticModel      = wagenT2,
         ReplaceInPrimaryHand = wagenT2 holdingtrolleyright,

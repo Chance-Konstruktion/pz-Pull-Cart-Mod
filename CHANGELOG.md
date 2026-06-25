@@ -8,6 +8,13 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 ## [Unreleased]
 
 ### Fixed
+- **In-Hand-Drehung jetzt um die Hochachse (Yaw/„Z").** Vorher fälschlich Roll
+  (`rotate 0 0 90`), jetzt `rotate 0 90 0` in `attachment Bip01_Prop1`.
+- **Ladefläche: Items auf `ItemType = base:container` umgestellt.** T1/T2 nutzen
+  jetzt die B42-Container-Vorlage (statt `Type = Container`) inkl. Bag-Sounds –
+  der Container ist damit wie ein Rucksack öffenbar.
+- **README:** neuer Abschnitt „4b" – wo & wie man Drehung/Offset/Scale des
+  Hand-Modells selbst einstellt (Datei, Block, Achsen), ohne Code-Änderung.
 - **Modell-Lage getrennt: Hand vs. Boden.** Die sinnfreie Map-Platzierungs-
   Verschiebung (`attachment world`) wurde zurückgenommen (Boden = Standard).
   Die In-Hand-Lage ist eine eigene Kategorie und wird jetzt über
