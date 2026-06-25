@@ -7,7 +7,7 @@ module Base
     {
         mesh = holzwagen_fass, texture = holzwagen_tex, scale = 0.006,
         /* In-Hand-Lage wie bei T1/T2: 90 Grad um die Hochachse (mittlere Zahl). */
-        attachment Bip01_Prop1 { offset = 0.0 0.0 0.0, rotate = 0.0 90.0 0.0, }
+        attachment Bip01_Prop1 { offset = 0.0 0.0 -1.7, rotate = 0.0 90.0 0.0, }
     }
 
     /* =========================================================

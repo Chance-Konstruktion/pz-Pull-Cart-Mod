@@ -7,6 +7,12 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+### Changed
+- **Hand-Modell 1,7 m nach hinten verschoben** (`attachment Bip01_Prop1`,
+  `offset 0 0 -1.7` für T1/T2/Fass), damit der Char nicht hinter dem Wagen steht.
+- **Ladevolumen T1/T2 auf 200 erhöht** (`HW.cartCapacity` in
+  `Holzwagen_Core.lua`), wird zur Laufzeit gesetzt (Script-Cap bleibt bei 50).
+
 ### Fixed
 - **In-Hand-Drehung jetzt um die Hochachse (Yaw/„Z").** Vorher fälschlich Roll
   (`rotate 0 0 90`), jetzt `rotate 0 90 0` in `attachment Bip01_Prop1`.
