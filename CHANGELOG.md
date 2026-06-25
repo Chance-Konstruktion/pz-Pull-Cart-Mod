@@ -46,6 +46,15 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 - Dev-Doku nach `docs/` verschoben, Blender-Skript nach `tools/`.
 
 ### Fixed
+- **Crafting im Multiplayer behoben (DER MP-Bug).** Die Wagen-Items referenzieren
+  im Script `AcceptItemFunction = HolzwagenAccept`. Diese Lua-Funktion lag nur in
+  `media/lua/client/` – der **Server** führt `client/`-Lua aber nicht aus. Im MP
+  erzeugt/prüft der Server das Item beim Craften, fand `HolzwagenAccept` nicht und
+  brach ab (Material verbraucht und zurückgelegt, nichts erstellt); im Singleplayer
+  lief alles auf dem Client, daher funktionierte es dort. `HolzwagenAccept` samt
+  Helfern (`isCart`/`cartTier`/`wheelTier`/`loadFactor`/`isBagItem`/`bedLocked`)
+  nach **`media/lua/shared/Holzwagen_Core.lua`** verschoben → lädt auf Client UND
+  Server.
 - **Modell ~1000x zu groß korrigiert.** `scale` der Weltmodelle von `1.0` auf
   `0.001` gesetzt. PZ interpretiert die FBX-Einheiten des in echten Metern
   gebauten Wagens (~2,2 m) nicht als Meter; bei `1.0` erschien er riesig.
