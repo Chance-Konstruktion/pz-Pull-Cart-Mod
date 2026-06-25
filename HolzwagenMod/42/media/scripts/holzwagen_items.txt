@@ -5,11 +5,11 @@ module Base
        FBX in media/models_X/: holzwagen_t1 (Vollholzrad),
        holzwagen_t2 (Speichenrad). Textur gemeinsam: holzwagen_tex.png
        Modell ist in echten Metern gebaut (Wagen ~2,2 m). PZ liest die FBX-Einheiten
-       NICHT als Meter, daher scale = 0.001 (sonst ~1000x zu gross).
+       NICHT als Meter, daher scale = 0.008 (sonst ~1000x zu gross).
        Feintuning: zu klein -> 0.002/0.005, zu gross -> 0.0008/0.0005.
        ========================================================= */
-    model wagenT1 { mesh = holzwagen_t1, texture = holzwagen_tex, scale = 0.001, }
-    model wagenT2 { mesh = holzwagen_t2, texture = holzwagen_tex, scale = 0.001, }
+    model wagenT1 { mesh = holzwagen_t1, texture = holzwagen_tex, scale = 0.008, }
+    model wagenT2 { mesh = holzwagen_t2, texture = holzwagen_tex, scale = 0.008, }
 
     /* =========================================================
        WAGEN ALS AUSRUESTBARES CONTAINER-ITEM (Fahrrad-Prinzip)
