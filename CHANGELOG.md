@@ -36,6 +36,16 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 - Dev-Doku nach `docs/` verschoben, Blender-Skript nach `tools/`.
 
 ### Fixed
+- **Modell unsichtbar / durchsichtiger Platzhalter behoben.** Der Textur-Atlas
+  `holzwagen_tex.png` war zu 99 % vollständig transparent (Alpha-Kanal komplett
+  auf 0, RGB-Farben aber vorhanden). PZ rendert Weltmodelle mit Alpha 0
+  unsichtbar – das Mesh lud korrekt (kein Lade-Fehler im Log), war aber durchweg
+  durchsichtig. Alpha-Kanal des Atlas auf voll undurchsichtig (255) gesetzt,
+  RGB unverändert.
+- **Crash beim Taschen-Einhängen behoben** (`attachBag`/`detachBag`/`swapContents`,
+  `Object tried to call nil`). Container-Zugriff (`cart:getInventory()`) läuft jetzt
+  über einen abgesicherten Helfer mit Methoden-Check; fehlt der Container, bricht die
+  Aktion sauber ab und schreibt eine klare Log-Meldung statt zu crashen.
 - **Crafting erzeugte nichts – falsche Werkzeug-Tags (DER Bug).** Rezepte
   referenzierten Werkzeuge als `tags[Hammer]` / `tags[Saw]`. In B42 heißen die
   Tags `base:hammer` bzw. `base:saw;base:smallsaw;base:crudesaw` (kleingeschrieben,
