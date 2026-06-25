@@ -8,6 +8,12 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 ## [Unreleased]
 
 ### Added
+- **Welt-Interaktion am abgestellten Wagen.** Rechtsklick auf das stehende
+  3D-Modell bietet jetzt „Wagen öffnen" (hinlaufen + Loot-Fenster), „Wagen
+  aufnehmen" und „Wagen aufnehmen + ziehen". Ein abgelegter `Type=Container`
+  zeigt sein Inventar ohnehin im Boden-/Loot-Fenster – das Modell bleibt das
+  3D-Mesh (kein Tile-Sprite-Umbau). Defensiv ge-guarded (`ISGrabItemAction`,
+  `getPlayerLoot`), bricht sauber ab statt zu crashen, falls eine API fehlt.
 - **Multiplayer-Absicherung:** Tempo-Logik wirkt jetzt ausschließlich auf den
   eigenen Spieler (`isLocalPlayer`-Guard), nie auf Remote-Spieler. Rezepte laufen
   serverseitig, Taschen-Transfers über synchronisierte Timed Actions, und die
@@ -29,6 +35,10 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 - Projekt-Dokumentation: `CHANGELOG.md`, `ROADMAP.md`, strukturierte `docs/`.
 
 ### Changed
+- **Test-Modus für Rezepte:** alle Bau-Rezepte vorübergehend auf **1 Baumstamm
+  + Werkzeug** und **Woodwork 1** reduziert, damit das Craften schnell
+  durchgetestet werden kann. Das echte Material-/Skill-Balancing folgt danach –
+  das sind reine Zahlen im Rezeptbaum ohne Code-Einfluss.
 - `scale`-Startwert der Modelle von `0.32` auf `1.0` korrigiert
   (Modelle sind in echten Metern gebaut, Wagen ≈ 2,2 m).
 - Modell-Namen B42-konform ohne das Wort „model" (`wagenT1`/`wagenT2`/`wagenFass`),

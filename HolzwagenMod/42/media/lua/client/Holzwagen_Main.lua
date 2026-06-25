@@ -150,6 +150,47 @@ local function onContext(playerNum, context, items)
 end
 Events.OnFillInventoryObjectContextMenu.Add(onContext)
 
+-- ---------- Kontextmenue (abgestellter Wagen in der WELT) ----------
+-- Ein abgelegtes Container-Item zeigt PZ automatisch im Boden-/Loot-Fenster als
+-- aufklappbaren Container. Hier nur die Bequemlichkeit: direkt am stehenden
+-- 3D-Modell "oeffnen" (hinlaufen -> Loot-Fenster) / "aufnehmen" / "ziehen".
+local function onWorldContext(playerNum, context, worldobjects, test)
+    local player = getSpecificPlayer(playerNum)
+    if not player then return end
+    local seen = {}
+    for _, obj in ipairs(worldobjects) do
+        local item = (obj and obj.getItem) and obj:getItem() or nil
+        if item and HW.isCart(item) and not seen[item] then
+            seen[item] = true
+            if test then return true end
+            local sq = (obj.getSquare) and obj:getSquare() or nil
+
+            context:addOption("Wagen oeffnen", player, function()
+                if sq and luautils and luautils.walkAdj then luautils.walkAdj(player, sq) end
+                local loot = getPlayerLoot and getPlayerLoot(playerNum) or nil
+                if loot and loot.setVisible then loot:setVisible(true) end
+            end)
+
+            context:addOption("Wagen aufnehmen", player, function()
+                if ISGrabItemAction then
+                    ISTimedActionQueue.add(ISGrabItemAction:new(player, obj, 40))
+                end
+            end)
+
+            if not (player:getPrimaryHandItem() or player:getSecondaryHandItem()) then
+                context:addOption("Wagen aufnehmen + ziehen", player, function()
+                    if ISGrabItemAction then
+                        ISTimedActionQueue.add(ISGrabItemAction:new(player, obj, 40))
+                    end
+                    -- nach dem Aufnehmen anschirren (Wagen liegt dann im Inventar)
+                    if item then HW.startPulling(player, item) end
+                end)
+            end
+        end
+    end
+end
+Events.OnFillWorldObjectContextMenu.Add(onWorldContext)
+
 -- Ist das Item eine Tasche/ein Rucksack (eigener Container)?
 function HW.isBagItem(item)
     if not item then return false end
