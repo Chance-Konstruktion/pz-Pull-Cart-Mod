@@ -20,43 +20,19 @@ function HW.speedMult(cart)
     return base
 end
 
--- ====== Tempo-Steuerung (B42-API: IsoGameCharacter:setSpeedMod) ======
--- setSpeedMod(mult) skaliert die Bewegungsgeschwindigkeit (1.0 = normal,
--- < 1.0 = langsamer). Das Bewegungssystem setzt den Wert JEDEN Frame zurueck,
--- daher wird er pro Tick neu gesetzt, solange gezogen wird (onPlayerUpdate).
---
--- Einmaliger Capability-Check: ein fehlender API-Name landet sichtbar im Log
--- (statt still in einem pcall verschluckt zu werden).
-HW.speedApiOk = nil  -- nil = noch nicht geprueft, danach true/false
-
-local function ensureSpeedApi(player)
-    if HW.speedApiOk == nil and player then
-        HW.speedApiOk = (player.setSpeedMod ~= nil)
-        if HW.speedApiOk then
-            print("[Holzwagen] Tempo-API ok: IsoGameCharacter:setSpeedMod gefunden.")
-        else
-            print("[Holzwagen] WARNUNG: setSpeedMod fehlt - Wagen-Tempo ohne Effekt. API pruefen.")
-        end
-    end
-    return HW.speedApiOk
-end
-
-function HW.applySpeed(player, mult)
-    if ensureSpeedApi(player) then
-        player:setSpeedMod(mult)
-    end
-end
-
-function HW.resetSpeed(player)
-    HW.applySpeed(player, 1.0)
-end
+-- ====== Tempo-Steuerung ======
+-- Das Tempo macht jetzt die ENGINE ueber RunSpeedModifier im Item-Script
+-- (wie bei SaucedCarts) - das ist robuster und automatisch MP-sicher.
+-- Die folgenden Funktionen sind daher No-Ops (kein per-Tick setSpeedMod mehr),
+-- bleiben aber als Stubs erhalten, damit bestehende Aufrufer nicht brechen.
+function HW.applySpeed(player, mult) end
+function HW.resetSpeed(player) end
 
 -- ---------- Ziehen / Loslassen ----------
 function HW.startPulling(player, cart)
     player:setPrimaryHandItem(cart)
     player:setSecondaryHandItem(cart)
     cart:getModData().pulling = true
-    HW.applySpeed(player, HW.speedMult(cart))
     if player.setHaloNote then player:setHaloNote("Wagen angeschirrt") end
 end
 
@@ -64,7 +40,6 @@ function HW.stopPulling(player, cart)
     if player:getPrimaryHandItem() == cart then player:setPrimaryHandItem(nil) end
     if player:getSecondaryHandItem() == cart then player:setSecondaryHandItem(nil) end
     cart:getModData().pulling = false
-    HW.resetSpeed(player)
 end
 
 -- Aktuell gezogener Wagen (oder nil)
