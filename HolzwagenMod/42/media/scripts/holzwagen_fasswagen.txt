@@ -3,7 +3,12 @@ module Base
     /* Eigenes Modell: Wagen MIT Fass/Schlauch/Trichter.
        Mesh kommt aus holzwagen_fass_blender.py -> holzwagen_fass.fbx
        in 42/media/models_X/. Textur wird mitbenutzt (gleicher Atlas). */
-    model wagenFass { mesh = holzwagen_fass, texture = holzwagen_tex, scale = 0.006, }
+    model wagenFass
+    {
+        mesh = holzwagen_fass, texture = holzwagen_tex, scale = 0.006,
+        /* Lage wie bei T1/T2: 90 Grad drehen + ~1,2 m nach hinten. Tuning-Werte. */
+        attachment world { offset = 0.0 0.0 -1.2, rotate = 0.0 90.0 0.0, }
+    }
 
     /* =========================================================
        FASSWAGEN – Holzwagen mit fest verbautem Fass.
@@ -33,14 +38,12 @@ module Base
         {
             ContainerName = Holzwagen_Fass,
             Capacity = 450.0,
-            Fluids
-            {
-                fluid = Water:1.0,
-                fluid = TaintedWater:1.0,
-                fluid = Petrol:1.0,
-                fluid = Milk:1.0,
-                /* weitere Fluids aus der B42-Fluid-Liste hier ergaenzbar */
-            }
+            /* KEIN Fluids-Startinhalt -> Fass startet LEER.
+               Die alte Fluids{}-Liste (fluid = Water:1.0 usw.) hat das Fass
+               beim Erstellen vorbefuellt (halb voll). Ein leerer FluidContainer
+               nimmt die Standard-Fluids beim Befuellen an.
+               Wenn wir spaeter nur bestimmte Fluids zulassen wollen, kommt die
+               Whitelist hier wieder rein - aber mit Ratio 0, nie als Startinhalt. */
         }
     }
 
