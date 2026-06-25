@@ -12,21 +12,26 @@ module Base
     model wagenT2 { mesh = holzwagen_t2, texture = holzwagen_tex, scale = 0.006, }
 
     /* =========================================================
-       WAGEN ALS AUSRUESTBARES CONTAINER-ITEM (Fahrrad-Prinzip)
-       Kein Engine-Fahrzeug. Ziehen + Tempo macht die Lua-Logik.
+       WAGEN ALS AUSRUESTBARES CONTAINER-ITEM (Schiebe-Prinzip)
+       Engine-Felder wie bei SaucedCarts (funktionierender B42-Mod):
+       - RequiresEquippedBothHands = beide Haende = schieben (MP-sicher)
+       - RunSpeedModifier = Tempo-Bremse durch die Engine (kein Lua-setSpeedMod)
+       - ReplaceInPrimaryHand/SecondHand = Wagen sichtbar in den Haenden
+       Kein Engine-Fahrzeug.
        ========================================================= */
     item Holzwagen_T1
     {
         DisplayName      = Holzwagen (T1),
         Type             = Container,
         Weight           = 12.0,
-        Capacity         = 50,     /* B42-Cap; 150 via Lua-Slots/Taschen, siehe README */
-        WeightReduction  = 40,
-        AcceptItemFunction = HolzwagenAccept,  /* nur Taschen/lose Items, definiert in Lua */
+        Capacity         = 50,
+        WeightReduction  = 95,     /* hohe Reduktion = viel Ladung tragbar (wie SaucedCarts) */
+        AcceptItemFunction = HolzwagenAccept,
         WorldStaticModel = wagenT1,
-        TwoHandWeapon    = TRUE,    /* belegt beide Haende beim Ziehen */
+        RequiresEquippedBothHands = TRUE,
+        RunSpeedModifier = 0.80,
         Tags             = Holzwagen;HolzwagenT1,
-        Icon             = Crate,   /* Platzhalter-Icon, spaeter ersetzbar */
+        Icon             = Crate,
     }
 
     item Holzwagen_T2
@@ -34,10 +39,11 @@ module Base
         DisplayName      = Holzwagen (T2),
         Type             = Container,
         Weight           = 11.0,
-        Capacity         = 50,     /* 300 via Lua-Slots/Taschen */
-        WeightReduction  = 60,
+        Capacity         = 50,
+        WeightReduction  = 95,
         WorldStaticModel = wagenT2,
-        TwoHandWeapon    = TRUE,
+        RequiresEquippedBothHands = TRUE,
+        RunSpeedModifier = 0.90,
         Tags             = Holzwagen;HolzwagenT2,
         Icon             = Crate,
     }

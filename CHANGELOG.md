@@ -45,6 +45,16 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
   Mesh-Pfade relativ zu `media/models_X/` (ohne `WorldItems/`-Unterordner).
 - Dev-Doku nach `docs/` verschoben, Blender-Skript nach `tools/`.
 
+### Changed
+- **Schieben/Tempo auf Engine-Felder umgestellt** (Vorbild: funktionierender
+  B42-Mod *SaucedCarts*). Statt das Ziehen per Lua nachzubauen, nutzen die
+  Wagen-Items jetzt `RequiresEquippedBothHands = TRUE` (beide Hände = schieben,
+  von der Engine, automatisch MP-sicher) und `RunSpeedModifier` (Tempo-Bremse:
+  T1 0.80, T2 0.90, Fasswagen 0.75). `TwoHandWeapon` entfernt. Die Lua-Tempo-
+  Logik (`setSpeedMod` pro Tick) ist damit überflüssig und als No-Op stillgelegt.
+  `WeightReduction` auf 95 erhöht (viel Ladung tragbar, wie bei SaucedCarts).
+  Ausrüsten geschieht jetzt über das normale „Anlegen (beide Hände)".
+
 ### Fixed
 - **Crafting im Multiplayer behoben (DER MP-Bug).** Die Wagen-Items referenzieren
   im Script `AcceptItemFunction = HolzwagenAccept`. Diese Lua-Funktion lag nur in
