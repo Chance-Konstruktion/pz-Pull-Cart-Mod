@@ -8,6 +8,11 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 ## [Unreleased]
 
 ### Added
+- **Multiplayer-Absicherung:** Tempo-Logik wirkt jetzt ausschließlich auf den
+  eigenen Spieler (`isLocalPlayer`-Guard), nie auf Remote-Spieler. Rezepte laufen
+  serverseitig, Taschen-Transfers über synchronisierte Timed Actions, und die
+  Wagen-Zustände (`pulling`/`wheelTier`/`bags`) liegen in der Item-modData, die
+  mit dem Item mitwandert – damit ist der Mod MP-tauglich ausgelegt.
 - **Stauraum-Design überarbeitet:** alle Wagen haben jetzt **4 seitliche
   Taschen-Slots**. Normaler Wagen: offene Loot-Ladefläche zusätzlich. Fasswagen:
   Bett vom Fass belegt – **keine lose Ladung** (`bedLocked`), nur die 4 Taschen.

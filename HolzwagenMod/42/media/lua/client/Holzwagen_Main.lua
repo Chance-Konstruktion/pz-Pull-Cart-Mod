@@ -110,6 +110,8 @@ end
 -- ---------- Tick: Tempo halten + Sicherheits-Reset ----------
 local function onPlayerUpdate(player)
     if not player then return end
+    -- MP: nur den eigenen Spieler steuern, nie Remote-Spieler.
+    if player.isLocalPlayer and not player:isLocalPlayer() then return end
     local cart = pulledCart(player)
     if cart then
         HW.applySpeed(player, HW.speedMult(cart))
