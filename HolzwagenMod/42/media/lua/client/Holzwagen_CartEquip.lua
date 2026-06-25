@@ -204,6 +204,24 @@ else
     Events.OnKeyPressed.Add(onCartKey)
 end
 
+-- ---------- Ladeflaeche oeffnen ----------
+-- Oeffnet den Container des Wagens im Loot-/Beute-Fenster (egal ob in der Hand
+-- oder am Boden). Defensiv: bricht ab statt zu crashen, wenn eine API fehlt.
+local function openCartContainer(playerObj, cartItem)
+    if not (playerObj and cartItem) then return end
+    HW.applyCapacity(cartItem)
+    local inv = cartItem.getInventory and cartItem:getInventory() or nil
+    if not inv then return end
+    local playerNum = playerObj:getPlayerNum()
+    local loot = getPlayerLoot and getPlayerLoot(playerNum) or nil
+    if not loot then return end
+    loot.inventory = inv
+    if loot.inventoryPane then loot.inventoryPane.inventory = inv end
+    if loot.refreshBackpacks then loot:refreshBackpacks() end
+    if ISInventoryPage and ISInventoryPage.dirtyUI then ISInventoryPage.dirtyUI() end
+end
+HW.openCartContainer = openCartContainer
+
 -- ---------- Inventar-Kontextmenue ----------
 local function cartInventoryContext(player, context, items)
     local playerObj = getSpecificPlayer(player)
@@ -215,10 +233,11 @@ local function cartInventoryContext(player, context, items)
     local primaryItem = playerObj:getPrimaryHandItem()
     local hasCartEquipped = primaryItem and cartCanEquip(primaryItem:getFullType())
 
-    -- am Boden liegend: "Wagen schieben" (aufnehmen)
+    -- am Boden liegend: "Wagen schieben" (aufnehmen) + "Ladefläche öffnen"
     if not item:isEquipped() and item:getWorldItem() and not item:isInPlayerInventory() then
         context:removeOptionByName(getText("ContextMenu_Equip_Two_Hands"))
         context:removeOptionByName(getText("ContextMenu_Grab"))
+        context:addOptionOnTop("Ladefläche öffnen", playerObj, openCartContainer, item)
         if not hasCartEquipped then
             context:addOptionOnTop("Wagen schieben", playerObj, HW.equipCartFromWorld, item:getWorldItem())
         end
@@ -233,9 +252,10 @@ local function cartInventoryContext(player, context, items)
         end
     end
 
-    -- ausgeruestet: "Wagen abstellen"
+    -- ausgeruestet: "Wagen abstellen" + "Ladefläche öffnen"
     if item:isEquipped() then
         context:removeOptionByName(getText("ContextMenu_Drop"))
+        context:addOptionOnTop("Ladefläche öffnen", playerObj, openCartContainer, item)
         context:addOptionOnTop("Wagen abstellen", playerObj, function(p)
             local cart = p:getPrimaryHandItem()
             if cart then dropCartAtPlayerPosition(p, cart) end
@@ -270,8 +290,11 @@ local function cartWorldContext(player, context, worldobjects)
             for i = 0, objList:size() - 1 do
                 local wo = objList:get(i)
                 if wo and wo:getItem() and cartCanEquip(wo:getItem():getFullType()) then
-                    if not added and not hasCartEquipped then
-                        context:addOptionOnTop("Wagen schieben", playerObj, HW.equipCartFromWorld, wo)
+                    if not added then
+                        context:addOptionOnTop("Ladefläche öffnen", playerObj, openCartContainer, wo:getItem())
+                        if not hasCartEquipped then
+                            context:addOptionOnTop("Wagen schieben", playerObj, HW.equipCartFromWorld, wo)
+                        end
                         added = true
                     end
                 end

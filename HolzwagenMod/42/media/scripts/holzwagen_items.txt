@@ -8,21 +8,19 @@ module Base
        NICHT als Meter, daher scale = 0.006 (sonst ~1000x zu gross).
        Feintuning: zu klein -> 0.002/0.005, zu gross -> 0.0008/0.0005.
        ========================================================= */
-    /* attachment world: steuert Lage des Modells in der Hand UND beim Ablegen.
-       rotate = pitch yaw roll (Grad). yaw 90 = 90 Grad im Uhrzeigersinn
-       (falsch herum? -> auf -90 stellen).
-       offset = x y z (Meter); -1.2 z = Wagen ~1,2 m nach hinten / von der Figur weg.
-       Steht der Wagen vorn statt hinten: Vorzeichen tauschen (-1.2 <-> 1.2)
-       bzw. x statt z verwenden. Reine Tuning-Werte. */
+    /* attachment world = Lage beim Ablegen auf der Map (Standard lassen!).
+       attachment Bip01_Prop1 = Lage des Modells IN DER HAND (eigene Kategorie!).
+       rotate = pitch yaw roll (Grad); roll 90 = 90 Grad um die eigene Achse,
+       Uhrzeigersinn (falsch herum -> -90). Reiner In-Hand-Tuning-Wert. */
     model wagenT1
     {
         mesh = holzwagen_t1, texture = holzwagen_tex, scale = 0.006,
-        attachment world { offset = 0.0 0.0 -1.2, rotate = 0.0 90.0 0.0, }
+        attachment Bip01_Prop1 { offset = 0.0 0.0 0.0, rotate = 0.0 0.0 90.0, }
     }
     model wagenT2
     {
         mesh = holzwagen_t2, texture = holzwagen_tex, scale = 0.006,
-        attachment world { offset = 0.0 0.0 -1.2, rotate = 0.0 90.0 0.0, }
+        attachment Bip01_Prop1 { offset = 0.0 0.0 0.0, rotate = 0.0 0.0 90.0, }
     }
 
     /* =========================================================
