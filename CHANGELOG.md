@@ -46,6 +46,21 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 - Dev-Doku nach `docs/` verschoben, Blender-Skript nach `tools/`.
 
 ### Changed
+- **In-die-Hand-nehmen + Schieben + Schiebe-Pose** übernommen vom funktionierenden
+  B42-Mod *ZuperCarts (TMC, „Carts & Trolleys")*, adaptiert auf unseren Wagen:
+  - Schiebe-Animationen (`AnimSets/player/*trolley*`, `anims_X/Bob/*Trolley*`) und
+    Hand-Masken `holdingtrolleyright/left` mitgeliefert.
+  - Items: `StaticModel` + `ReplaceInPrimaryHand/SecondHand <modell> holdingtrolley…`
+    → Wagen sichtbar in den Händen mit Schiebe-Pose. `RunSpeedModifier` bleibt
+    die Tempo-Bremse (T1 0.80 / T2 0.90 / Fass 0.75), `WeightReduction = 100`.
+  - Neue Lua: `client/Holzwagen_CartEquip.lua` (anschirren/abstellen + Maske),
+    `client/TimedActions/ISTakeHolzwagen.lua` (vom Boden aufnehmen),
+    `client/Holzwagen_CapacityFix.lua` (Volumen an Wagengröße: T1 60 / T2 80 /
+    Fass 30 – B42 deckelt die Script-Capacity, daher Laufzeit-Override).
+  - Kontextmenü-Option „Wagen schieben" / „Wagen abstellen".
+- **4 seitliche Taschen-Slots entfernt** (vorerst): `Holzwagen_Slots.lua` und das
+  alte Lua-Zieh-System (`Holzwagen_Main.lua`) gelöscht. Fokus auf die Ladefläche
+  (ein Container mit angepasstem Volumen), wie gewünscht.
 - **Schieben/Tempo auf Engine-Felder umgestellt** (Vorbild: funktionierender
   B42-Mod *SaucedCarts*). Statt das Ziehen per Lua nachzubauen, nutzen die
   Wagen-Items jetzt `RequiresEquippedBothHands = TRUE` (beide Hände = schieben,

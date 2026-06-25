@@ -14,9 +14,11 @@ module Base
     /* =========================================================
        WAGEN ALS AUSRUESTBARES CONTAINER-ITEM (Schiebe-Prinzip)
        Engine-Felder wie bei SaucedCarts (funktionierender B42-Mod):
-       - RequiresEquippedBothHands = beide Haende = schieben (MP-sicher)
-       - RunSpeedModifier = Tempo-Bremse durch die Engine (kein Lua-setSpeedMod)
-       - ReplaceInPrimaryHand/SecondHand = Wagen sichtbar in den Haenden
+       - RunSpeedModifier = Tempo-Bremse (Engine)
+       - StaticModel + ReplaceInPrimaryHand/SecondHand mit Schiebe-Maske
+         (holdingtrolleyright/left) = Wagen sichtbar in den Haenden + Schiebe-Pose.
+       Das Anschirren/Schieben macht Holzwagen_CartEquip.lua (Maske setzen).
+       Volumen via Holzwagen_CapacityFix.lua zur Laufzeit (Script-Cap ist gedeckelt).
        Kein Engine-Fahrzeug.
        ========================================================= */
     item Holzwagen_T1
@@ -25,10 +27,12 @@ module Base
         Type             = Container,
         Weight           = 12.0,
         Capacity         = 50,
-        WeightReduction  = 95,     /* hohe Reduktion = viel Ladung tragbar (wie SaucedCarts) */
+        WeightReduction  = 100,
         AcceptItemFunction = HolzwagenAccept,
         WorldStaticModel = wagenT1,
-        RequiresEquippedBothHands = TRUE,
+        StaticModel      = wagenT1,
+        ReplaceInPrimaryHand = wagenT1 holdingtrolleyright,
+        ReplaceInSecondHand  = wagenT1 holdingtrolleyleft,
         RunSpeedModifier = 0.80,
         Tags             = Holzwagen;HolzwagenT1,
         Icon             = Crate,
@@ -40,9 +44,11 @@ module Base
         Type             = Container,
         Weight           = 11.0,
         Capacity         = 50,
-        WeightReduction  = 95,
+        WeightReduction  = 100,
         WorldStaticModel = wagenT2,
-        RequiresEquippedBothHands = TRUE,
+        StaticModel      = wagenT2,
+        ReplaceInPrimaryHand = wagenT2 holdingtrolleyright,
+        ReplaceInSecondHand  = wagenT2 holdingtrolleyleft,
         RunSpeedModifier = 0.90,
         Tags             = Holzwagen;HolzwagenT2,
         Icon             = Crate,

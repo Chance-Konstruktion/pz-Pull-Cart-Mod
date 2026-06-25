@@ -16,10 +16,12 @@ module Base
         Type             = Container,      /* haelt die seitlichen Taschen-Slots */
         Weight           = 16.0,
         Capacity         = 50,
-        WeightReduction  = 95,
+        WeightReduction  = 100,
         AcceptItemFunction = HolzwagenAccept,  /* Bett gesperrt: nur Taschen, kein loser Loot */
         WorldStaticModel = wagenFass,
-        RequiresEquippedBothHands = TRUE,
+        StaticModel      = wagenFass,
+        ReplaceInPrimaryHand = wagenFass holdingtrolleyright,
+        ReplaceInSecondHand  = wagenFass holdingtrolleyleft,
         RunSpeedModifier = 0.75,
         Tags             = Holzwagen;HolzwagenFass,
         Icon             = Crate,
