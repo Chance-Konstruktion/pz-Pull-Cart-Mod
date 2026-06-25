@@ -6,8 +6,8 @@ module Base
     model wagenFass
     {
         mesh = holzwagen_fass, texture = holzwagen_tex, scale = 0.006,
-        /* Lage wie bei T1/T2: 90 Grad drehen + ~1,2 m nach hinten. Tuning-Werte. */
-        attachment world { offset = 0.0 0.0 -1.2, rotate = 0.0 90.0 0.0, }
+        /* In-Hand-Lage (eigene Kategorie) wie bei T1/T2: 90 Grad um eigene Achse. */
+        attachment Bip01_Prop1 { offset = 0.0 0.0 0.0, rotate = 0.0 0.0 90.0, }
     }
 
     /* =========================================================

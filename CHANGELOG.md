@@ -8,10 +8,14 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 ## [Unreleased]
 
 ### Fixed
-- **Modell-Lage in der Hand/am Boden.** Alle drei Wagen-Modelle (wagenT1/T2/Fass)
-  haben jetzt einen `attachment world`-Block (`rotate = 0 90 0`, `offset =
-  0 0 -1.2`) – Wagen ist 90° gedreht und sitzt hinter der Figur. Reine
-  Tuning-Werte (Drehrichtung über Vorzeichen yaw, Abstand über offset).
+- **Modell-Lage getrennt: Hand vs. Boden.** Die sinnfreie Map-Platzierungs-
+  Verschiebung (`attachment world`) wurde zurückgenommen (Boden = Standard).
+  Die In-Hand-Lage ist eine eigene Kategorie und wird jetzt über
+  `attachment Bip01_Prop1` (`rotate = 0 0 90`, 90° um die eigene Achse)
+  gesteuert. Drehrichtung über Vorzeichen roll (90 ↔ -90).
+- **Ladefläche öffnen.** Neue Kontextoption „Ladefläche öffnen" am Wagen
+  (in der Hand, im Inventar und am 3D-Modell auf der Map) öffnet den
+  Container im Beute-/Loot-Fenster. Defensiv ge-guarded.
 - **Fasswagen startete halb voll.** Der initiale `Fluids{}`-Inhalt wurde
   entfernt – das Fass startet jetzt leer und nimmt Fluids beim Befüllen an.
 - **T1/T2-Ladefläche / Platzierung auf der Map.** Ein gecrafteter Wagen wird
