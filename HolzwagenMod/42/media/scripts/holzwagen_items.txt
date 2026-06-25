@@ -22,12 +22,12 @@ module Base
     model wagenT1
     {
         mesh = holzwagen_t1, texture = holzwagen_tex, scale = 0.006,
-        attachment Bip01_Prop1 { offset = 0.0 0.0 0.0, rotate = 0.0 90.0 0.0, }
+        attachment Bip01_Prop1 { offset = 0.0 0.0 -1.7, rotate = 0.0 90.0 0.0, }
     }
     model wagenT2
     {
         mesh = holzwagen_t2, texture = holzwagen_tex, scale = 0.006,
-        attachment Bip01_Prop1 { offset = 0.0 0.0 0.0, rotate = 0.0 90.0 0.0, }
+        attachment Bip01_Prop1 { offset = 0.0 0.0 -1.7, rotate = 0.0 90.0 0.0, }
     }
 
     /* =========================================================

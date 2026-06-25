@@ -128,8 +128,10 @@ sonst sieht jede Stufe anders aus.
 ---
 
 ## 5. Bekannte Design-Grenzen
-- B42 deckelt Item-Container hart bei 50. Das „Ladevolumen" läuft daher über die
-  4 seitlichen Taschen-Slots (Rucksäcke im Wagen), nicht über rohe Capacity.
+- B42 deckelt die **Script**-Capacity hart bei 50. Das echte Ladevolumen wird
+  daher **zur Laufzeit** gesetzt – in `42/media/lua/shared/Holzwagen_Core.lua`,
+  Tabelle `HW.cartCapacity` (aktuell T1 = 200, T2 = 200, Fasswagen = 30). Diese
+  Zahl einfach ändern, um das Volumen zu justieren (Spiel neu starten).
 - Modell-Maßstab im `model`-Block: `scale = 0.001` (PZ liest die FBX-Einheiten
   des in Metern gebauten Wagens nicht als Meter). Bei Bedarf fein justieren.
 - Echtes Material-/Skill-Balancing folgt nach dem Test (Rezepte aktuell im

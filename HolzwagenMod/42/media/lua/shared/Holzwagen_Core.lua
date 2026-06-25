@@ -62,8 +62,8 @@ end
 -- ---------- Ladeflaechen-Volumen ----------
 -- B42 deckelt die Script-Capacity hart; darum zur Laufzeit setzen.
 HW.cartCapacity = {
-    Holzwagen_T1        = 60,
-    Holzwagen_T2        = 80,
+    Holzwagen_T1        = 200,
+    Holzwagen_T2        = 200,
     Holzwagen_Fasswagen = 30,
 }
 
