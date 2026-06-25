@@ -1,11 +1,14 @@
 module Base
 {
     /* B42-craftRecipe, ausgerichtet am Vanilla-Format (MakeWoodenToolbox/
-       MakeWoodenBucket aus recipes_carpentry.txt). Werkzeug-Tags MUESSEN das
-       base:-Praefix nutzen (tags[base:hammer]/[base:saw]), sonst wird das
-       Werkzeug nicht erkannt und der Craft committet nicht.
-       Skill-Gating bewusst noch aus (Testrunde) - kommt nach bestaetigtem
-       Craften als faire Woodwork-Stufung zurueck. */
+       recipes_carpentry.txt). Werkzeug-Tags MUESSEN das base:-Praefix nutzen
+       (tags[base:hammer]/[base:saw]), sonst wird das Werkzeug nicht erkannt und
+       der Craft committet nicht.
+
+       TEST-MODUS (bewusst billig): jedes Rezept braucht nur 1 Baumstamm + Werkzeug
+       und Woodwork 1, damit das Craften schnell durchgetestet werden kann. Das
+       echte Material-/Skill-Balancing kommt danach - das sind reine Zahlen im
+       Rezeptbaum ohne Code-Einfluss. */
 
     craftRecipe Holzwagen_WagenkastenT1
     {
@@ -13,12 +16,12 @@ module Base
         time = 120,
         Tags = AnySurfaceCraft;Carpentry,
         category = Carpentry,
+        SkillRequired = Woodwork:1,
+        xpAward = Woodwork:10,
         inputs
         {
             item 1 tags[base:hammer] mode:keep flags[MayDegradeVeryLight],
-            item 15 [Base.Plank] flags[Prop2],
-            item 30 [Base.Nails],
-            item 2 [Base.Holzwagen_RadT1],
+            item 1 [Base.Log] flags[Prop2],
         }
         outputs
         {
@@ -32,12 +35,12 @@ module Base
         time = 120,
         Tags = AnySurfaceCraft;Carpentry,
         category = Carpentry,
+        SkillRequired = Woodwork:1,
+        xpAward = Woodwork:10,
         inputs
         {
             item 1 tags[base:hammer] mode:keep flags[MayDegradeVeryLight],
-            item 12 [Base.Plank] flags[Prop2],
-            item 24 [Base.Nails],
-            item 2 [Base.Holzwagen_RadT2],
+            item 1 [Base.Log] flags[Prop2],
         }
         outputs
         {
@@ -51,11 +54,12 @@ module Base
         time = 100,
         Tags = AnySurfaceCraft;Carpentry,
         category = Carpentry,
+        SkillRequired = Woodwork:1,
+        xpAward = Woodwork:10,
         inputs
         {
             item 1 tags[base:hammer] mode:keep flags[MayDegradeVeryLight],
-            item 1 [Base.Holzwagen_T1],
-            item 2 [Base.Holzwagen_RadT2],
+            item 1 [Base.Holzwagen_T1] flags[Prop2],
         }
         outputs
         {
@@ -69,6 +73,8 @@ module Base
         time = 60,
         Tags = AnySurfaceCraft;Carpentry,
         category = Carpentry,
+        SkillRequired = Woodwork:1,
+        xpAward = Woodwork:10,
         inputs
         {
             item 1 tags[base:saw;base:smallsaw;base:crudesaw] mode:keep flags[MayDegradeLight],
@@ -86,11 +92,12 @@ module Base
         time = 80,
         Tags = AnySurfaceCraft;Carpentry,
         category = Carpentry,
+        SkillRequired = Woodwork:1,
+        xpAward = Woodwork:10,
         inputs
         {
             item 1 tags[base:saw;base:smallsaw;base:crudesaw] mode:keep flags[MayDegradeLight],
             item 1 [Base.Log] flags[Prop2],
-            item 6 [Base.Nails],
         }
         outputs
         {
@@ -104,10 +111,11 @@ module Base
         time = 90,
         Tags = AnySurfaceCraft;Carpentry,
         category = Carpentry,
+        SkillRequired = Woodwork:1,
+        xpAward = Woodwork:10,
         inputs
         {
             item 1 [Base.Holzwagen_Speichengestell] flags[Prop2],
-            item 2 [Base.SheetMetal],
         }
         outputs
         {
