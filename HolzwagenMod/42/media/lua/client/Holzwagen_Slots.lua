@@ -15,12 +15,23 @@ end
 -- ist das Item eine Tasche/Rucksack? (zentrale Definition in Holzwagen_Main)
 local isBag = HW.isBagItem
 
+-- Container eines Wagens robust holen (getInventory kann je nach Item-Klasse
+-- fehlen -> dann sauber abbrechen statt zu crashen).
+local function cartInventory(cart)
+    if not cart or not cart.getInventory then
+        print("[Holzwagen] FEHLER: Wagen hat keinen Container (getInventory fehlt).")
+        return nil
+    end
+    return cart:getInventory()
+end
+
 -- Tasche aus dem Spieler-Inventar in einen Wagen-Slot legen
 function HW.attachBag(player, cart, slotIndex, bag)
+    if not (player and cart and bag) then return end
     if slotIndex > slotCount(cart) then return end
-    local dst = cart:getInventory()
+    local dst = cartInventory(cart)
     if not dst then return end
-    local from = bag:getContainer() or player:getInventory()
+    local from = (bag.getContainer and bag:getContainer()) or player:getInventory()
     -- sauber als TimedAction transferieren (greifbare Aktion im Spiel)
     ISTimedActionQueue.add(ISInventoryTransferAction:new(player, bag, from, dst))
     local md = cart:getModData()
@@ -32,7 +43,7 @@ end
 function HW.detachBag(player, cart, slotIndex)
     local md = cart:getModData()
     if not (md.bags and md.bags[slotIndex]) then return end
-    local src = cart:getInventory()
+    local src = cartInventory(cart)
     local bag = src and src:getFirstTypeRecurse(md.bags[slotIndex]) or nil
     if bag then
         ISTimedActionQueue.add(ISInventoryTransferAction:new(player, bag, src, player:getInventory()))
@@ -44,7 +55,7 @@ end
 function HW.swapContents(player, cart, slotIndex)
     local md = cart:getModData()
     if not (md.bags and md.bags[slotIndex]) then return end
-    local cartInv = cart:getInventory()
+    local cartInv = cartInventory(cart)
     local slotBag = cartInv and cartInv:getFirstTypeRecurse(md.bags[slotIndex]) or nil
     local worn = player.getClothingItem_Back and player:getClothingItem_Back() or nil
     if not (slotBag and worn) then return end
