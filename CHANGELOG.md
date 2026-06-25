@@ -36,6 +36,10 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 - Dev-Doku nach `docs/` verschoben, Blender-Skript nach `tools/`.
 
 ### Fixed
+- **Modell ~1000x zu groß korrigiert.** `scale` der Weltmodelle von `1.0` auf
+  `0.001` gesetzt. PZ interpretiert die FBX-Einheiten des in echten Metern
+  gebauten Wagens (~2,2 m) nicht als Meter; bei `1.0` erschien er riesig.
+  Feintuning über den `scale`-Wert in `holzwagen_items.txt`/`_fasswagen.txt`.
 - **Modell unsichtbar / durchsichtiger Platzhalter behoben.** Der Textur-Atlas
   `holzwagen_tex.png` war zu 99 % vollständig transparent (Alpha-Kanal komplett
   auf 0, RGB-Farben aber vorhanden). PZ rendert Weltmodelle mit Alpha 0
