@@ -58,6 +58,34 @@ local function setCartMask(playerObj)
     playerObj:setVariable("LeftHandMask", "holdingtrolleyleft")
 end
 
+-- Schiebe-Pose anhand des aktuell gehaltenen Items aktualisieren.
+-- Mechanik wie in der Community-AnimAPI: ueber die Equip-Events gesetzt (sofort,
+-- MP-sicher), statt nur per OnTick-Polling. Gibt true zurueck, wenn ein Wagen
+-- in der Hand ist.
+local function refreshCartPose(playerObj)
+    if not playerObj then return false end
+    local trol = playerObj:getPrimaryHandItem()
+    local hasCart = trol and cartCanEquip(trol:getFullType())
+    local maskSet = playerObj:getVariableString("righthandmask") == "holdingtrolleyright"
+    if hasCart and not maskSet then
+        setCartMask(playerObj)
+    elseif maskSet and not hasCart then
+        playerObj:setPrimaryHandItem(nil)
+        playerObj:setSecondaryHandItem(nil)
+        playerObj:setVariable("RightHandMask", "")
+        playerObj:setVariable("LeftHandMask", "")
+    end
+    return hasCart == true
+end
+HW.refreshCartPose = refreshCartPose
+
+-- Sofort auf Equip reagieren (AnimAPI-Prinzip): kein Warten auf den naechsten Tick.
+local function onCartEquip(character, item)
+    if character then refreshCartPose(character) end
+end
+Events.OnEquipPrimary.Add(onCartEquip)
+Events.OnEquipSecondary.Add(onCartEquip)
+
 -- Wagen aus der Welt aufnehmen + anschirren
 HW.equipCartFromWorld = function(playerObj, WItem)
     if not (WItem:getSquare() and luautils.walkAdj(playerObj, WItem:getSquare())) then return end
@@ -132,26 +160,13 @@ local function equipCartFromInventory(playerObj, item)
     end
 end
 
--- ---------- Tick: Schiebe-Pose setzen/aufraeumen ----------
+-- ---------- Tick: Schiebe-Pose als Backstop ----------
+-- Primär laufen die Equip-Events (oben). Der Tick fängt Sonderfälle ab
+-- (z. B. Pose via Lua gesetzt, ohne dass ein Equip-Event feuerte).
 local function onCartTick()
     local playersSum = getNumActivePlayers()
     for playerNum = 0, playersSum - 1 do
-        local playerObj = getSpecificPlayer(playerNum)
-        if playerObj then
-            local trol = playerObj:getPrimaryHandItem()
-            local hasCart = trol and cartCanEquip(trol:getFullType())
-            local maskSet = playerObj:getVariableString("righthandmask") == "holdingtrolleyright"
-            if hasCart and not maskSet then
-                -- Wagen in der Hand (z. B. via "E" ausgeruestet) -> Schiebe-Pose an
-                setCartMask(playerObj)
-            elseif maskSet and not hasCart then
-                -- Maske noch da, aber kein Wagen mehr -> aufraeumen
-                playerObj:setPrimaryHandItem(nil)
-                playerObj:setSecondaryHandItem(nil)
-                playerObj:setVariable("RightHandMask", "")
-                playerObj:setVariable("LeftHandMask", "")
-            end
-        end
+        refreshCartPose(getSpecificPlayer(playerNum))
     end
 end
 Events.OnTick.Add(onCartTick)
