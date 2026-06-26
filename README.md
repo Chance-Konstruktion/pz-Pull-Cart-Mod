@@ -1,6 +1,6 @@
 # 🛒 Holzwagen – Pull Cart für Project Zomboid
 
-Ein **ziehbarer** einachsiger Holzwagen für **Build 42** – inspiriert von Valheim.
+Ein **ziehbarer** einachsiger Holzwagen für **Build 42**.
 Schluss damit, 50 kg Beute einzeln nach Hause zu schleppen.
 
 > **Status:** funktionsfähig & lädt sauber in B42 42.19 · in aktiver Entwicklung
