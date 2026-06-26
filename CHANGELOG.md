@@ -8,6 +8,15 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 ## [Unreleased]
 
 ### Added
+- **Fasswagen-Flüssigkeitsmechanik.** Neue Module `shared/Holzwagen_Fluid.lua`
+  (gekapselte FluidContainer-Helfer, MP-tauglich) und
+  `client/Holzwagen_FassActions.lua` (Kontextmenü). Am Fasswagen (in der Hand
+  oder am Boden) gibt es jetzt ein Untermenü **„Fass (Menge/Kapazität)"** mit:
+  *Mit Wasser füllen* (nur an See/Fluss in der Nähe), *Fass leeren*, sowie
+  *Behälter ins Fass leeren* / *Aus Fass in Behälter* mit einem gehaltenen
+  Flüssigkeits-Behälter. Alle Fluid-API-Aufrufe sind defensiv gekapselt – fehlt
+  ein API-Name in der B42-Version, bricht die Aktion sauber ab und meldet
+  `[Holzwagen][Fluid]` in der Konsole, statt zu crashen.
 - **Rollgeräusch + Zombie-Aufmerksamkeit beim Schieben.** Neuer Client-Code
   `Holzwagen_CartSound.lua`: bewegt sich der Spieler mit ausgerüstetem Wagen,
   entsteht ein World-Sound (Zombies hören ihn) plus optionales Roll-Geräusch.
