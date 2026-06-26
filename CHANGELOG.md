@@ -8,6 +8,12 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 ## [Unreleased]
 
 ### Added
+- **Schlauch als Fasswagen-Werkzeug + alle Flüssigkeiten.** Das Fass nimmt
+  jeden Fluid (keine Whitelist). Befüllen/Umfüllen geht nur noch mit einem
+  **Schlauch** (im Schlauch-Slot des Fasses oder im Inventar); *Leeren* geht
+  immer. Das Fass-Bett akzeptiert jetzt auch den Schlauch (`HolzwagenAccept`).
+  Fasswagen hat dadurch **3 Taschen + 1 Schlauch-Slot** (`tiers.FASS.bagSlots = 3`,
+  `hoseSlot = true`). Schalter: `HolzwagenConfig.fass.requiresHose`.
 - **Fasswagen-Flüssigkeitsmechanik.** Neue Module `shared/Holzwagen_Fluid.lua`
   (gekapselte FluidContainer-Helfer, MP-tauglich) und
   `client/Holzwagen_FassActions.lua` (Kontextmenü). Am Fasswagen (in der Hand
