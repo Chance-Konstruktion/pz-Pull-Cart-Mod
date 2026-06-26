@@ -1,6 +1,6 @@
 # Holzwagen - Pull Cart for Project Zomboid (Build 42)
 
-A realistic **pullable one-axle wooden cart** inspired by Valheim. Finally stop carrying everything on your back!
+A realistic **pullable one-axle wooden cart**. Finally stop carrying everything on your back!
 
 > **Status:** working & loads cleanly on B42 42.19 · actively developed
 > 🇩🇪 Deutsche Version: [README.md](README.md)
