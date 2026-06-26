@@ -22,7 +22,15 @@ HolzwagenConfig.weightSpeed = {
 HolzwagenConfig.tiers = {
     T1   = { capacity = 150, bagSlots = 4 },
     T2   = { capacity = 300, bagSlots = 4 },
-    FASS = { capacity = 0,   bagSlots = 4, fluid = 450, bedLocked = true },  -- Fass belegt das Bett
+    -- Fasswagen: nur 3 Taschen, der 4. Slot ist fuer den Schlauch reserviert.
+    FASS = { capacity = 0, bagSlots = 3, hoseSlot = true, fluid = 450, bedLocked = true },
+}
+
+-- Fasswagen-Flüssigkeitsregeln.
+HolzwagenConfig.fass = {
+    -- true = Befüllen/Umfüllen geht nur mit einem Schlauch (im Schlauch-Slot
+    -- des Fasses oder im Spieler-Inventar). Leeren (Ablassen) geht immer.
+    requiresHose = true,
 }
 
 -- Fallback-Schalter (siehe VERIFY im Fasswagen-Skript):

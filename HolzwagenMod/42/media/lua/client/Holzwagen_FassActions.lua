@@ -5,9 +5,11 @@
 
 require "Holzwagen_Core"
 require "Holzwagen_Fluid"
+require "Holzwagen_Config"
 
-local HW = Holzwagen
-local F  = HW.Fluid
+local HW  = Holzwagen
+local F   = HW.Fluid
+local CFG = HolzwagenConfig
 
 -- ---------- Hilfen ----------
 
@@ -84,29 +86,46 @@ local function buildFassMenu(playerObj, context, fasswagen)
         sub
     )
 
-    -- Füllen (nur an Wasserquelle und wenn Platz)
+    -- Schlauch-Pflicht (Befüllen/Umfüllen). Leeren geht immer.
+    local needHose = not (CFG.fass and CFG.fass.requiresHose == false)
+    local hasHose  = HW.findSchlauch(playerObj, fasswagen) ~= nil
+
+    local function gateHose(opt)
+        if needHose and not hasHose then
+            opt.notAvailable = true
+            local tip = ISToolTip:new()
+            tip:initialise(); tip:setVisible(false)
+            tip.description = "Schlauch benötigt (in den Schlauch-Slot des Fasses legen)."
+            opt.toolTip = tip
+        end
+    end
+
+    -- Füllen (nur an Wasserquelle und wenn Platz) – Schlauch nötig.
     local fillOpt = sub:addOption("Mit Wasser füllen", playerObj, doFill, fasswagen)
-    if F.isFull(fc) or not nearWater(playerObj) then
+    if F.isFull(fc) then
+        fillOpt.notAvailable = true
+    elseif not nearWater(playerObj) then
         fillOpt.notAvailable = true
         local tip = ISToolTip:new()
         tip:initialise(); tip:setVisible(false)
-        tip.description = F.isFull(fc) and "Tank ist voll."
-                          or "Keine Wasserquelle (See/Fluss) in der Nähe."
+        tip.description = "Keine Wasserquelle (See/Fluss) in der Nähe."
         fillOpt.toolTip = tip
+    else
+        gateHose(fillOpt)
     end
 
-    -- Leeren
+    -- Leeren (kein Schlauch nötig)
     local emptyOpt = sub:addOption("Fass leeren", playerObj, doEmpty, fasswagen)
     if F.isEmpty(fc) then emptyOpt.notAvailable = true end
 
-    -- Umfüllen mit gehaltenem Behälter
+    -- Umfüllen mit gehaltenem Behälter (alle Flüssigkeiten) – Schlauch nötig.
     local held = heldFluidItem(playerObj, fasswagen)
     if held then
         local hfc = F.getContainer(held)
         local inOpt = sub:addOption("Behälter ins Fass leeren", playerObj, doPourIn, fasswagen, held)
-        if F.isEmpty(hfc) or F.isFull(fc) then inOpt.notAvailable = true end
+        if F.isEmpty(hfc) or F.isFull(fc) then inOpt.notAvailable = true else gateHose(inOpt) end
         local outOpt = sub:addOption("Aus Fass in Behälter", playerObj, doPourOut, fasswagen, held)
-        if F.isEmpty(fc) or F.isFull(hfc) then outOpt.notAvailable = true end
+        if F.isEmpty(fc) or F.isFull(hfc) then outOpt.notAvailable = true else gateHose(outOpt) end
     end
 end
 

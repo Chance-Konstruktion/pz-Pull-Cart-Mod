@@ -28,6 +28,30 @@ function HW.isFasswagen(cart)
     return HW.isCart(cart) and HW.cartTier(cart) == "FASS"
 end
 
+-- Ist das Item der Schlauch (Werkzeug fuer den Fasswagen)?
+function HW.isSchlauch(item)
+    return item ~= nil and item.getType ~= nil and item:getType() == "Holzwagen_Schlauch"
+end
+
+-- Ist irgendwo ein Schlauch greifbar? Erst im Fass-Bett (Schlauch-Slot),
+-- sonst im Spieler-Inventar. Gibt das Schlauch-Item oder nil zurueck.
+function HW.findSchlauch(playerObj, fasswagen)
+    local inv = fasswagen and fasswagen.getInventory and fasswagen:getInventory()
+    if inv and inv.getItems then
+        local items = inv:getItems()
+        for i = 0, items:size() - 1 do
+            local it = items:get(i)
+            if HW.isSchlauch(it) then return it end
+        end
+    end
+    local pinv = playerObj and playerObj:getInventory()
+    if pinv and pinv.getFirstTypeRecurse then
+        local s = pinv:getFirstTypeRecurse("Holzwagen_Schlauch")
+        if s then return s end
+    end
+    return nil
+end
+
 -- Welche Raeder sind verbaut? In modData gespeichert (Default aus Config).
 function HW.wheelTier(cart)
     local md = cart:getModData()
@@ -85,7 +109,8 @@ end
 function HolzwagenAccept(container, item)
     local cart = container and container.getContainingItem and container:getContainingItem()
     if cart and HW.bedLocked(cart) then
-        return HW.isBagItem(item)
+        -- Fass-Bett: nur Taschen ODER der Schlauch (haengt im Schlauch-Slot).
+        return HW.isBagItem(item) or HW.isSchlauch(item)
     end
     return true
 end
