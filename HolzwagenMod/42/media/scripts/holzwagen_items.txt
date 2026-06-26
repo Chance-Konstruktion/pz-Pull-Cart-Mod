@@ -29,6 +29,14 @@ module Base
         mesh = holzwagen_t2, texture = holzwagen_tex, scale = 0.007,
         attachment Bip01_Prop1 { offset = -1.4 0.0 0.0, rotate = 0.0 90.0 0.0, }
     }
+    /* TEST: T2 mit gerigten, drehenden Raedern (Animation aus holzwagen_t2_anim.fbx).
+       Wird unten testweise in item Holzwagen_T2 statt wagenT2 verwendet.
+       Wenn PZ die Animation NICHT abspielt -> wieder auf wagenT2 zurueckstellen. */
+    model wagenT2anim
+    {
+        mesh = holzwagen_t2_anim, texture = holzwagen_tex, scale = 0.007,
+        attachment Bip01_Prop1 { offset = -1.4 0.0 0.0, rotate = 0.0 90.0 0.0, }
+    }
 
     /* =========================================================
        WAGEN ALS AUSRUESTBARES CONTAINER-ITEM (Schiebe-Prinzip)
@@ -71,10 +79,12 @@ module Base
         CloseSound       = CloseBag,
         OpenSound        = OpenBag,
         PutInSound       = PutItemInBag,
-        WorldStaticModel = wagenT2,
-        StaticModel      = wagenT2,
-        ReplaceInPrimaryHand = wagenT2 holdingtrolleyright,
-        ReplaceInSecondHand  = wagenT2 holdingtrolleyleft,
+        /* TEST drehende Raeder: wagenT2anim statt wagenT2. Zum Zurueckstellen
+           einfach ueberall "anim" entfernen. */
+        WorldStaticModel = wagenT2anim,
+        StaticModel      = wagenT2anim,
+        ReplaceInPrimaryHand = wagenT2anim holdingtrolleyright,
+        ReplaceInSecondHand  = wagenT2anim holdingtrolleyleft,
         RunSpeedModifier = 0.90,
         Tags             = Holzwagen;HolzwagenT2,
         Icon             = Crate,

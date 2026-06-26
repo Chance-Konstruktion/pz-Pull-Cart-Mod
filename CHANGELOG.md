@@ -8,11 +8,14 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 ## [Unreleased]
 
 ### Added
-- **Experiment: gerigte, drehende Räder (Blender-Test).** Neues Skript
+- **Experiment: gerigte, drehende Räder (Blender-Test) – einbaufertig.** Skript
   `tools/holzwagen_wheels_rig.py` baut einen Wagen mit separaten, an einen
-  Achs-Bone gebundenen Rädern + 360°-Dreh-Animation und exportiert ein
-  animiertes FBX. Anleitung `tools/RAEDER_TEST.md`. Zweck: empirisch testen, ob
-  PZ B42 die Animation eines angehefteten Hand-Modells überhaupt abspielt.
+  Achs-Bone gebundenen Rädern + 360°-Dreh-Animation. Das **animierte FBX wurde
+  bereits headless erzeugt** (`models_X/holzwagen_t2_anim.fbx`, Action
+  `WheelSpin`, Bones Root+Wheel) und **T2 testweise darauf verdrahtet** – nur
+  Spiel starten und schieben. Anleitung `tools/RAEDER_TEST.md`. Zweck: empirisch
+  klären, ob PZ B42 die Animation eines angehefteten Hand-Modells abspielt.
+  (Zurückstellen: `wagenT2anim` → `wagenT2` im Item.)
 - **Schieben blockiert Klettern & Türen + V-Taste + Anschirr-Ladezeit.**
   Solange ein Wagen geschoben wird, kann man nicht mehr über Zäune/Mauern
   klettern, durch Fenster steigen oder Türen öffnen/schließen
