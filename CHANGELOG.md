@@ -16,6 +16,10 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
   Spiel starten und schieben. Anleitung `tools/RAEDER_TEST.md`. Zweck: empirisch
   klären, ob PZ B42 die Animation eines angehefteten Hand-Modells abspielt.
   (Zurückstellen: `wagenT2anim` → `wagenT2` im Item.)
+- **Schiebe-Pose über Equip-Events (AnimAPI-Prinzip).** Die Hand-Masken
+  (`RightHandMask`/`LeftHandMask`) werden jetzt sofort über `OnEquipPrimary`/
+  `OnEquipSecondary` gesetzt/geräumt statt nur per OnTick-Polling – responsiver
+  und MP-sicher, ohne externe Framework-Abhängigkeit. OnTick bleibt als Backstop.
 - **Schieben blockiert Klettern & Türen + V-Taste + Anschirr-Ladezeit.**
   Solange ein Wagen geschoben wird, kann man nicht mehr über Zäune/Mauern
   klettern, durch Fenster steigen oder Türen öffnen/schließen
