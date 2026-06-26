@@ -30,6 +30,24 @@ HolzwagenConfig.tiers = {
 -- werden die Fasswagen-Taschen an einem separaten versteckten Container gehalten.
 HolzwagenConfig.fassUsesSeparateBagContainer = false
 
+-- ---------- Geraeusche / Zombie-Aufmerksamkeit ----------
+-- Beim Schieben rollt der Wagen hoerbar UND erzeugt einen "World-Sound", den
+-- Zombies wahrnehmen. T1 (Vollholzraeder) ist deutlich lauter als T2
+-- (Speichenraeder) -> T1 lockt Zombies frueher an.
+HolzwagenConfig.sound = {
+    enabled    = true,
+    -- Radius in Kacheln, in dem Zombies das Rollen hoeren (groesser = frueher).
+    noiseRadius = { T1 = 20, T2 = 8,  FASS = 15 },
+    -- Lautstaerke 0..100 des World-Sounds (beeinflusst, wie stark es zieht).
+    noiseVolume = { T1 = 70, T2 = 25, FASS = 50 },
+    -- Hoerbares Roll-Geraeusch (Sound-Name aus den Spiel-Banks). "" = stumm.
+    -- Falls der Name nicht existiert, passiert nichts (kein Crash) -> hier
+    -- einfach einen anderen Bank-Namen eintragen.
+    rollSound  = "FootstepWoodWalk",
+    -- Mindestabstand zwischen zwei Geraeusch-Ausstoessen in Millisekunden.
+    intervalMs = 650,
+}
+
 -- Tag, an dem die Logik den Wagen erkennt.
 HolzwagenConfig.cartTag = "Holzwagen"
 

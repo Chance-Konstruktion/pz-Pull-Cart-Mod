@@ -7,6 +7,14 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+### Added
+- **Rollgeräusch + Zombie-Aufmerksamkeit beim Schieben.** Neuer Client-Code
+  `Holzwagen_CartSound.lua`: bewegt sich der Spieler mit ausgerüstetem Wagen,
+  entsteht ein World-Sound (Zombies hören ihn) plus optionales Roll-Geräusch.
+  **T1 deutlich lauter als T2** (Vollholzräder vs. Speichenräder), Fass dazwischen.
+  Alle Werte (Radius/Lautstärke/Sound-Name/Intervall) in
+  `Holzwagen_Config.lua` → `HolzwagenConfig.sound`.
+
 ### Changed
 - **Hand-Modell 1,7 m nach hinten verschoben** (`attachment Bip01_Prop1`,
   `offset 0 0 -1.7` für T1/T2/Fass), damit der Char nicht hinter dem Wagen steht.
