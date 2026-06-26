@@ -179,6 +179,11 @@ FPS=30; FRAMES=24                      # 24 Frames = sauberer 360-Grad-Loop
 bpy.context.scene.render.fps=FPS
 bpy.context.scene.frame_start=1
 bpy.context.scene.frame_end=FRAMES
+# Neue Keyframes gleich LINEAR anlegen (gleichmaessiges Drehen), versionssicher
+try:
+    bpy.context.preferences.edit.keyframe_new_interpolation_type = 'LINEAR'
+except Exception as e:
+    print("Hinweis: Keyframe-Voreinstellung nicht setzbar:", e)
 bpy.ops.object.mode_set(mode='POSE')
 pb = arm.pose.bones["Wheel"]
 pb.rotation_mode='XYZ'
@@ -187,11 +192,13 @@ def key(frame, deg):
     pb.rotation_euler=(0.0, math.radians(deg), 0.0)   # um lokale Y = Achsachse
     pb.keyframe_insert(data_path="rotation_euler", frame=frame)
 key(1, 0); key(FRAMES+1, 360)         # 0 -> 360 Grad
-# lineare Interpolation, damit es gleichmaessig dreht
+# Falls die Action-API fcurves bereitstellt (aeltere Blender): zusaetzlich setzen
 act = arm.animation_data.action
-for fc in act.fcurves:
-    for kp in fc.keyframe_points: kp.interpolation='LINEAR'
-arm.animation_data.action.name="WheelSpin"
+if act is not None:
+    act.name = "WheelSpin"
+    if hasattr(act, "fcurves"):
+        for fc in act.fcurves:
+            for kp in fc.keyframe_points: kp.interpolation='LINEAR'
 bpy.ops.object.mode_set(mode='OBJECT')
 
 # ---------------- Export: FBX MIT Armature + Animation ----------------
@@ -202,7 +209,7 @@ fbx=os.path.join(outdir,"holzwagen_t2_anim.fbx")
 bpy.ops.export_scene.fbx(
     filepath=fbx, use_selection=True, apply_unit_scale=True,
     object_types={'MESH','ARMATURE'}, add_leaf_bones=False,
-    bake_anim=True, bake_anim_use_all_actions=False,
+    bake_anim=True, bake_anim_use_all_actions=True,
     bake_anim_force_startend_keying=True, bake_anim_step=1.0,
 )
 print("Animiertes Modell exportiert:", fbx)
