@@ -154,3 +154,16 @@ Zombies früher an. Alle Werte stehen in
 Umbau aus dem T2-Wagen (`scripts/holzwagen_fasswagen.txt`). Das Fass ist fest
 verbaut (450er Fluid-Tank). Bett vom Fass belegt – **keine lose Ladung**, aber
 weiterhin **4 Taschen-Slots** seitlich. Rückbau zu T2 möglich.
+
+**Bedienung (Rechtsklick auf den Fasswagen, in der Hand oder am Boden):**
+Untermenü **„Fass (Menge/Kapazität)"** mit:
+- **Mit Wasser füllen** – nur möglich, wenn du an einem See/Fluss stehst.
+- **Fass leeren** – lässt den Inhalt ab.
+- **Behälter ins Fass leeren** / **Aus Fass in Behälter** – wenn du einen
+  Flüssigkeits-Behälter (Flasche/Kanister) in der Hand hältst, kannst du in
+  beide Richtungen umfüllen.
+
+> Hinweis: Die Flüssigkeits-Funktionen nutzen die B42-FluidContainer-API. Falls
+> in deiner Build-Version ein Funktionsname abweicht, bricht die Aktion sauber ab
+> und schreibt `[Holzwagen][Fluid]` in die Konsole – dann sag Bescheid, dann
+> passen wir den einen Namen an.
