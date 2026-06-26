@@ -5,9 +5,11 @@
 -- setzt sie beim Ausruesten. MP-sicher (lokaler Spieler).
 
 require "Holzwagen_Core"
+require "Holzwagen_Config"
 require "TimedActions/ISTakeHolzwagen"
 
-local HW = Holzwagen
+local HW  = Holzwagen
+local CFG = HolzwagenConfig
 
 -- Volltypen unserer Wagen (Base.Holzwagen_T1 etc.)
 local CART_FULLTYPES = {}
@@ -88,6 +90,28 @@ HW.equipCartFromWorld = function(playerObj, WItem)
     end
 end
 
+-- Wagen vom Boden anschirren MIT Ladezeit (Anschirr-Animation), statt sofort.
+-- Legt zuerst einen evtl. gehaltenen Wagen ab, läuft hin und reiht die
+-- Timed Action ISTakeHolzwagen ein (Maske wird in deren perform() gesetzt).
+HW.takeCartFromWorld = function(playerObj, WItem)
+    if not (playerObj and WItem and WItem:getSquare()) then return end
+
+    -- gehaltenen Wagen vorher ablegen
+    local primaryItem = playerObj:getPrimaryHandItem()
+    if primaryItem and cartCanEquip(primaryItem:getFullType()) then
+        dropCartAtPlayerPosition(playerObj, primaryItem)
+    end
+
+    if not luautils.walkAdj(playerObj, WItem:getSquare()) then return end
+
+    local t = (CFG.handling and CFG.handling.equipTime) or 60
+    if t and t > 0 then
+        ISTimedActionQueue.add(ISTakeHolzwagen:new(playerObj, WItem, t))
+    else
+        HW.equipCartFromWorld(playerObj, WItem)
+    end
+end
+
 -- Wagen aus dem Inventar anschirren
 local function equipCartFromInventory(playerObj, item)
     local primaryItem = playerObj:getPrimaryHandItem()
@@ -156,7 +180,7 @@ Events.OnPlayerUpdate.Add(autoDropLooseCarts)
 -- E mit Wagen in der Hand -> abstellen. E neben einem Wagen am Boden -> schieben.
 -- Vergleicht gegen die echte Interact-Belegung (getCore) UND fest E als Fallback.
 local function isInteractKey(key)
-    if Keyboard and key == Keyboard.KEY_E then return true end
+    if Keyboard and (key == Keyboard.KEY_E or key == Keyboard.KEY_V) then return true end
     local core = getCore and getCore()
     if core and core.getKey then
         if key == core:getKey("Interact") then return true end
@@ -188,7 +212,7 @@ local function onCartKey(key)
                 for i = 0, objList:size() - 1 do
                     local wo = objList:get(i)
                     if wo and wo:getItem() and cartCanEquip(wo:getItem():getFullType()) then
-                        HW.equipCartFromWorld(playerObj, wo)
+                        HW.takeCartFromWorld(playerObj, wo)
                         return
                     end
                 end
@@ -239,7 +263,7 @@ local function cartInventoryContext(player, context, items)
         context:removeOptionByName(getText("ContextMenu_Grab"))
         context:addOptionOnTop("Ladefläche öffnen", playerObj, openCartContainer, item)
         if not hasCartEquipped then
-            context:addOptionOnTop("Wagen schieben", playerObj, HW.equipCartFromWorld, item:getWorldItem())
+            context:addOptionOnTop("Wagen schieben", playerObj, HW.takeCartFromWorld, item:getWorldItem())
         end
     end
 
@@ -293,7 +317,7 @@ local function cartWorldContext(player, context, worldobjects)
                     if not added then
                         context:addOptionOnTop("Ladefläche öffnen", playerObj, openCartContainer, wo:getItem())
                         if not hasCartEquipped then
-                            context:addOptionOnTop("Wagen schieben", playerObj, HW.equipCartFromWorld, wo)
+                            context:addOptionOnTop("Wagen schieben", playerObj, HW.takeCartFromWorld, wo)
                         end
                         added = true
                     end

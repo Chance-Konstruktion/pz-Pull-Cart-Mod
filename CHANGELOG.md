@@ -8,6 +8,14 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 ## [Unreleased]
 
 ### Added
+- **Schieben blockiert Klettern & Türen + V-Taste + Anschirr-Ladezeit.**
+  Solange ein Wagen geschoben wird, kann man nicht mehr über Zäune/Mauern
+  klettern, durch Fenster steigen oder Türen öffnen/schließen
+  (`client/Holzwagen_CartRestrict.lua`, hakt die `isValid()` der jeweiligen
+  Timed Actions, MP-sicher). Das Anschirren vom Boden hat jetzt eine kurze
+  **Ladezeit** (Anschirr-Animation statt sofort). **V** funktioniert jetzt
+  zusätzlich zu **E** zum Schnappen/Loslassen. Schalter:
+  `HolzwagenConfig.handling` (`equipTime`, `blockClimb`, `blockDoors`).
 - **Schlauch als Fasswagen-Werkzeug + alle Flüssigkeiten.** Das Fass nimmt
   jeden Fluid (keine Whitelist). Befüllen/Umfüllen geht nur noch mit einem
   **Schlauch** (im Schlauch-Slot des Fasses oder im Inventar); *Leeren* geht

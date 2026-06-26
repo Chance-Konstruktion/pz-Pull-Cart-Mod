@@ -104,6 +104,24 @@ HolzwagenConfig.sound = {
 
 ---
 
+## 4b. 🚪 Handhabung: Ladezeit, Klettern & Türen sperren
+
+**Datei:** `42/media/lua/shared/Holzwagen_Config.lua` → `HolzwagenConfig.handling`
+
+```lua
+HolzwagenConfig.handling = {
+    equipTime  = 60,    -- Ladezeit (Ticks) beim Anschirren vom Boden. 0 = sofort.
+    blockClimb = true,  -- beim Schieben nicht klettern/durch Fenster
+    blockDoors = true,  -- beim Schieben keine Türen öffnen/schließen
+}
+```
+
+- **equipTime** kleiner = schneller anschirren (z. B. `30`), `0` = ganz ohne Ladezeit.
+- **blockClimb / blockDoors** auf `false` setzen, um die jeweilige Sperre auszuschalten.
+
+> Bedienung: **E oder V** neben einem Wagen am Boden = anschirren (mit Ladezeit),
+> **E oder V** mit Wagen in der Hand = abstellen.
+
 ## 5. 🛢️ Fasswagen-Tank (Flüssigkeitsmenge)
 
 **Datei:** `42/media/scripts/holzwagen_fasswagen.txt` → `component FluidContainer`
