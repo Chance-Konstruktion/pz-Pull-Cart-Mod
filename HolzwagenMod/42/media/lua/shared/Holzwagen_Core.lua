@@ -24,6 +24,13 @@ function HW.cartTier(cart)
     return HW.cartTypes[cart:getType()] or "T1"
 end
 
+-- Hat der Charakter gerade einen Wagen in der Hand (= schiebt)?
+function HW.hasCartEquipped(character)
+    if not character or not character.getPrimaryHandItem then return false end
+    local it = character:getPrimaryHandItem()
+    return it ~= nil and HW.isCart(it)
+end
+
 function HW.isFasswagen(cart)
     return HW.isCart(cart) and HW.cartTier(cart) == "FASS"
 end

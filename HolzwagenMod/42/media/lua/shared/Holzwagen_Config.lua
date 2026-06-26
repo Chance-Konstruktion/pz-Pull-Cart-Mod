@@ -56,6 +56,16 @@ HolzwagenConfig.sound = {
     intervalMs = 650,
 }
 
+-- ---------- Handhabung (Tasten / Ladezeit / Blockaden) ----------
+HolzwagenConfig.handling = {
+    -- Ladezeit (in Spiel-Ticks) beim Anschirren des Wagens vom Boden.
+    -- ~50–70 ≈ kurze Anschirr-Animation. 0 = sofort.
+    equipTime = 60,
+    -- Solange ein Wagen geschoben wird:
+    blockClimb = true,  -- nicht über Zäune/Mauern klettern, nicht durch Fenster steigen
+    blockDoors = true,  -- keine Türen öffnen/schließen
+}
+
 -- Tag, an dem die Logik den Wagen erkennt.
 HolzwagenConfig.cartTag = "Holzwagen"
 
