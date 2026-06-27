@@ -51,6 +51,17 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
   `Holzwagen_Config.lua` → `HolzwagenConfig.sound`.
 
 ### Changed
+- **Animierte Räder verworfen (empirisch bestätigt).** Das geskinnte Test-Modell
+  zeigte in PZ gar keine Räder → angeheftete Hand-Prop-Modelle werden nicht
+  animiert/geskinnt dargestellt. T2 nutzt wieder das statische `wagenT2`.
+  Test-Skripte bleiben unter `tools/` dokumentiert.
+- **Kletter-/Tür-Sperre robuster.** Statt geratener Klassennamen wird jetzt beim
+  Einreihen in `ISTimedActionQueue.add` der Action-Typ-Name geprüft (Muster
+  climb/fence/vault/window/wall bzw. door/curtain). Damit werden auch
+  **Zäune** zuverlässig geblockt. isValid-Hooks der bekannten Klassen bleiben
+  als Backup.
+- **Fasswagen-Test-Rezept** wie T1 (1 Baumstamm + Hammer, Woodwork 1) für
+  schnelleres Testen (`Holzwagen_Fasswagen_Test`).
 - **Hand-Modell 1,7 m nach hinten verschoben** (`attachment Bip01_Prop1`,
   `offset 0 0 -1.7` für T1/T2/Fass), damit der Char nicht hinter dem Wagen steht.
 - **Ladevolumen T1/T2 auf 200 erhöht** (`HW.cartCapacity` in

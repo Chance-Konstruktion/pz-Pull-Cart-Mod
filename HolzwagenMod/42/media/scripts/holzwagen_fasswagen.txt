@@ -73,6 +73,28 @@ module Base
     /* =========================================================
        REZEPTE  (B42-Minimalformat, verifiziert; Skill/Tools spaeter)
        ========================================================= */
+    /* TEST-Rezept: Fasswagen direkt bauen wie der T1-Wagen (1 Baumstamm +
+       Hammer, Woodwork 1), damit er schnell testbar ist. Spaeter durch den
+       richtigen Umbau-Weg (T2 + Fass) ersetzen/ergaenzen. */
+    craftRecipe Holzwagen_Fasswagen_Test
+    {
+        timedAction = Making,
+        time = 120,
+        Tags = AnySurfaceCraft;Carpentry,
+        category = Carpentry,
+        SkillRequired = Woodwork:1,
+        xpAward = Woodwork:10,
+        inputs
+        {
+            item 1 tags[base:hammer] mode:keep flags[MayDegradeVeryLight],
+            item 1 [Base.Log] flags[Prop2],
+        }
+        outputs
+        {
+            item 1 Base.Holzwagen_Fasswagen,
+        }
+    }
+
     craftRecipe Holzwagen_Fass_Bauen
     {
         time =120,
