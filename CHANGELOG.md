@@ -51,6 +51,12 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
   `Holzwagen_Config.lua` → `HolzwagenConfig.sound`.
 
 ### Added
+- **4 Taschen-Slots (real).** Der Wagen-Container nimmt jetzt bis zu N Taschen/
+  Rucksäcke auf (T1/T2 = 4, Fasswagen = 3 + Schlauch-Slot), die ihre eigene
+  Kapazität mitbringen (genesteter Stauraum = die „Slots"). Loser Loot nur auf
+  dem offenen Bett (T1/T2), nicht am Fass. Umgesetzt in `HolzwagenAccept`
+  (shared, MP-tauglich) über Slot-Zählung; Slot-Zahl je Stufe in
+  `HolzwagenConfig.tiers[...].bagSlots`.
 - **Ladefläche >50: echter B42-Cap-Bypass.** `setCapacity()` allein reicht nicht
   (B42 blockt das Reinlegen über die Transfer-Prüfung). Neuer Client-Code
   `Holzwagen_CapacityBypass.lua` überschreibt `ISInventoryTransferAction:isValid`

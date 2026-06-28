@@ -60,6 +60,20 @@ Einfach die Zahl ändern (z. B. `300`). Höher = mehr Stauraum.
 
 ---
 
+## 2b. 🎒 Taschen-Slots (Rucksäcke im Wagen)
+
+**Datei:** `42/media/lua/shared/Holzwagen_Config.lua` → `HolzwagenConfig.tiers`
+
+```lua
+T1   = { capacity = 150, bagSlots = 4 },
+T2   = { capacity = 300, bagSlots = 4 },
+FASS = { capacity = 0, bagSlots = 3, hoseSlot = true, fluid = 450, bedLocked = true },
+```
+
+`bagSlots` = wie viele Taschen/Rucksäcke man in den Wagen hängen kann (jede bringt
+ihren eigenen Stauraum mit). Beim Fasswagen ist der 4. Slot für den **Schlauch**
+reserviert (daher 3 Taschen). Zahl ändern → Spiel neu starten.
+
 ## 3. 🏃 Tempo (wie schnell man mit dem Wagen läuft)
 
 **Datei:**
