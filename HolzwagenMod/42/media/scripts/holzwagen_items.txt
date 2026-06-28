@@ -41,13 +41,11 @@ module Base
     {
         mesh = holzwagen_t2_blur, texture = holzwagen_t2_blur, scale = 0.007,
         attachment Bip01_Prop1 { offset = -1.4 0.1 0.0, rotate = -20.0 90.0 0.0, }
-    }
-    /* Welt-/Boden-Modell von T2: Kippung um die RADACHSE ist direkt in die
-       Geometrie gebacken (tools/holzwagen_t2_blur.py, TILT_DEG) -> Handgriff
-       sinkt zu Boden, Raeder versinken NICHT. Kein attachment-world-rotate noetig. */
-    model wagenT2world
-    {
-        mesh = holzwagen_t2_blur_world, texture = holzwagen_t2_blur, scale = 0.007,
+        /* BODEN-KIPPUNG (vorne hoch / hinten runter) selbst einstellen:
+           Zeile einkommentieren und die Zahlen anpassen. Starte mit derselben
+           Yaw wie oben (mittlerer Wert 90), dann die EINE Zahl finden, die vorne
+           hoch/hinten runter kippt (probiere nacheinander a, dann c):
+        attachment world { offset = 0.0 0.0 0.0, rotate = 0.0 90.0 10.0, } */
     }
 
     /* =========================================================
@@ -91,7 +89,7 @@ module Base
         CloseSound       = CloseBag,
         OpenSound        = OpenBag,
         PutInSound       = PutItemInBag,
-        WorldStaticModel = wagenT2world,
+        WorldStaticModel = wagenT2,
         StaticModel      = wagenT2,
         ReplaceInPrimaryHand = wagenT2 holdingtrolleyright,
         ReplaceInSecondHand  = wagenT2 holdingtrolleyleft,

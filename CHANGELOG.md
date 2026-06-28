@@ -51,6 +51,12 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
   `Holzwagen_Config.lua` → `HolzwagenConfig.sound`.
 
 ### Fixed
+- **Wagen stand abgestellt auf der Seite – zurückgesetzt.** Das separate, in der
+  Geometrie gekippte Welt-Modell wurde von PZ in seiner Roh-Orientierung
+  (auf der Seite, ein Rad in der Luft) gerendert, weil ihm die Yaw-Korrektur des
+  Hand-Modells fehlte. Welt-Modell entfernt, T2 steht wieder aufrecht auf beiden
+  Rädern. Die Boden-Kippung (vorne hoch/hinten runter) ist als einkommentierbare,
+  selbst justierbare `attachment world`-Zeile im Modell vorbereitet.
 - **Fasswagen-Tank auf erreichbares Limit (140 L).** B42 deckelt Fluid-Container
   offenbar bei ~142 L (Test: nur bis 141,6 L füllbar); die 450 waren nie
   erreichbar. Tank jetzt 140 L → wird sauber voll, und ein voller Wagen ist nicht
