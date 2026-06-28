@@ -103,7 +103,11 @@ function ISTakeHolzwagen:new(character, item, time)
     o.stopOnRun = true
     o.destContainer = o.character:getInventory()
     o.maxTime = time
-    o.loopedAction = true
+    -- WICHTIG: KEIN loopedAction! Eine looped Action laeuft, bis isValid false
+    -- wird; weil der Wagen waehrend der Aktion auf der Kachel bleibt, wuerde sie
+    -- NIE enden -> Endlos-Ladebalken. Normale Aktion -> nach maxTime perform().
+    o.loopedAction = false
+    o.forceProgressBar = true
     o.transactionID = 0
     return o
 end

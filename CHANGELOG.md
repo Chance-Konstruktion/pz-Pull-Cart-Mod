@@ -50,6 +50,18 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
   Alle Werte (Radius/Lautstärke/Sound-Name/Intervall) in
   `Holzwagen_Config.lua` → `HolzwagenConfig.sound`.
 
+### Fixed
+- **Endlos-Ladebalken beim Aufnehmen behoben.** `ISTakeHolzwagen` war
+  `loopedAction = true` – zusammen mit dem „immer gültig"-Override lief die
+  Aktion nie aus. Jetzt normale Timed Action (`loopedAction = false`,
+  `forceProgressBar`) → läuft die Anschirr-Zeit und schließt ab.
+- **Boden-Kippung um die Radachse (Räder versinken nicht mehr).** Die naive
+  `attachment world`-Rotation drehte um den Modell-Ursprung (Boden) und versenkte
+  die Räder. Stattdessen ist die Kippung jetzt **um die Radachse in die
+  Welt-Modell-Geometrie gebacken** (`holzwagen_t2_blur_world.fbx`, `TILT_DEG` in
+  `tools/holzwagen_t2_blur.py`) – Radunterkante bleibt bei z≈0. T2 nutzt das
+  gekippte Welt-Modell; T1/Fass vorerst flach (gebackene Kippung folgt).
+
 ### Changed
 - **Handgriff-Lage: Hand hoch, abgestellt auf den Boden.** In der Hand kippt der
   Handgriff jetzt hoch Richtung Hände (`Bip01_Prop1` rotate a = -20, leicht
