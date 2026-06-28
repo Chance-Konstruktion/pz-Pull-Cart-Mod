@@ -14,22 +14,29 @@ Alle Pfade beginnen ab dem Mod-Ordner `HolzwagenMod/`.
 - `42/media/scripts/holzwagen_items.txt` → Blöcke `model wagenT1` und `model wagenT2`
 - `42/media/scripts/holzwagen_fasswagen.txt` → Block `model wagenFass`
 
-In jedem `model { ... }` steht eine Zeile wie:
+Jeder `model { ... }` hat jetzt ZWEI Lagen:
 
 ```
-attachment Bip01_Prop1 { offset = 0.0 0.0 -1.7, rotate = 0.0 90.0 0.0, }
+attachment Bip01_Prop1 { offset = -1.4 0.1 0.0, rotate = -20.0 90.0 0.0, }  # IN DER HAND
+attachment world       { offset = 0.0 0.0 0.0,  rotate =  25.0  0.0 0.0, }  # ABGESTELLT
 ```
+
+- **`attachment Bip01_Prop1`** = wie der Wagen **in der Hand** liegt (beim Schieben).
+- **`attachment world`** = wie der Wagen **abgestellt auf dem Boden** liegt.
 
 | Wert | Bedeutung |
 |------|-----------|
-| `rotate = a b c` | **a** = vor/zurück kippen · **b** = um die Hochachse drehen (Yaw, „Z") · **c** = seitlich kippen. `90` = Vierteldrehung im Uhrzeigersinn, `-90` = gegen, `180` = um. |
-| `offset = x y z` | **x** = rechts/links · **y** = oben/unten · **z** = vorne/hinten (Meter). Aktuell `z = -1.7` = 1,7 m nach hinten. |
+| `rotate = a b c` | **a** = auf der **Radachse** kippen (Handgriff hoch/runter) · **b** = um die Hochachse drehen (Yaw) · **c** = seitlich kippen. |
+| `offset = x y z` | **x** = rechts/links · **y** = oben/unten · **z** = vorne/hinten (Meter). |
 | `scale` (Zeile drüber) | Gesamtgröße. Kleiner z. B. `0.004`, größer `0.008`. |
 
-> ⚠️ Beide Modelle (`wagenT1` **und** `wagenT2`, plus `wagenFass`) gleich
-> einstellen, sonst sieht jede Stufe anders aus.
-> Dreht etwas „falsch herum"? → Vorzeichen tauschen (`90` ↔ `-90`) oder die `90`
-> in eine andere der drei `rotate`-Stellen setzen.
+**Handgriff-Kippung (dein Wunsch):**
+- In der Hand: `a` negativ (`-20`) → Handgriff geht **hoch Richtung Hände**. Mehr Hub = `a` negativer.
+- Abgestellt: in `attachment world` `a` positiv (`25`) → Wagen kippt auf der Radachse, **Handgriff sinkt auf den Boden**. Mehr Kippung bis er aufliegt = `a` größer.
+
+> ⚠️ Alle drei Modelle (`wagenT1`, `wagenT2`, `wagenFass`) gleich einstellen.
+> Kippt es „falsch herum"? → Vorzeichen von `a` tauschen. Kippt die falsche
+> Achse? → den Wert in eine andere der drei `rotate`-Stellen setzen.
 
 ---
 

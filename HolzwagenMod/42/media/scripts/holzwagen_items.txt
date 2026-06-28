@@ -19,10 +19,17 @@ module Base
        Aktuell: b = 90 = 90 Grad um die Hochachse, Uhrzeigersinn.
        Falsch herum -> -90.
        Ausfuehrliche Anleitung steht in HolzwagenMod/README_INSTALL.md. */
+    /* ===== ZWEI LAGEN =====
+       attachment Bip01_Prop1 = IN DER HAND. a (1. rotate-Wert) kippt den
+         Handgriff hoch Richtung Haende (negativ = hoch; Vorzeichen tauschen,
+         falls falsch herum). offset y hebt den ganzen Wagen.
+       attachment world = ABGESTELLT auf dem Boden. a kippt den Wagen auf der
+         Radachse, sodass der Handgriff nach unten auf den Boden sinkt. */
     model wagenT1
     {
         mesh = holzwagen_t1, texture = holzwagen_tex, scale = 0.007,
-        attachment Bip01_Prop1 { offset = -1.4 0.0 0.0, rotate = 0.0 90.0 0.0, }
+        attachment Bip01_Prop1 { offset = -1.4 0.1 0.0, rotate = -20.0 90.0 0.0, }
+        attachment world { offset = 0.0 0.0 0.0, rotate = 25.0 0.0 0.0, }
     }
     /* T2 nutzt das Motion-Blur-Rad: die Speichen sind radial verwischt in die
        Textur holzwagen_t2_blur gebacken (eigener Atlas) und auf flache
@@ -32,7 +39,8 @@ module Base
     model wagenT2
     {
         mesh = holzwagen_t2_blur, texture = holzwagen_t2_blur, scale = 0.007,
-        attachment Bip01_Prop1 { offset = -1.4 0.0 0.0, rotate = 0.0 90.0 0.0, }
+        attachment Bip01_Prop1 { offset = -1.4 0.1 0.0, rotate = -20.0 90.0 0.0, }
+        attachment world { offset = 0.0 0.0 0.0, rotate = 25.0 0.0 0.0, }
     }
 
     /* =========================================================
