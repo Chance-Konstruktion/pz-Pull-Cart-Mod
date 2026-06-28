@@ -6,8 +6,10 @@ module Base
     model wagenFass
     {
         mesh = holzwagen_fass, texture = holzwagen_tex, scale = 0.007,
-        /* In-Hand-Lage wie bei T1/T2: 90 Grad um die Hochachse (mittlere Zahl). */
-        attachment Bip01_Prop1 { offset = -1.4 0.0 0.0, rotate = 0.0 90.0 0.0, }
+        /* In-Hand: Handgriff hoch Richtung Haende (a = -20). Boden: Handgriff
+           kippt auf der Radachse nach unten (attachment world, a = 25). */
+        attachment Bip01_Prop1 { offset = -1.4 0.1 0.0, rotate = -20.0 90.0 0.0, }
+        attachment world { offset = 0.0 0.0 0.0, rotate = 25.0 0.0 0.0, }
     }
 
     /* =========================================================

@@ -51,6 +51,11 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
   `Holzwagen_Config.lua` → `HolzwagenConfig.sound`.
 
 ### Changed
+- **Handgriff-Lage: Hand hoch, abgestellt auf den Boden.** In der Hand kippt der
+  Handgriff jetzt hoch Richtung Hände (`Bip01_Prop1` rotate a = -20, leicht
+  angehoben); abgestellt kippt der Wagen auf der Radachse, sodass der Handgriff
+  nach unten sinkt (neuer `attachment world`-Block, rotate a = 25). Für alle
+  Modelle (T1/T2/Fass); Feinwerte in `EINSTELLUNGEN.md` Abschnitt 1.
 - **T2 mit Motion-Blur-Rädern.** Da PZ angehängte Hand-Modelle nicht animiert
   (laut JavaDocs teilt `ModelInstance` den `AnimationPlayer` des Charakters),
   sind die Speichen jetzt radial verwischt in eine eigene Textur
