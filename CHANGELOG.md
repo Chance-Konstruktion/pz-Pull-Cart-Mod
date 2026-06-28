@@ -59,7 +59,7 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
   von `tools/holzwagen_t2_blur.py` (headless mit `bpy`, UVs verifiziert).
 - **Animierte Räder verworfen (empirisch bestätigt).** Das geskinnte Test-Modell
   zeigte in PZ gar keine Räder → angeheftete Hand-Prop-Modelle werden nicht
-  animiert/geskinnt dargestellt. T2 nutzt wieder das statische `wagenT2`.
+  animiert/geskinnt dargestellt. Lösung ist stattdessen das Motion-Blur-Rad (s. o.).
   Test-Skripte bleiben unter `tools/` dokumentiert.
 - **Kletter-/Tür-Sperre robuster.** Statt geratener Klassennamen wird jetzt beim
   Einreihen in `ISTimedActionQueue.add` der Action-Typ-Name geprüft (Muster
