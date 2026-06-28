@@ -29,7 +29,8 @@ module Base
     {
         mesh = holzwagen_t1, texture = holzwagen_tex, scale = 0.007,
         attachment Bip01_Prop1 { offset = -1.4 0.1 0.0, rotate = -20.0 90.0 0.0, }
-        attachment world { offset = 0.0 0.0 0.0, rotate = 25.0 0.0 0.0, }
+        /* Boden-Kippung folgt als gebackenes Welt-Modell (wie T2); ein
+           attachment-world-rotate wuerde die Raeder versenken -> entfernt. */
     }
     /* T2 nutzt das Motion-Blur-Rad: die Speichen sind radial verwischt in die
        Textur holzwagen_t2_blur gebacken (eigener Atlas) und auf flache
@@ -40,7 +41,13 @@ module Base
     {
         mesh = holzwagen_t2_blur, texture = holzwagen_t2_blur, scale = 0.007,
         attachment Bip01_Prop1 { offset = -1.4 0.1 0.0, rotate = -20.0 90.0 0.0, }
-        attachment world { offset = 0.0 0.0 0.0, rotate = 25.0 0.0 0.0, }
+    }
+    /* Welt-/Boden-Modell von T2: Kippung um die RADACHSE ist direkt in die
+       Geometrie gebacken (tools/holzwagen_t2_blur.py, TILT_DEG) -> Handgriff
+       sinkt zu Boden, Raeder versinken NICHT. Kein attachment-world-rotate noetig. */
+    model wagenT2world
+    {
+        mesh = holzwagen_t2_blur_world, texture = holzwagen_t2_blur, scale = 0.007,
     }
 
     /* =========================================================
@@ -84,7 +91,7 @@ module Base
         CloseSound       = CloseBag,
         OpenSound        = OpenBag,
         PutInSound       = PutItemInBag,
-        WorldStaticModel = wagenT2,
+        WorldStaticModel = wagenT2world,
         StaticModel      = wagenT2,
         ReplaceInPrimaryHand = wagenT2 holdingtrolleyright,
         ReplaceInSecondHand  = wagenT2 holdingtrolleyleft,

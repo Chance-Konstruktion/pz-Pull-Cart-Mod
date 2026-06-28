@@ -165,6 +165,26 @@ bpy.context.view_layer.objects.active=cart
 bpy.ops.export_scene.fbx(filepath=FBXOUT,use_selection=True,apply_unit_scale=True,object_types={'MESH'})
 print("EXPORT:",FBXOUT)
 
+# ====== Welt-Variante: um die RADACHSE gekippt (Handgriff sinkt zu Boden) ======
+# Wir rotieren die Geometrie um die Achsmitte (0,0,Z_AXLE) um die X-Achse.
+# Weil die Raeder auf der Achse zentriert sind, bleibt ihre Unterkante bei z=0
+# -> die Raeder versinken NICHT, nur Korpus/Handgriff kippen.
+import math as _m
+TILT_DEG=15.0   # Kippwinkel; groesser = Handgriff tiefer. ~15 = Griff am Boden.
+ang=_m.radians(TILT_DEG)
+me=cart.data
+import mathutils
+piv=mathutils.Vector((0.0,0.0,Z_AXLE))
+R=mathutils.Matrix.Rotation(ang,4,'X')
+for v in me.vertices:
+    v.co=R @ (v.co - piv) + piv
+WORLDOUT=os.path.join(REPO,"models_X","holzwagen_t2_blur_world.fbx")
+bpy.ops.export_scene.fbx(filepath=WORLDOUT,use_selection=True,apply_unit_scale=True,object_types={'MESH'})
+print("EXPORT WORLD:",WORLDOUT)
+# Kontrolle: tiefster Rad-Punkt sollte ~0 bleiben
+zmin=min(v.co.z for v in me.vertices)
+print("zmin nach Kippung (sollte ~0):",round(zmin,4))
+
 import sys
 sys.exit(0)  # Headless ohne GPU: Render uebersprungen. Loeschen, um Vorschau zu rendern.
 # ================= 6) Vorschau rendern =================

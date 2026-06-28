@@ -9,7 +9,8 @@ module Base
         /* In-Hand: Handgriff hoch Richtung Haende (a = -20). Boden: Handgriff
            kippt auf der Radachse nach unten (attachment world, a = 25). */
         attachment Bip01_Prop1 { offset = -1.4 0.1 0.0, rotate = -20.0 90.0 0.0, }
-        attachment world { offset = 0.0 0.0 0.0, rotate = 25.0 0.0 0.0, }
+        /* Boden-Kippung folgt als gebackenes Welt-Modell (wie T2); attachment-
+           world-rotate wuerde die Raeder versenken -> entfernt. */
     }
 
     /* =========================================================
