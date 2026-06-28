@@ -51,6 +51,10 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
   `Holzwagen_Config.lua` → `HolzwagenConfig.sound`.
 
 ### Fixed
+- **Fasswagen-Tank auf erreichbares Limit (140 L).** B42 deckelt Fluid-Container
+  offenbar bei ~142 L (Test: nur bis 141,6 L füllbar); die 450 waren nie
+  erreichbar. Tank jetzt 140 L → wird sauber voll, und ein voller Wagen ist nicht
+  mehr absurd schwer (das war der Grund, warum man ihn voll kaum abstellen konnte).
 - **Endlos-Ladebalken beim Aufnehmen behoben.** `ISTakeHolzwagen` war
   `loopedAction = true` – zusammen mit dem „immer gültig"-Override lief die
   Aktion nie aus. Jetzt normale Timed Action (`loopedAction = false`,
