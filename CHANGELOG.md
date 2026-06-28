@@ -51,6 +51,12 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
   `Holzwagen_Config.lua` → `HolzwagenConfig.sound`.
 
 ### Changed
+- **T2 mit Motion-Blur-Rädern.** Da PZ angehängte Hand-Modelle nicht animiert
+  (laut JavaDocs teilt `ModelInstance` den `AnimationPlayer` des Charakters),
+  sind die Speichen jetzt radial verwischt in eine eigene Textur
+  (`textures/holzwagen_t2_blur.png`) gebacken und auf flache Rad-Scheiben gelegt
+  (`models_X/holzwagen_t2_blur.fbx`) – sieht statisch aus wie in Drehung. Erzeugt
+  von `tools/holzwagen_t2_blur.py` (headless mit `bpy`, UVs verifiziert).
 - **Animierte Räder verworfen (empirisch bestätigt).** Das geskinnte Test-Modell
   zeigte in PZ gar keine Räder → angeheftete Hand-Prop-Modelle werden nicht
   animiert/geskinnt dargestellt. T2 nutzt wieder das statische `wagenT2`.
