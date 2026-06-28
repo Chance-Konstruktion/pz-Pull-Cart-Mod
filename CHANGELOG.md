@@ -50,6 +50,13 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
   Alle Werte (Radius/Lautstärke/Sound-Name/Intervall) in
   `Holzwagen_Config.lua` → `HolzwagenConfig.sound`.
 
+### Added
+- **Ladefläche >50: echter B42-Cap-Bypass.** `setCapacity()` allein reicht nicht
+  (B42 blockt das Reinlegen über die Transfer-Prüfung). Neuer Client-Code
+  `Holzwagen_CapacityBypass.lua` überschreibt `ISInventoryTransferAction:isValid`
+  und `ISInventoryPane:canPutIn` für Wagen-Container und lässt **gewichtsbasiert**
+  bis `HW.cartCapacity` einladen (Methode aus dem Hydrocraft-Wheelbarrow-Mod).
+
 ### Fixed
 - **Wagen stand abgestellt auf der Seite – zurückgesetzt.** Das separate, in der
   Geometrie gekippte Welt-Modell wurde von PZ in seiner Roh-Orientierung
