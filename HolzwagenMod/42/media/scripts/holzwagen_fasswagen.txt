@@ -40,7 +40,11 @@ module Base
         component FluidContainer
         {
             ContainerName = Holzwagen_Fass,
-            Capacity = 450.0,
+            /* B42 deckelt Fluid-Container offenbar bei ~142 L (Test: Fass wurde
+               nur bis 141,6 L voll). 450 war daher unerreichbar -> auf 140
+               gesetzt, damit der Tank sauber voll wird und ein voller Wagen
+               nicht absurd schwer ist (Grund, warum voll schwer abzustellen war). */
+            Capacity = 140.0,
             /* KEIN Fluids-Startinhalt -> Fass startet LEER.
                Die alte Fluids{}-Liste (fluid = Water:1.0 usw.) hat das Fass
                beim Erstellen vorbefuellt (halb voll). Ein leerer FluidContainer
