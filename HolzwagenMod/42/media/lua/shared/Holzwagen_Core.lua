@@ -110,15 +110,44 @@ function HW.applyCapacity(item)
     end
 end
 
+-- Wie viele Taschen-Slots hat dieser Wagen? (Config je Stufe)
+function HW.bagSlots(cart)
+    local t = CFG.tiers[HW.cartTier(cart)]
+    return (t and t.bagSlots) or 4
+end
+
+-- Aktuelle Anzahl Taschen im Container (zaehlt nur echte Taschen, nicht den
+-- Schlauch oder losen Loot).
+local function countBags(container)
+    local n = 0
+    if not container or not container.getItems then return 0 end
+    local items = container:getItems()
+    for i = 0, items:size() - 1 do
+        if HW.isBagItem(items:get(i)) then n = n + 1 end
+    end
+    return n
+end
+
 -- ---------- AcceptItemFunction (im Item-Script referenziert) ----------
--- MUSS shared sein (Server ruft sie bei MP auf). Offene Ladeflaeche: alles
--- erlaubt. Gesperrtes Bett (Fasswagen): nur Taschen.
+-- MUSS shared sein (Server ruft sie bei MP auf). Regeln:
+--  * Schlauch: immer erlaubt (eigener Schlauch-Slot am Fasswagen).
+--  * Taschen/Rucksaecke: erlaubt bis zur Slot-Zahl (T1/T2 = 4, Fass = 3).
+--    Eine Tasche, die schon drin ist, darf bleiben (Umsortieren).
+--  * Loser Loot (keine Tasche): nur auf OFFENEM Bett (T1/T2), nicht am Fass.
 function HolzwagenAccept(container, item)
     local cart = container and container.getContainingItem and container:getContainingItem()
-    if cart and HW.bedLocked(cart) then
-        -- Fass-Bett: nur Taschen ODER der Schlauch (haengt im Schlauch-Slot).
-        return HW.isBagItem(item) or HW.isSchlauch(item)
+    if not cart or not HW.isCart(cart) then return true end
+
+    if HW.isSchlauch(item) then return true end
+
+    if HW.isBagItem(item) then
+        -- bereits in genau diesem Container -> erlauben (kein Neu-Zaehlen)
+        if item.getContainer and item:getContainer() == container then return true end
+        return countBags(container) < HW.bagSlots(cart)
     end
+
+    -- Nicht-Tasche: am gesperrten Fass-Bett verboten, sonst (offenes Bett) ok
+    if HW.bedLocked(cart) then return false end
     return true
 end
 
