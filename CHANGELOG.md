@@ -51,6 +51,19 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
   `Holzwagen_Config.lua` → `HolzwagenConfig.sound`.
 
 ### Added
+- **Optik-Paket (Texturen, Fass-Räder, Icons).**
+  - **Echte Holz-Texturen**: beide Atlanten (`holzwagen_tex.png`,
+    `holzwagen_t2_blur.png`) neu generiert mit prozeduraler Maserung,
+    Brettfugen, Astlöchern, Metall- und Reifen-Struktur
+    (`tools/holzwagen_optik.py`, headless mit bpy+numpy).
+  - **Fasswagen mit Motion-Blur-Rädern**: neues Modell
+    `holzwagen_fass_blur.fbx` (nutzt den T2-Atlas), Fass + Metallbänder +
+    Blur-Rad-Scheiben (`tools/holzwagen_fass_blur.py`).
+  - **Eigene Inventar-Icons** für alle 9 Items (Wagen T1/T2/Fass, Räder,
+    Gestell, Fass, Schlauch, Trichter) statt Vanilla-`Crate`/`Wheel` –
+    64×64-Piktogramme, im selben Skript generiert.
+
+### Added
 - **Mechanik-Paket:**
   - **Beladungs-Tempo aktiv** (`weightSpeed.enabled = true`): voller Wagen zieht
     bis zu 30 % langsamer (über den Slow-Faktor, defensiv gekapselt).

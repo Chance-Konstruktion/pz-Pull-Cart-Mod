@@ -75,7 +75,7 @@ module Base
         ReplaceInSecondHand  = wagenT1 holdingtrolleyleft,
         RunSpeedModifier = 0.80,
         Tags             = Holzwagen;HolzwagenT1,
-        Icon             = Crate,
+        Icon             = HolzwagenT1,
     }
 
     item Holzwagen_T2
@@ -95,7 +95,7 @@ module Base
         ReplaceInSecondHand  = wagenT2 holdingtrolleyleft,
         RunSpeedModifier = 0.90,
         Tags             = Holzwagen;HolzwagenT2,
-        Icon             = Crate,
+        Icon             = HolzwagenT2,
     }
 
     /* Bau-Komponenten */
@@ -104,20 +104,20 @@ module Base
         DisplayName = Wagenrad (Holz/Stein),
         Type = Normal, Weight = 3.0,
         Tags = HolzwagenRad;HolzwagenRadT1,
-        Icon = Wheel,
+        Icon = HolzwagenRadT1,
     }
     item Holzwagen_Speichengestell
     {
         DisplayName = Speichenrad-Gestell (roh),
         Type = Normal, Weight = 2.5,
         Tags = HolzwagenRadGestell,
-        Icon = Wheel,
+        Icon = HolzwagenGestell,
     }
     item Holzwagen_RadT2
     {
         DisplayName = Speichenrad (beschlagen),
         Type = Normal, Weight = 3.5,
         Tags = HolzwagenRad;HolzwagenRadT2,
-        Icon = Wheel,
+        Icon = HolzwagenRadT2,
     }
 }
