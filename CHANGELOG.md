@@ -50,6 +50,20 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
   Alle Werte (Radius/Lautstärke/Sound-Name/Intervall) in
   `Holzwagen_Config.lua` → `HolzwagenConfig.sound`.
 
+### Added
+- **Mechanik-Paket:**
+  - **Beladungs-Tempo aktiv** (`weightSpeed.enabled = true`): voller Wagen zieht
+    bis zu 30 % langsamer (über den Slow-Faktor, defensiv gekapselt).
+  - **Leichen-Transport**: Rechtsklick auf eine Leiche mit geschobenem T1/T2 →
+    „Leiche auf den Wagen laden" (Vanilla-Grab + Folge-Transfer in den Wagen).
+  - **Regen-Sammlung**: Fasswagen draußen (geschoben oder abgestellt im Umkreis)
+    sammelt bei Regen Wasser (`rain.ratePer10Min`, skaliert mit Intensität).
+  - **Abnutzung + Reparatur**: Zustand sinkt mit gefahrener Strecke
+    (`wear.tilesPerPoint`), schlechter Zustand macht langsamer; Reparatur per
+    Rechtsklick (2 Bretter + 4 Nägel + Hammer, stellt 40 % wieder her).
+  - **Füllstands-Anzeige**: Wagen-Name zeigt live „Ladung/Kapazität | Liter |
+    Zustand" (z. B. „Holzwagen (T2) (34/200 | 87%)").
+
 ### Changed
 - **Performance: ein zentraler, gedrosselter Update-Handler.** Drei
   Pro-Frame-Handler (Pose-Backstop via OnTick, autoDropLooseCarts und
