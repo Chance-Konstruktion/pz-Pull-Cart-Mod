@@ -21,19 +21,32 @@ local function cartCanEquip(itemFullType)
     return CART_FULLTYPES[itemFullType] == true
 end
 
--- Wagen am Spieler ablegen (aus Hand/Inventar in die Welt)
+-- Wagen am Spieler ablegen (aus Hand/Inventar in die Welt).
+-- MP-SICHER (Wheelbarrow-Prinzip): Im Multiplayer laeuft das Ablegen ueber den
+-- Vanilla-Drop (ISInventoryPaneContextMenu.onDropItems) - der geht durch die
+-- synchronisierte Timed Action, sodass Server und Mitspieler den Wagen sehen.
+-- Direktes square:AddWorldInventoryItem ist nur der Singleplayer-Schnellpfad.
 local function dropCartAtPlayerPosition(playerObj, cartItem)
     if not playerObj or not cartItem then return end
     local square = playerObj:getCurrentSquare()
     if not square then return end
 
     HW.applyCapacity(cartItem)
-    playerObj:getInventory():Remove(cartItem)
     playerObj:removeFromHands(cartItem)
     playerObj:setVariable("RightHandMask", "")
     playerObj:setVariable("LeftHandMask", "")
 
-    square:AddWorldInventoryItem(cartItem, 0, 0, 0)
+    if isClient() and ISInventoryPaneContextMenu and ISInventoryPaneContextMenu.onDropItems then
+        -- MP: Vanilla-Drop (synchronisiert). Item muss dafuer im Inventar bleiben.
+        if not playerObj:getInventory():contains(cartItem) then
+            playerObj:getInventory():AddItem(cartItem)
+        end
+        ISInventoryPaneContextMenu.onDropItems({ cartItem }, playerObj:getPlayerNum())
+    else
+        -- SP: direkter Drop auf die aktuelle Kachel.
+        playerObj:getInventory():Remove(cartItem)
+        square:AddWorldInventoryItem(cartItem, 0, 0, 0)
+    end
 
     local pdata = getPlayerData(playerObj:getPlayerNum())
     if pdata and pdata.playerInventory then
@@ -178,6 +191,10 @@ Events.OnTick.Add(onCartTick)
 -- Daher: jeder NICHT ausgeruestete Wagen im Spieler-Inventar wird abgestellt.
 local function autoDropLooseCarts(playerObj)
     if not playerObj or (playerObj.isLocalPlayer and not playerObj:isLocalPlayer()) then return end
+    -- MP-Guard: der Vanilla-Drop laeuft als Timed Action. Solange noch eine
+    -- Aktion laeuft/wartet, nicht erneut anstossen (sonst Drop-Spam im MP).
+    if ISTimedActionQueue and ISTimedActionQueue.isPlayerDoingAction
+       and ISTimedActionQueue.isPlayerDoingAction(playerObj) then return end
     local inv = playerObj:getInventory()
     if not inv then return end
     local items = inv:getItems()

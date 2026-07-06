@@ -51,6 +51,13 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
   `Holzwagen_Config.lua` → `HolzwagenConfig.sound`.
 
 ### Added
+- **Multiplayer: Ablegen über den synchronisierten Vanilla-Drop.** Im MP läuft
+  „Wagen abstellen" jetzt über `ISInventoryPaneContextMenu.onDropItems`
+  (synchronisierte Timed Action, Wheelbarrow-Prinzip) statt direktem
+  `AddWorldInventoryItem` – Server und Mitspieler sehen den abgestellten Wagen.
+  Singleplayer behält den direkten Schnellpfad. `autoDropLooseCarts` bekommt
+  einen Action-Guard, damit der verzögerte MP-Drop nicht mehrfach angestoßen
+  wird. Aufnehmen war bereits synchron (`transmitRemoveItemFromSquare`).
 - **4 Taschen-Slots (real).** Der Wagen-Container nimmt jetzt bis zu N Taschen/
   Rucksäcke auf (T1/T2 = 4, Fasswagen = 3 + Schlauch-Slot), die ihre eigene
   Kapazität mitbringen (genesteter Stauraum = die „Slots"). Loser Loot nur auf
