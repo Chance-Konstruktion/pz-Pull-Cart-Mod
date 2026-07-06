@@ -51,6 +51,29 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
   `Holzwagen_Config.lua` → `HolzwagenConfig.sound`.
 
 ### Added
+- **Mechanik-Paket:**
+  - **Beladungs-Tempo aktiv** (`weightSpeed.enabled = true`): voller Wagen zieht
+    bis zu 30 % langsamer (über den Slow-Faktor, defensiv gekapselt).
+  - **Leichen-Transport**: Rechtsklick auf eine Leiche mit geschobenem T1/T2 →
+    „Leiche auf den Wagen laden" (Vanilla-Grab + Folge-Transfer in den Wagen).
+  - **Regen-Sammlung**: Fasswagen draußen (geschoben oder abgestellt im Umkreis)
+    sammelt bei Regen Wasser (`rain.ratePer10Min`, skaliert mit Intensität).
+  - **Abnutzung + Reparatur**: Zustand sinkt mit gefahrener Strecke
+    (`wear.tilesPerPoint`), schlechter Zustand macht langsamer; Reparatur per
+    Rechtsklick (2 Bretter + 4 Nägel + Hammer, stellt 40 % wieder her).
+  - **Füllstands-Anzeige**: Wagen-Name zeigt live „Ladung/Kapazität | Liter |
+    Zustand" (z. B. „Holzwagen (T2) (34/200 | 87%)").
+
+### Changed
+- **Performance: ein zentraler, gedrosselter Update-Handler.** Drei
+  Pro-Frame-Handler (Pose-Backstop via OnTick, autoDropLooseCarts und
+  Capacity-Refresh via OnPlayerUpdate) laufen jetzt gebündelt in
+  `Holzwagen_Update.lua` – nur noch alle 300 ms pro Spieler. Die Kapazität wird
+  primär einmalig beim Equip gesetzt (Event), nicht mehr jeden Frame.
+  `Holzwagen_CapacityFix.lua` entfernt (durch Equip-Event + CapacityBypass
+  überflüssig).
+
+### Added
 - **Multiplayer: Ablegen über den synchronisierten Vanilla-Drop.** Im MP läuft
   „Wagen abstellen" jetzt über `ISInventoryPaneContextMenu.onDropItems`
   (synchronisierte Timed Action, Wheelbarrow-Prinzip) statt direktem

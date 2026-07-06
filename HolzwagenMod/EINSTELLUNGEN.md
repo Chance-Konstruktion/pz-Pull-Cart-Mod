@@ -143,6 +143,34 @@ HolzwagenConfig.handling = {
 > Bedienung: **E oder V** neben einem Wagen am Boden = anschirren (mit Ladezeit),
 > **E oder V** mit Wagen in der Hand = abstellen.
 
+## 4c. ⚖️ Beladungs-Tempo, 🌧️ Regen-Sammlung, 🔨 Abnutzung
+
+**Datei:** `42/media/lua/shared/Holzwagen_Config.lua`
+
+```lua
+HolzwagenConfig.weightSpeed = {
+    enabled     = true,   -- voller Wagen zieht langsamer
+    fullPenalty = 0.30,   -- max. Tempo-Abzug bei vollem Wagen (30 %)
+}
+HolzwagenConfig.rain = {
+    enabled      = true,
+    ratePer10Min = 8,     -- Liter pro 10 Min bei vollem Regen (Fasswagen draußen)
+    searchRadius = 12,    -- Suchradius für abgestellte Fasswagen (Kacheln)
+}
+HolzwagenConfig.wear = {
+    enabled       = true,
+    tilesPerPoint = 60,   -- alle N Kacheln Strecke -1 % Zustand
+    repairPlanks  = 2,    -- Reparaturkosten
+    repairNails   = 4,
+    repairAmount  = 40,   -- % pro Reparatur
+}
+```
+
+- Der **Zustand** steht im Wagen-Namen (z. B. „Holzwagen (T2) (34/200 | 87%)").
+- **Reparieren**: Rechtsklick auf den Wagen → „Wagen reparieren" (braucht Hammer).
+- Schlechter Zustand macht zusätzlich langsamer (bis −20 % bei 0 %).
+- Alles einzeln per `enabled = false` abschaltbar.
+
 ## 5. 🛢️ Fasswagen-Tank (Flüssigkeitsmenge)
 
 **Datei:** `42/media/scripts/holzwagen_fasswagen.txt` → `component FluidContainer`

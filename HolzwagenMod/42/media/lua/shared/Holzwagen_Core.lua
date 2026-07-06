@@ -110,6 +110,35 @@ function HW.applyCapacity(item)
     end
 end
 
+-- ---------- Zustand / Abnutzung (modData, wandert mit dem Item) ----------
+-- Zustand 0..100 (%). Neue Wagen starten bei 100.
+function HW.getCondition(cart)
+    local md = cart and cart.getModData and cart:getModData()
+    if not md then return 100 end
+    if md.hwCondition == nil then md.hwCondition = 100 end
+    return md.hwCondition
+end
+
+function HW.setCondition(cart, value)
+    local md = cart and cart.getModData and cart:getModData()
+    if not md then return end
+    if value < 0 then value = 0 elseif value > 100 then value = 100 end
+    md.hwCondition = value
+end
+
+-- Strecke aufaddieren; senkt den Zustand gemaess Config (tilesPerPoint).
+function HW.addWearDistance(cart, tiles)
+    if not (CFG.wear and CFG.wear.enabled) then return end
+    local md = cart and cart.getModData and cart:getModData()
+    if not md then return end
+    md.hwDist = (md.hwDist or 0) + tiles
+    local per = CFG.wear.tilesPerPoint or 60
+    while md.hwDist >= per do
+        md.hwDist = md.hwDist - per
+        HW.setCondition(cart, HW.getCondition(cart) - 1)
+    end
+end
+
 -- Wie viele Taschen-Slots hat dieser Wagen? (Config je Stufe)
 function HW.bagSlots(cart)
     local t = CFG.tiers[HW.cartTier(cart)]

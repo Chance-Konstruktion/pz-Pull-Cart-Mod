@@ -10,11 +10,27 @@ HolzwagenConfig.speed = {
 }
 
 -- Gewichtsabhaengiges Tempo: ein voll beladener Wagen zieht langsamer.
--- Standardmaessig AUS - erst einschalten, wenn das Basis-Tempo (setSpeedMod)
--- im Spiel bestaetigt ist. Dann genuegt enabled = true.
+-- Wirkt ueber den Slow-Faktor des Charakters (defensiv: fehlt die API in der
+-- Spielversion, passiert einfach nichts).
 HolzwagenConfig.weightSpeed = {
-    enabled     = false,  -- true = Feature aktiv
+    enabled     = true,   -- false = Feature aus
     fullPenalty = 0.30,   -- max. Tempo-Abzug bei vollem Wagen (0.30 = -30 %)
+}
+
+-- Regen-Sammlung: draussen stehender/geschobener Fasswagen sammelt Regenwasser.
+HolzwagenConfig.rain = {
+    enabled      = true,
+    ratePer10Min = 8,    -- Liter pro 10 Ingame-Minuten bei vollem Regen (skaliert mit Intensitaet)
+    searchRadius = 12,   -- Kacheln um jeden Spieler, in denen abgestellte Fasswagen gesucht werden
+}
+
+-- Abnutzung + Reparatur: der Wagen verschleisst mit gefahrener Strecke.
+HolzwagenConfig.wear = {
+    enabled       = true,
+    tilesPerPoint = 60,   -- alle N Kacheln Strecke sinkt der Zustand um 1 % (60 => ~6000 Kacheln bis 0)
+    repairPlanks  = 2,    -- Reparatur-Kosten: Bretter
+    repairNails   = 4,    -- Reparatur-Kosten: Naegel
+    repairAmount  = 40,   -- wieviel % eine Reparatur wiederherstellt
 }
 
 -- Eigene Kapazitaet des Wagens + Anzahl Taschen-Slots an den Seiten.
