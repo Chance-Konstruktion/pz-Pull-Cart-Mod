@@ -93,8 +93,11 @@ end
 HW.refreshCartPose = refreshCartPose
 
 -- Sofort auf Equip reagieren (AnimAPI-Prinzip): kein Warten auf den naechsten Tick.
+-- Kapazitaet wird HIER (einmal pro Equip) gesetzt statt jeden Frame.
 local function onCartEquip(character, item)
-    if character then refreshCartPose(character) end
+    if not character then return end
+    refreshCartPose(character)
+    if item and HW.isCart(item) then HW.applyCapacity(item) end
 end
 Events.OnEquipPrimary.Add(onCartEquip)
 Events.OnEquipSecondary.Add(onCartEquip)
@@ -173,16 +176,8 @@ local function equipCartFromInventory(playerObj, item)
     end
 end
 
--- ---------- Tick: Schiebe-Pose als Backstop ----------
--- Primär laufen die Equip-Events (oben). Der Tick fängt Sonderfälle ab
--- (z. B. Pose via Lua gesetzt, ohne dass ein Equip-Event feuerte).
-local function onCartTick()
-    local playersSum = getNumActivePlayers()
-    for playerNum = 0, playersSum - 1 do
-        refreshCartPose(getSpecificPlayer(playerNum))
-    end
-end
-Events.OnTick.Add(onCartTick)
+-- Hinweis: Der fruehere OnTick-Backstop fuer die Pose laeuft jetzt gedrosselt
+-- im zentralen Handler (Holzwagen_Update.lua) statt jeden Frame.
 
 -- ---------- Lose Wagen automatisch auf den Boden stellen ----------
 -- Gewuenscht: ein gecrafteter Wagen liegt auf der Map (wie der Fasswagen) und
@@ -202,11 +197,12 @@ local function autoDropLooseCarts(playerObj)
         local it = items:get(i)
         if it and cartCanEquip(it:getFullType()) and not it:isEquipped() then
             dropCartAtPlayerPosition(playerObj, it)
-            return -- pro Frame nur einen, Liste hat sich geaendert
+            return -- pro Durchlauf nur einen, Liste hat sich geaendert
         end
     end
 end
-Events.OnPlayerUpdate.Add(autoDropLooseCarts)
+HW.autoDropLooseCarts = autoDropLooseCarts
+-- (Aufruf erfolgt gedrosselt aus Holzwagen_Update.lua, nicht mehr pro Frame.)
 
 -- ---------- "E"-Taste: Wagen schnell schnappen / loslassen ----------
 -- E mit Wagen in der Hand -> abstellen. E neben einem Wagen am Boden -> schieben.

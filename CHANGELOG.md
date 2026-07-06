@@ -50,6 +50,15 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
   Alle Werte (Radius/Lautstärke/Sound-Name/Intervall) in
   `Holzwagen_Config.lua` → `HolzwagenConfig.sound`.
 
+### Changed
+- **Performance: ein zentraler, gedrosselter Update-Handler.** Drei
+  Pro-Frame-Handler (Pose-Backstop via OnTick, autoDropLooseCarts und
+  Capacity-Refresh via OnPlayerUpdate) laufen jetzt gebündelt in
+  `Holzwagen_Update.lua` – nur noch alle 300 ms pro Spieler. Die Kapazität wird
+  primär einmalig beim Equip gesetzt (Event), nicht mehr jeden Frame.
+  `Holzwagen_CapacityFix.lua` entfernt (durch Equip-Event + CapacityBypass
+  überflüssig).
+
 ### Added
 - **Multiplayer: Ablegen über den synchronisierten Vanilla-Drop.** Im MP läuft
   „Wagen abstellen" jetzt über `ISInventoryPaneContextMenu.onDropItems`
