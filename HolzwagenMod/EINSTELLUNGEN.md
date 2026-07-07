@@ -17,12 +17,12 @@ Alle Pfade beginnen ab dem Mod-Ordner `HolzwagenMod/`.
 **In der Hand** stellst du über `attachment Bip01_Prop1` ein:
 
 ```
-attachment Bip01_Prop1 { offset = -1.4 0.1 0.0, rotate = -20.0 90.0 0.0, }  # IN DER HAND
+attachment Bip01_Prop1 { offset = -1.4 0.1 0.0, rotate = 0.0 90.0 0.0, }  # IN DER HAND
 ```
 
 | Wert | Bedeutung |
 |------|-----------|
-| `rotate = a b c` | **a** = auf der **Radachse** kippen (Handgriff hoch/runter, `-20` = hoch Richtung Hände) · **b** = um die Hochachse drehen (Yaw) · **c** = seitlich kippen. |
+| `rotate = a b c` | **a** = auf der Radachse kippen · **b** = Yaw · **c** = seitlich kippen. Die Griff-Hoch-Kippung (10°) steckt fest im `_hand`-Modell → Winkel ändern über `HAND_UP_DEG` in `tools/holzwagen_world_tilt.py` + Skript neu laufen lassen, NICHT über `a`. |
 | `offset = x y z` | **x** = rechts/links · **y** = oben/unten · **z** = vorne/hinten (Meter). |
 | `scale` (Zeile drüber) | Gesamtgröße. Kleiner z. B. `0.004`, größer `0.008`. |
 

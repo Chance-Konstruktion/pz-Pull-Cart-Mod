@@ -27,8 +27,10 @@ module Base
          Radachse, sodass der Handgriff nach unten auf den Boden sinkt. */
     model wagenT1
     {
-        mesh = holzwagen_t1, texture = holzwagen_tex, scale = 0.007,
-        attachment Bip01_Prop1 { offset = -1.4 0.1 0.0, rotate = -20.0 90.0 0.0, }
+        /* _hand = 10 Grad Griff-HOCH fest in die Geometrie gebacken
+           (tools/holzwagen_world_tilt.py, HAND_UP_DEG). Deshalb hier a = 0. */
+        mesh = holzwagen_t1_hand, texture = holzwagen_tex, scale = 0.007,
+        attachment Bip01_Prop1 { offset = -1.4 0.1 0.0, rotate = 0.0 90.0 0.0, }
     }
     /* ABGESTELLT: Kippung (15.8 Grad um die Radachse) fest in die Geometrie
        gebacken -> Handgriff liegt auf dem Boden, Raeder bleiben am Boden.
@@ -45,8 +47,9 @@ module Base
        Spielers). Erzeugt von tools/holzwagen_t2_blur.py. */
     model wagenT2
     {
-        mesh = holzwagen_t2_blur, texture = holzwagen_t2_blur, scale = 0.007,
-        attachment Bip01_Prop1 { offset = -1.4 0.1 0.0, rotate = -20.0 90.0 0.0, }
+        /* _hand = 10 Grad Griff-HOCH gebacken -> a = 0 (siehe wagenT1). */
+        mesh = holzwagen_t2_blur_hand, texture = holzwagen_t2_blur, scale = 0.007,
+        attachment Bip01_Prop1 { offset = -1.4 0.1 0.0, rotate = 0.0 90.0 0.0, }
     }
     /* ABGESTELLT: gebackene 15.8-Grad-Kippung (siehe wagenT1world). */
     model wagenT2world

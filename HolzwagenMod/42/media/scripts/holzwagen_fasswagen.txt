@@ -6,10 +6,9 @@ module Base
     model wagenFass
     {
         /* Blur-Rad-Version (tools/holzwagen_fass_blur.py), nutzt den T2-Atlas. */
-        mesh = holzwagen_fass_blur, texture = holzwagen_t2_blur, scale = 0.007,
-        /* In-Hand: Handgriff hoch Richtung Haende (a = -20). Boden: Handgriff
-           kippt auf der Radachse nach unten (attachment world, a = 25). */
-        attachment Bip01_Prop1 { offset = -1.4 0.1 0.0, rotate = -20.0 90.0 0.0, }
+        /* _hand = 10 Grad Griff-HOCH gebacken (holzwagen_world_tilt.py) -> a = 0. */
+        mesh = holzwagen_fass_blur_hand, texture = holzwagen_t2_blur, scale = 0.007,
+        attachment Bip01_Prop1 { offset = -1.4 0.1 0.0, rotate = 0.0 90.0 0.0, }
     }
     /* ABGESTELLT: gebackene 15.8-Grad-Kippung um die Radachse (Handgriff am
        Boden). Erzeugt von tools/holzwagen_world_tilt.py. Nur WorldStaticModel! */

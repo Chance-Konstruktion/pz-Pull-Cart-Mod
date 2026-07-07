@@ -23,14 +23,19 @@ MODELS = os.path.join(REPO, "models_X")
 # Radgeometrie wie in den Bau-Skripten (alle drei Wagen identisch)
 WHEEL_R = 0.34   # Achshoehe = Radradius (Radunterseite liegt bei z=0)
 
+# (quelle, welt-datei [griff runter, winkel automatisch],
+#          hand-datei [griff HOCH, fester winkel HAND_UP_DEG])
 SOURCES = [
-    ("holzwagen_t1.fbx",        "holzwagen_t1_world.fbx"),
-    ("holzwagen_t2_blur.fbx",   "holzwagen_t2_blur_world.fbx"),
-    ("holzwagen_fass_blur.fbx", "holzwagen_fass_blur_world.fbx"),
+    ("holzwagen_t1.fbx",        "holzwagen_t1_world.fbx",        "holzwagen_t1_hand.fbx"),
+    ("holzwagen_t2_blur.fbx",   "holzwagen_t2_blur_world.fbx",   "holzwagen_t2_blur_hand.fbx"),
+    ("holzwagen_fass_blur.fbx", "holzwagen_fass_blur_world.fbx", "holzwagen_fass_blur_hand.fbx"),
 ]
+HAND_UP_DEG = 10.0   # Griff in der Hand: 10 Grad HOCH auf der Radachse
 
 
-def tilt_one(src_name, dst_name):
+def tilt_one(src_name, dst_name, tilt_deg=None):
+    """tilt_deg=None -> Winkel automatisch (Griff runter bis Bodenkontakt).
+    tilt_deg negativ -> Griff HOCH um diesen Betrag (Hand-Variante)."""
     bpy.ops.wm.read_factory_settings(use_empty=True)
     bpy.ops.import_scene.fbx(filepath=os.path.join(MODELS, src_name))
 
@@ -74,13 +79,17 @@ def tilt_one(src_name, dst_name):
                 lo = zz
         return lo
 
-    best = 0.0
-    for deg10 in range(1, 400):           # 0.1..40.0 Grad in 0.1er-Schritten
-        deg = deg10 / 10.0
-        if zmin_at(deg) < -0.005 * unit:  # 5 mm Toleranz
-            break
-        best = deg
-    print(f"  -> Kippwinkel: {best:.1f} Grad (Handgriff beruehrt Boden)")
+    if tilt_deg is None:
+        best = 0.0
+        for deg10 in range(1, 400):           # 0.1..40.0 Grad in 0.1er-Schritten
+            deg = deg10 / 10.0
+            if zmin_at(deg) < -0.005 * unit:  # 5 mm Toleranz
+                break
+            best = deg
+        print(f"  -> Kippwinkel: {best:.1f} Grad (Handgriff beruehrt Boden)")
+    else:
+        best = tilt_deg
+        print(f"  -> Kippwinkel fest: {best:.1f} Grad (negativ = Griff hoch)")
 
     t = math.radians(-best)
     c, s = math.cos(t), math.sin(t)
@@ -99,6 +108,7 @@ def tilt_one(src_name, dst_name):
     print("EXPORT:", dst_name)
 
 
-for src, dst in SOURCES:
-    tilt_one(src, dst)
+for src, dst_world, dst_hand in SOURCES:
+    tilt_one(src, dst_world)                      # abgestellt: Griff am Boden
+    tilt_one(src, dst_hand, tilt_deg=-HAND_UP_DEG)  # in der Hand: Griff hoch
 print("FERTIG.")
