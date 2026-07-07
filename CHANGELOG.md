@@ -7,6 +7,12 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+### Changed
+- **README (DE+EN) auf den aktuellen Stand gebracht:** neue Features
+  (Kipp-Modelle, Blur-Räder, Kapazitäts-Bypass, Schlauch/Regen/Reparatur/
+  Leichen, MP-Sync, V/E-System), korrekte Werte (Fasswagen 140 L, 3 Taschen +
+  Schlauch-Slot) und Verweis auf EINSTELLUNGEN.md + tools/.
+
 ### Added
 - **Hand-Modelle mit gebackener Griff-Hoch-Kippung (10°).** Gleiches Verfahren
   wie die Welt-Modelle: `tools/holzwagen_world_tilt.py` erzeugt zusätzlich
