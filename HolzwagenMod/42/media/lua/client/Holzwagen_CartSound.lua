@@ -42,10 +42,13 @@ local function emitCartNoise(playerObj, tier)
     end
 
     -- 2) Hoerbares Roll-Geraeusch (nur lokal, optional).
-    if s.rollSound and s.rollSound ~= "" then
+    --    rollSound darf ein String (alle Stufen) oder eine Tabelle je Stufe sein.
+    local roll = s.rollSound
+    if type(roll) == "table" then roll = roll[tier] end
+    if roll and roll ~= "" then
         local emitter = playerObj.getEmitter and playerObj:getEmitter()
         if emitter and emitter.playSound then
-            emitter:playSound(s.rollSound)
+            emitter:playSound(roll)
         end
     end
 end

@@ -8,6 +8,15 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 ## [Unreleased]
 
 ### Added
+- **Eigene Roll-Sounds (prozedural synthetisiert).** Drei nahtlose 1,4-s-Loops
+  (`media/sound/HolzwagenRollT1/T2/Fass.ogg`, erzeugt von
+  `tools/holzwagen_sounds.py`): T1 poltert schwer (Vollholz), T2 rollt leichter
+  mit dezentem Klackern, Fasswagen mit tiefem Fass-Wummern; dazu Stick-Slip-
+  Knarzen. Sound-Defs in `scripts/holzwagen_sounds.txt`; `rollSound` in der
+  Config jetzt je Stufe (String fuer alle bleibt moeglich), `intervalMs` auf
+  1300 (Loop-Laenge) angepasst.
+
+### Added
 - **Neues Mod-Poster (`poster.png`).** Gerendert aus dem echten T2-Modell
   (abgestellte Pose, Griff am Boden, Blur-Rad aus dem Textur-Atlas) statt des
   alten zweiachsigen Platzhalters. Generator: `tools/holzwagen_poster.py`
