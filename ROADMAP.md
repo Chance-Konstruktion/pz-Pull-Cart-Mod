@@ -40,10 +40,10 @@ nicht in Stein gemeißelt – Feedback per Issue ist willkommen.
       in PZ B42 technisch nicht möglich (bestätigt), Blur-Textur als Ersatz.
 - [x] **Echte Holz-Texturen** (Maserung, Brettfugen, Astlöcher) für alle Wagen.
 - [x] **Eigene Item-Icons** für alle 9 Items statt Platzhalter (`Crate`/`Wheel`).
-- [ ] **Poster-Bild** (`poster.png`) für den Workshop – zeigt aktuell einen
-      Wagen mit zwei Achsen, unser Wagen ist einachsig. Noch nicht erstellt.
-- [ ] **Sound-Effekte** beim Ziehen (Rollen/Knarzen) – Grundgerüst
-      (`HolzwagenConfig.sound`) steht, echte Sound-Dateien fehlen noch.
+- [x] **Poster-Bild** (`poster.png`) – neu gerendert aus dem echten T2-Modell
+      (einachsig, abgestellte Pose, `tools/holzwagen_poster.py`).
+- [x] **Sound-Effekte** beim Ziehen – drei prozedural synthetisierte
+      Roll-Loops je Stufe inkl. Knarzen (`tools/holzwagen_sounds.py`).
 - [ ] **Sichtbare Taschen am Modell.** Die Taschen-Slots sind aktuell rein
       logisch (Rechtsklick-Menü). Sie sichtbar am Wagen zu rendern (vor/hinter
       den Rädern) erfordert eigene Modell-Attachments.
@@ -54,7 +54,7 @@ nicht in Stein gemeißelt – Feedback per Issue ist willkommen.
 ## 🚀 Ideen / später
 
 - [ ] Weitere Varianten: Schubkarre, Planwagen (Segeltuch), tiergezogene Version.
-- [ ] Steam-Workshop-Release mit Preview-Bildern (inkl. korrigiertem Poster).
+- [ ] Steam-Workshop-Release mit Preview-Bildern (Poster ist fertig).
 
 ---
 
