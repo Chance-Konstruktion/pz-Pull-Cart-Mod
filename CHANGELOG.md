@@ -7,6 +7,21 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+### Added
+- **"Tasche an den Wagen haengen" per Rechtsklick.** Neuer Menuepunkt auf
+  Rucksaecken im Inventar (Wagen muss geschoben werden): haengt die Tasche
+  in einen freien Slot (Anzeige belegt/frei), "Tasche vom Wagen nehmen" holt
+  sie zurueck. Vanilla-Transfer (MP-synchron); die sichtbaren Satteltaschen
+  am Modell sind die Optik zu diesen Slots (`Holzwagen_Taschen.lua`).
+
+### Fixed
+- **Zaun-Kletter-Luecke geschlossen.** Das Vaulten per E-Taste/Anlaufen laeuft
+  im Java-Teil der Engine und ist per Lua nicht blockierbar (nur die
+  Rechtsklick-TimedActions waren abgefangen). Neuer Fallback: beginnt der
+  Charakter trotzdem zu klettern, laesst er den Wagen automatisch am
+  Startpunkt fallen ("Der Wagen passt da nicht drueber!") - kein
+  Wagen-durch-Zaun-Glitch mehr (`Holzwagen_CartRestrict.lua`).
+
 ### Fixed
 - **Satteltaschen aus dem Rad geschoben.** Die Taschen hingen mit der
   Innenkante (0,25 m) im Rad (Radius 0,34 m). Taschen-Mitte von 0,38 m auf
