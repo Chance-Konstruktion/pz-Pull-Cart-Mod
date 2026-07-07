@@ -29,8 +29,14 @@ module Base
     {
         mesh = holzwagen_t1, texture = holzwagen_tex, scale = 0.007,
         attachment Bip01_Prop1 { offset = -1.4 0.1 0.0, rotate = -20.0 90.0 0.0, }
-        /* Boden-Kippung folgt als gebackenes Welt-Modell (wie T2); ein
-           attachment-world-rotate wuerde die Raeder versenken -> entfernt. */
+    }
+    /* ABGESTELLT: Kippung (15.8 Grad um die Radachse) fest in die Geometrie
+       gebacken -> Handgriff liegt auf dem Boden, Raeder bleiben am Boden.
+       Erzeugt von tools/holzwagen_world_tilt.py aus dem funktionierenden FBX
+       (gleicher Export-Weg, NUR die Vertices gedreht). Nur als WorldStaticModel! */
+    model wagenT1world
+    {
+        mesh = holzwagen_t1_world, texture = holzwagen_tex, scale = 0.007,
     }
     /* T2 nutzt das Motion-Blur-Rad: die Speichen sind radial verwischt in die
        Textur holzwagen_t2_blur gebacken (eigener Atlas) und auf flache
@@ -41,11 +47,11 @@ module Base
     {
         mesh = holzwagen_t2_blur, texture = holzwagen_t2_blur, scale = 0.007,
         attachment Bip01_Prop1 { offset = -1.4 0.1 0.0, rotate = -20.0 90.0 0.0, }
-        /* BODEN-KIPPUNG (vorne hoch / hinten runter) selbst einstellen:
-           Zeile einkommentieren und die Zahlen anpassen. Starte mit derselben
-           Yaw wie oben (mittlerer Wert 90), dann die EINE Zahl finden, die vorne
-           hoch/hinten runter kippt (probiere nacheinander a, dann c):
-        attachment world { offset = 0.0 0.0 0.0, rotate = 0.0 90.0 10.0, } */
+    }
+    /* ABGESTELLT: gebackene 15.8-Grad-Kippung (siehe wagenT1world). */
+    model wagenT2world
+    {
+        mesh = holzwagen_t2_blur_world, texture = holzwagen_t2_blur, scale = 0.007,
     }
 
     /* =========================================================
@@ -69,7 +75,7 @@ module Base
         CloseSound       = CloseBag,
         OpenSound        = OpenBag,
         PutInSound       = PutItemInBag,
-        WorldStaticModel = wagenT1,
+        WorldStaticModel = wagenT1world,  /* abgestellt: Handgriff am Boden */
         StaticModel      = wagenT1,
         ReplaceInPrimaryHand = wagenT1 holdingtrolleyright,
         ReplaceInSecondHand  = wagenT1 holdingtrolleyleft,
@@ -89,7 +95,7 @@ module Base
         CloseSound       = CloseBag,
         OpenSound        = OpenBag,
         PutInSound       = PutItemInBag,
-        WorldStaticModel = wagenT2,
+        WorldStaticModel = wagenT2world,  /* abgestellt: Handgriff am Boden */
         StaticModel      = wagenT2,
         ReplaceInPrimaryHand = wagenT2 holdingtrolleyright,
         ReplaceInSecondHand  = wagenT2 holdingtrolleyleft,

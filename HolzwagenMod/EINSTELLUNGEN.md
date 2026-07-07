@@ -14,29 +14,25 @@ Alle Pfade beginnen ab dem Mod-Ordner `HolzwagenMod/`.
 - `42/media/scripts/holzwagen_items.txt` → Blöcke `model wagenT1` und `model wagenT2`
 - `42/media/scripts/holzwagen_fasswagen.txt` → Block `model wagenFass`
 
-Jeder `model { ... }` hat jetzt ZWEI Lagen:
+**In der Hand** stellst du über `attachment Bip01_Prop1` ein:
 
 ```
 attachment Bip01_Prop1 { offset = -1.4 0.1 0.0, rotate = -20.0 90.0 0.0, }  # IN DER HAND
-attachment world       { offset = 0.0 0.0 0.0,  rotate =  25.0  0.0 0.0, }  # ABGESTELLT
 ```
-
-- **`attachment Bip01_Prop1`** = wie der Wagen **in der Hand** liegt (beim Schieben).
-- **`attachment world`** = wie der Wagen **abgestellt auf dem Boden** liegt.
 
 | Wert | Bedeutung |
 |------|-----------|
-| `rotate = a b c` | **a** = auf der **Radachse** kippen (Handgriff hoch/runter) · **b** = um die Hochachse drehen (Yaw) · **c** = seitlich kippen. |
+| `rotate = a b c` | **a** = auf der **Radachse** kippen (Handgriff hoch/runter, `-20` = hoch Richtung Hände) · **b** = um die Hochachse drehen (Yaw) · **c** = seitlich kippen. |
 | `offset = x y z` | **x** = rechts/links · **y** = oben/unten · **z** = vorne/hinten (Meter). |
 | `scale` (Zeile drüber) | Gesamtgröße. Kleiner z. B. `0.004`, größer `0.008`. |
 
-**Handgriff-Kippung (dein Wunsch):**
-- In der Hand: `a` negativ (`-20`) → Handgriff geht **hoch Richtung Hände**. Mehr Hub = `a` negativer.
-- Abgestellt: in `attachment world` `a` positiv (`25`) → Wagen kippt auf der Radachse, **Handgriff sinkt auf den Boden**. Mehr Kippung bis er aufliegt = `a` größer.
-
-> ⚠️ Alle drei Modelle (`wagenT1`, `wagenT2`, `wagenFass`) gleich einstellen.
-> Kippt es „falsch herum"? → Vorzeichen von `a` tauschen. Kippt die falsche
-> Achse? → den Wert in eine andere der drei `rotate`-Stellen setzen.
+**Abgestellt (Handgriff liegt auf dem Boden):** Das ist KEIN rotate-Wert mehr,
+sondern ein **eigenes Welt-Modell** mit fest eingebauter 15,8°-Kippung
+(`wagenT1world` / `wagenT2world` / `wagenFassWorld`, jeweils als
+`WorldStaticModel` am Item). Wenn du den Kipp-Winkel ändern willst:
+`WHEEL_R` bzw. die Toleranz in `tools/holzwagen_world_tilt.py` anpassen und
+das Skript neu laufen lassen (`python3 tools/holzwagen_world_tilt.py`) —
+es findet den Winkel automatisch, bei dem der Griff genau aufliegt.
 
 ---
 
