@@ -7,6 +7,13 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+### Fixed
+- **Satteltaschen aus dem Rad geschoben.** Die Taschen hingen mit der
+  Innenkante (0,25 m) im Rad (Radius 0,34 m). Taschen-Mitte von 0,38 m auf
+  0,56 m von der Radachse geschoben -> Innenkante 0,43 m, klar ausserhalb
+  des Rads, Aussenkante bleibt auf dem Kasten (`BAG_Y` in
+  tools/holzwagen_taschen.py). Kippwinkel unveraendert (15,8 Grad).
+
 ### Added
 - **Sichtbare Taschen am Modell.** Leder-Satteltaschen (Korpus, Deckel-Klappe,
   Metall-Riemen) haengen jetzt sichtbar an den Seiten aller drei Wagen - je

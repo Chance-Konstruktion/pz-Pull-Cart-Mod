@@ -32,7 +32,9 @@ JOBS = [
 
 # Taschen-Mass (Meter). Haengt aussen am Holm, Oberkante ~ Bett-Hoehe.
 BAG_W, BAG_D, BAG_H = 0.10, 0.26, 0.30   # dick(x), breit(y), hoch(z)
-BAG_Y = 0.38                              # Abstand der Taschen von der Mitte
+# Abstand der Taschen-MITTE von der Radachse (y=0). Muss so gross sein, dass
+# die Innenkante (BAG_Y - BAG_D/2) AUSSERHALB des Rads (Radius 0.34) liegt!
+BAG_Y = 0.56                              # Innenkante 0.43 > Rad 0.34
 Z_BED_TOP = 0.50                          # Bett-Oberkante (Z_AXLE .34 + .10 + .06)
 
 
