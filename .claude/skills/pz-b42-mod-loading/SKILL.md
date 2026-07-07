@@ -142,11 +142,20 @@ Item-`modData` reist mit dem Item mit (MP-sicher).
 
 ## Items
 - `Type = Container` funktioniert; alternativ B42-Form `ItemType = base:container`.
-- **Container-Capacity ist im Script faktisch bei ~50 gedeckelt.** Für „großes
-  Volumen": `WeightReduction = 100` (Inhalt wiegt nichts) und die Capacity zur
-  **Laufzeit** setzen: in `OnPlayerUpdate` `item:getItemContainer():setCapacity(N)`.
+- **Container-Capacity ist im Script faktisch bei ~50 gedeckelt.**
+  `setCapacity(N)` zur Laufzeit reicht **NICHT** – die Transfer-Validierung
+  deckelt trotzdem. Der funktionierende Bypass (Hydrocraft-Wheelbarrow-Technik,
+  verifiziert): **`ISInventoryTransferAction:isValid` und
+  `ISInventoryPane:canPutIn` überschreiben** und für den eigenen Container per
+  Gewichts-Budget entscheiden (`cap > contentsWeight + itemWeight`), dabei
+  `setCapacity(cap)` gleich mitsetzen. Dazu `WeightReduction = 100`.
 - `FluidContainer`-Komponente: **`ContainerName` ohne Leerzeichen**.
-- Container + FluidContainer am selben Item läuft (verifiziert beim Fasswagen-Ansatz).
+- **FluidContainer ist engine-seitig bei ~142 L gedeckelt** (empirisch: Füllung
+  stoppt bei 141,6). `Capacity = 450` ist unerreichbar → ≤ 140 setzen, sonst
+  wird der Tank nie „voll" und das Item ggf. absurd schwer.
+- Container + FluidContainer am selben Item läuft (verifiziert: Fasswagen).
+- **Keine Fluids{}-Startliste** angeben, wenn das Fass leer starten soll –
+  jede gelistete Ratio füllt beim Erzeugen vor.
 
 ## Modelle & Texturen
 - **FBX, GLB und .X** werden direkt unterstützt; **`.obj` NICHT** (weglassen).
@@ -161,7 +170,33 @@ Item-`modData` reist mit dem Item mit (MP-sicher).
   Session.) Alpha auf 255 setzen.
 - **Skalierung:** Ein in Blender in **echten Metern** gebautes Mesh als FBX wird
   von PZ **~100–1000× zu groß** interpretiert. Praxiswerte für einen ~2 m Wagen:
-  `scale` um **0.001–0.006**. Erst sichtbar machen, dann empirisch feinjustieren.
+  `scale` um **0.001–0.007**. Erst sichtbar machen, dann empirisch feinjustieren.
+- **Zwei Modell-Lagen pro Item:** `StaticModel`/`ReplaceIn*Hand` = in der Hand,
+  `WorldStaticModel` = abgelegt. Beide dürfen auf **verschiedene** `model`-Blöcke
+  zeigen → unterschiedliche Posen (z. B. Griff hoch in der Hand, Griff am Boden
+  abgestellt) **ohne Lua**.
+- **Feste Rotation NICHT per `attachment world { rotate }` lösen** – rotiert um
+  den Modell-Ursprung → Teile versinken im Boden. Stattdessen die Rotation in
+  Blender **in die Vertices backen** (Pivot frei wählbar, z. B. Radachse).
+  ⚠️ Dabei **exakt denselben Export-Weg/Flags wie beim funktionierenden Modell**
+  nutzen (Import → nur Vertices drehen → Re-Export). Ein separater Export-Pfad
+  landet schnell im falschen Koordinatensystem → Modell liegt auf der Seite.
+- **Angeheftete Hand-Modelle können NICHT animiert werden** (empirisch + Javadoc:
+  ModelInstance teilt den `AnimationPlayer` des Spielers; gerigte FBX mit
+  Vertex-Gruppen rendern als Hand-Prop gar nicht erst). Workaround für „bewegte"
+  Teile: Bewegungsunschärfe in die **Textur backen** (Motion-Blur-Radscheiben).
+- **Attachment-Rotationsachsen** (`rotate = a b c`, Blender-Z-up-Export):
+  a = Nase hoch/runter (Pitch), b = Hochachse/Yaw, c = seitlich (Roll).
+
+## Sounds (eigene)
+- OGG nach `media/sound/`, Definition in `media/scripts/*.txt`:
+  ```
+  sound MeinSound { category = Item, clip { file = media/sound/mein.ogg, distanceMax = 20, volume = 0.7, } }
+  ```
+- Abspielen: `playerObj:getEmitter():playSound("MeinSound")`. Unbekannter Name =
+  still, kein Crash.
+- **Zombie-Aufmerksamkeit ist getrennt** vom Hörbaren:
+  `getWorldSoundManager():addSound(source, x, y, z, radius, volume)`.
 
 ## Schiebe-/Zieh-Wagen (Karren, Trolley, Schubkarre)
 
@@ -198,6 +233,23 @@ Die Masken referenzieren die Clips (`Bob_IdleTrolley`, `Bob_WalkTrolley`).
 - **In-Hand-Position/Größe** ist Feintuning: hängt an `scale` und den Hand-Offsets
   des Modells; das fremde Mesh ist passend gerigt, ein eigenes muss nachjustiert
   werden.
+- **Aufnehmen mit Ladezeit:** eigene `ISBaseTimedAction` mit `maxTime` +
+  `forceProgressBar = true`. ⚠️ **NIE `loopedAction = true`** kombiniert mit
+  einem „immer gültig"-`isValid`-Override → Endlos-Ladebalken (realer Bug).
+- **Abstellen MP-sicher:** im MP über
+  `ISInventoryPaneContextMenu.onDropItems({item}, playerNum)` (vanilla,
+  synchronisiert) statt direktem `AddWorldInventoryItem`; SP darf den direkten
+  Schnellpfad behalten. Aufnehmen: `transmitRemoveItemFromSquare(worldItem)`.
+- **Aktionen beim Schieben sperren** (Türen/Klettern): Hook auf
+  `ISTimedActionQueue.add` + Muster-Match auf `action.Type` (climb/fence/vault/
+  window/wall/door/curtain) fängt alle **Lua**-Pfade (Rechtsklick).
+  ⚠️ **Das E-Taste-/Anlauf-Vaulten läuft komplett in Java** und ist per Lua
+  NICHT blockierbar. Praxis-Fallback: Kletter-Beginn erkennen
+  (`isClimbing()` / Anim-Variablen `ClimbFence` etc., pcall-gekapselt, nur auf
+  steigende Flanke reagieren) → Wagen automatisch fallen lassen.
+- **Equip-Erkennung** sofort über `Events.OnEquipPrimary/OnEquipSecondary`
+  (Masken/Kapazität setzen), Polling nur als gedrosselter Backstop (~300 ms) –
+  spart Performance und ist MP-sauber.
 
 ## Lua-Fallen
 - Methoden-**Existenzcheck mit Punkt**, **Aufruf mit Doppelpunkt**:
@@ -210,6 +262,15 @@ Die Masken referenzieren die Clips (`Bob_IdleTrolley`, `Bob_WalkTrolley`).
   `ItemContainer:getContentsWeight()`/`getCapacity()`/`setCapacity()`,
   `getClothingItem_Back()`, `IsoPlayer:isLocalPlayer()`,
   `IsoGameCharacter:setSpeedMod(float)`.
+
+## Asset-Pipeline ohne lokalen Blender
+`pip install bpy` (headless Blender, läuft in der Sandbox) + `Pillow` +
+`soundfile` decken die komplette Asset-Erzeugung ab: Meshes bauen/ändern und
+als FBX exportieren (bei FBX-Export mit Animation `bake_anim_use_all_actions=True`
+setzen, sonst fehlt die Action), Texturen/Icons als numpy-Arrays malen,
+OGG-Sounds prozedural synthetisieren. Verifikation ohne GPU: kein Rendern
+(libEGL fehlt), stattdessen Drahtgitter-/Painter-Previews aus den Vertices
+selbst zeichnen und FBX-Roundtrip (Re-Import → zmin/dims/UV prüfen).
 
 ## Schneller In-Game-Test
 Hauptmenü → „Mehr…" → **Debug** an → Spiel laden → Käfer-Symbol → Item-Browser →

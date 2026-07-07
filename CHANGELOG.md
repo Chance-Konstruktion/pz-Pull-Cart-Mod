@@ -7,6 +7,15 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+### Changed
+- **Skill-Datei (pz-b42-mod-loading) um Session-Wissen erweitert:**
+  Kapazitaets-Bypass (Transfer-/Pane-Override statt setCapacity), ~142-L-
+  FluidContainer-Deckel, zwei Modell-Lagen (Hand vs. Welt) + Vertex-Bake statt
+  attachment-world-rotate, "Hand-Props nicht animierbar" (AnimationPlayer
+  geteilt), eigener Sound-Workflow, Endlos-Ladebalken-Falle (loopedAction),
+  MP-Drop via onDropItems, Java-Vault-Fallback (Wagen fallen lassen),
+  headless Asset-Pipeline (bpy/Pillow/soundfile).
+
 ### Added
 - **"Tasche an den Wagen haengen" per Rechtsklick.** Neuer Menuepunkt auf
   Rucksaecken im Inventar (Wagen muss geschoben werden): haengt die Tasche
