@@ -10,20 +10,37 @@ Schluss damit, 50 kg Beute einzeln nach Hause zu schleppen.
 
 ## ✨ Features
 
-- **Ziehen mit beiden Händen** → Tempo abhängig von den verbauten Rädern
-- **Zwei Stufen** plus Fasswagen-Umbau für Flüssigkeiten
-- **Taschen-Slots** an den Seiten (Rucksäcke einhängen)
-- Vollständige Rezepte inkl. **Rückbau**
-- Zentrale **Balance-Konfiguration** (`Holzwagen_Config.lua`)
+- **Ziehen mit beiden Händen** → Tempo abhängig von Rädern **und Beladung**
+- **Schnell-Ausrüsten** mit `V`/`E` (kurze Anschirr-Zeit) · beim Schieben sind
+  Zäune klettern & Türen öffnen gesperrt — erst abstellen!
+- **Gekippte Modelle**: in der Hand Griff leicht hoch, abgestellt liegt der
+  Griff auf dem Boden 🛒
+- **Motion-Blur-Speichenräder** (T2/Fasswagen) + echte Holzmaserung + eigene Icons
+- **Große Ladefläche** (über das B42-50er-Limit hinaus) + **Taschen-Slots** seitlich
+- **Fasswagen**: 140-L-Tank für alle Flüssigkeiten, Befüllen/Umfüllen per
+  **Schlauch**, sammelt **Regenwasser**
+- **Leichen-Transport**, **Abnutzung & Reparatur** (Bretter+Nägel+Hammer),
+  Füllstand direkt im Item-Namen
+- Vollständige Rezepte inkl. **Rückbau** · zentrale **Balance-Konfiguration**
+  (`Holzwagen_Config.lua`) · **Multiplayer-tauglich** (synchronisierte Aktionen)
 
 | Variante       | Tempo | Ladefläche | Taschen-Slots | Flüssigkeit | Woodwork |
 |----------------|:-----:|:----------:|:-------------:|:-----------:|:--------:|
 | **T1** (Holzrad)     | 80 %  | offener Loot | 4 | – | 3 |
 | **T2** (Speichenrad) | 100 % | offener Loot (größer) | 4 | – | 5 |
-| **Fasswagen**        | wie Räder | Fass (gesperrt) | 4 | 450 Einheiten | 5 |
+| **Fasswagen**        | wie Räder | Fass (gesperrt) | 3 + Schlauch-Slot | 140 L (alle Fluids) | 5 |
 
 > Taschen-Slots = Rucksäcke seitlich einhängen (Rechtsklick-Menü). Die offene
-> Ladefläche nimmt zusätzlich losen Loot auf; beim Fasswagen belegt das Fass das Bett.
+> Ladefläche nimmt zusätzlich losen Loot auf; beim Fasswagen belegt das Fass das
+> Bett und der vierte Slot gehört dem Schlauch.
+
+## ⚙️ Selber tunen
+
+Fast alles ist ohne Programmierkenntnisse einstellbar — Tempo, Volumen,
+Taschen-Slots, Geräusche, Abnutzung, Regen-Sammelrate:
+**[HolzwagenMod/EINSTELLUNGEN.md](HolzwagenMod/EINSTELLUNGEN.md)** (mit
+Datei- und Zeilenangaben). Die 3D-Modelle/Texturen/Icons werden von den
+Python-Skripten in [`tools/`](tools) erzeugt (headless Blender, `pip install bpy`).
 
 ## 📦 Installation
 
