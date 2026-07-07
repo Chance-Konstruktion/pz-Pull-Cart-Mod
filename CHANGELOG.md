@@ -7,6 +7,12 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ## [Unreleased]
 
+### Added
+- **Neues Mod-Poster (`poster.png`).** Gerendert aus dem echten T2-Modell
+  (abgestellte Pose, Griff am Boden, Blur-Rad aus dem Textur-Atlas) statt des
+  alten zweiachsigen Platzhalters. Generator: `tools/holzwagen_poster.py`
+  (bpy + Pillow, Painter-Algorithmus, Zonen aus UV-Koordinaten).
+
 ### Changed
 - **README (DE+EN) auf den aktuellen Stand gebracht:** neue Features
   (Kipp-Modelle, Blur-Räder, Kapazitäts-Bypass, Schlauch/Regen/Reparatur/
