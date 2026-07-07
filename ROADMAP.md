@@ -44,16 +44,18 @@ nicht in Stein gemeißelt – Feedback per Issue ist willkommen.
       (einachsig, abgestellte Pose, `tools/holzwagen_poster.py`).
 - [x] **Sound-Effekte** beim Ziehen – drei prozedural synthetisierte
       Roll-Loops je Stufe inkl. Knarzen (`tools/holzwagen_sounds.py`).
-- [ ] **Sichtbare Taschen am Modell.** Die Taschen-Slots sind aktuell rein
-      logisch (Rechtsklick-Menü). Sie sichtbar am Wagen zu rendern (vor/hinter
-      den Rädern) erfordert eigene Modell-Attachments.
+- [x] **Sichtbare Taschen am Modell.** Leder-Satteltaschen je Seite vor/hinter
+      dem Rad, Fasswagen mit Schlauch-Rolle (`tools/holzwagen_taschen.py`).
+      Immer sichtbar (PZ kann Hand-Props nicht dynamisch umbauen).
 - [ ] **Zieh-Animation** statt nur belegter Hände (siehe Motion-Blur-Punkt:
       eigene Animationen für Hand-Props sind in PZ B42 nicht möglich – höchstens
       über eine eigene Push-Pose, kein aktiver Plan).
 
 ## 🚀 Ideen / später
 
-- [ ] Weitere Varianten: Schubkarre, Planwagen (Segeltuch), tiergezogene Version.
+- [ ] Weitere Varianten: **Planwagen** (Segeltuch, drin schlafen?) und
+      **tiergezogene Version**. (Schubkarre gestrichen: kein Vorteil gegenüber
+      dem Ziehwagen.)
 - [ ] Steam-Workshop-Release mit Preview-Bildern (Poster ist fertig).
 
 ---
