@@ -77,3 +77,44 @@ local function applyPatches()
 end
 Events.OnGameStart.Add(applyPatches)
 applyPatches()
+
+-- ---- Fallback: Java-Kletterpfad (E-Taste / Anlaufen + Sprung) ----
+-- Das Vaulten ueber Zaeune per E/Anlaufen laeuft KOMPLETT im Java-Teil der
+-- Engine (kein Lua-TimedAction) und ist daher nicht blockierbar. Stattdessen:
+-- Wird trotzdem geklettert, laesst der Charakter den Wagen automatisch am
+-- Startpunkt fallen (realistisch, und verhindert den Wagen-durch-Zaun-Glitch).
+local wasClimbing = {}
+
+local function isClimbingNow(playerObj)
+    -- mehrere Erkennungswege, alle defensiv gekapselt (API-Namen variieren)
+    if playerObj.isClimbing then
+        local ok, res = pcall(playerObj.isClimbing, playerObj)
+        if ok and res then return true end
+    end
+    if playerObj.getVariableBoolean then
+        for _, v in ipairs({ "ClimbFence", "ClimbWall", "ClimbWindow" }) do
+            local ok, res = pcall(playerObj.getVariableBoolean, playerObj, v)
+            if ok and res then return true end
+        end
+    end
+    return false
+end
+
+local function onClimbWatch(playerObj)
+    if not climbBlocked() then return end
+    if not playerObj then return end
+    if playerObj.isLocalPlayer and not playerObj:isLocalPlayer() then return end
+    local pn = playerObj:getPlayerNum()
+    local climbing = isClimbingNow(playerObj)
+    -- nur auf der steigenden Flanke reagieren (Kletter-BEGINN)
+    if climbing and not wasClimbing[pn] and HW.hasCartEquipped(playerObj) then
+        local cart = playerObj:getPrimaryHandItem()
+        if not (cart and HW.isCart(cart)) then cart = playerObj:getSecondaryHandItem() end
+        if cart and HW.isCart(cart) and HW.dropCart then
+            HW.dropCart(playerObj, cart)
+            playerObj:Say("Der Wagen passt da nicht drueber!")
+        end
+    end
+    wasClimbing[pn] = climbing
+end
+Events.OnPlayerUpdate.Add(onClimbWatch)
