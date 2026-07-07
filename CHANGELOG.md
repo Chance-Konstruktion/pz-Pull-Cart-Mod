@@ -8,6 +8,11 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 ## [Unreleased]
 
 ### Added
+- **Hand-Modelle mit gebackener Griff-Hoch-Kippung (10°).** Gleiches Verfahren
+  wie die Welt-Modelle: `tools/holzwagen_world_tilt.py` erzeugt zusätzlich
+  `*_hand.fbx` mit 10° Griff-HOCH auf der Radachse (`HAND_UP_DEG`). Die
+  Hand-Modelle (`wagenT1/T2/Fass`) nutzen jetzt diese Meshes; der bisherige
+  `rotate a = -20` im Attachment entfällt (a = 0), damit nichts doppelt kippt.
 - **Handgriff-Kippung beim Abstellen (gebackene Welt-Modelle).** Neuer Ansatz
   nach 3 Fehlversuchen: `tools/holzwagen_world_tilt.py` importiert die im Spiel
   bewährten FBX (T1/T2-Blur/Fass-Blur), dreht NUR die Vertices um die Radachse
