@@ -10,8 +10,12 @@ module Base
         /* In-Hand: Handgriff hoch Richtung Haende (a = -20). Boden: Handgriff
            kippt auf der Radachse nach unten (attachment world, a = 25). */
         attachment Bip01_Prop1 { offset = -1.4 0.1 0.0, rotate = -20.0 90.0 0.0, }
-        /* Boden-Kippung folgt als gebackenes Welt-Modell (wie T2); attachment-
-           world-rotate wuerde die Raeder versenken -> entfernt. */
+    }
+    /* ABGESTELLT: gebackene 15.8-Grad-Kippung um die Radachse (Handgriff am
+       Boden). Erzeugt von tools/holzwagen_world_tilt.py. Nur WorldStaticModel! */
+    model wagenFassWorld
+    {
+        mesh = holzwagen_fass_blur_world, texture = holzwagen_t2_blur, scale = 0.007,
     }
 
     /* =========================================================
@@ -27,7 +31,7 @@ module Base
         Capacity         = 50,
         WeightReduction  = 100,
         AcceptItemFunction = HolzwagenAccept,  /* Bett gesperrt: nur Taschen, kein loser Loot */
-        WorldStaticModel = wagenFass,
+        WorldStaticModel = wagenFassWorld,  /* abgestellt: Handgriff am Boden */
         StaticModel      = wagenFass,
         ReplaceInPrimaryHand = wagenFass holdingtrolleyright,
         ReplaceInSecondHand  = wagenFass holdingtrolleyleft,

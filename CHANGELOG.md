@@ -8,6 +8,15 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 ## [Unreleased]
 
 ### Added
+- **Handgriff-Kippung beim Abstellen (gebackene Welt-Modelle).** Neuer Ansatz
+  nach 3 Fehlversuchen: `tools/holzwagen_world_tilt.py` importiert die im Spiel
+  bewährten FBX (T1/T2-Blur/Fass-Blur), dreht NUR die Vertices um die Radachse
+  (Pivot = Achshöhe, Räder bleiben am Boden) und exportiert mit identischen
+  Flags als `*_world.fbx`. Kippwinkel wird numerisch bestimmt (15,8° = Griff
+  berührt exakt den Boden). Items nutzen jetzt getrennte Modelle:
+  `WorldStaticModel = wagenT1world/wagenT2world/wagenFassWorld` (abgestellt,
+  Griff unten) vs. `StaticModel`/`ReplaceIn*Hand` (in der Hand, Griff oben).
+  EINSTELLUNGEN.md Abschnitt 1 entsprechend aktualisiert.
 - **Experiment: gerigte, drehende Räder (Blender-Test) – einbaufertig.** Skript
   `tools/holzwagen_wheels_rig.py` baut einen Wagen mit separaten, an einen
   Achs-Bone gebundenen Rädern + 360°-Dreh-Animation. Das **animierte FBX wurde
