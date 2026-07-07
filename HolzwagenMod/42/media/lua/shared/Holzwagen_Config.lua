@@ -64,12 +64,18 @@ HolzwagenConfig.sound = {
     noiseRadius = { T1 = 20, T2 = 8,  FASS = 15 },
     -- Lautstaerke 0..100 des World-Sounds (beeinflusst, wie stark es zieht).
     noiseVolume = { T1 = 70, T2 = 25, FASS = 50 },
-    -- Hoerbares Roll-Geraeusch (Sound-Name aus den Spiel-Banks). "" = stumm.
-    -- Falls der Name nicht existiert, passiert nichts (kein Crash) -> hier
-    -- einfach einen anderen Bank-Namen eintragen.
-    rollSound  = "FootstepWoodWalk",
+    -- Hoerbares Roll-Geraeusch je Stufe: unsere eigenen prozeduralen Sounds
+    -- (media/sound/*.ogg + scripts/holzwagen_sounds.txt, erzeugt von
+    -- tools/holzwagen_sounds.py). "" = stumm. Alternativ geht weiterhin ein
+    -- einzelner String fuer alle Stufen (z. B. "FootstepWoodWalk").
+    rollSound  = {
+        T1   = "HolzwagenRollT1",
+        T2   = "HolzwagenRollT2",
+        FASS = "HolzwagenRollFass",
+    },
     -- Mindestabstand zwischen zwei Geraeusch-Ausstoessen in Millisekunden.
-    intervalMs = 650,
+    -- Die Sound-Loops sind 1,4 s lang; 1300 laesst sie fast nahtlos anschliessen.
+    intervalMs = 1300,
 }
 
 -- ---------- Handhabung (Tasten / Ladezeit / Blockaden) ----------

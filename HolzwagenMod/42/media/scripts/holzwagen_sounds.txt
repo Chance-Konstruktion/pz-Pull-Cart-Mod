@@ -1,0 +1,26 @@
+module Base
+{
+    /* =========================================================
+       ROLL-SOUNDS (prozedural erzeugt: tools/holzwagen_sounds.py)
+       T1 = Vollholz poltert schwer, T2 = Speichenrad rollt leichter,
+       Fass = T2 + tiefes Fass-Wummern. Abgespielt von
+       Holzwagen_CartSound.lua im Takt von HolzwagenConfig.sound.intervalMs.
+       Lautstaerke hier (volume) ist die AUDIO-Lautstaerke; die ZOMBIE-
+       Hoerweite steuert HolzwagenConfig.sound.noiseRadius/-Volume.
+       ========================================================= */
+    sound HolzwagenRollT1
+    {
+        category = Item,
+        clip { file = media/sound/HolzwagenRollT1.ogg, distanceMax = 22, volume = 0.8, }
+    }
+    sound HolzwagenRollT2
+    {
+        category = Item,
+        clip { file = media/sound/HolzwagenRollT2.ogg, distanceMax = 14, volume = 0.55, }
+    }
+    sound HolzwagenRollFass
+    {
+        category = Item,
+        clip { file = media/sound/HolzwagenRollFass.ogg, distanceMax = 18, volume = 0.7, }
+    }
+}
