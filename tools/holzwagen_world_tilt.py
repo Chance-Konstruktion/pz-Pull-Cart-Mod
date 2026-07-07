@@ -26,9 +26,11 @@ WHEEL_R = 0.34   # Achshoehe = Radradius (Radunterseite liegt bei z=0)
 # (quelle, welt-datei [griff runter, winkel automatisch],
 #          hand-datei [griff HOCH, fester winkel HAND_UP_DEG])
 SOURCES = [
-    ("holzwagen_t1.fbx",        "holzwagen_t1_world.fbx",        "holzwagen_t1_hand.fbx"),
-    ("holzwagen_t2_blur.fbx",   "holzwagen_t2_blur_world.fbx",   "holzwagen_t2_blur_hand.fbx"),
-    ("holzwagen_fass_blur.fbx", "holzwagen_fass_blur_world.fbx", "holzwagen_fass_blur_hand.fbx"),
+    # Basis sind die *_bags-Modelle (tools/holzwagen_taschen.py: sichtbare
+    # Satteltaschen, Fasswagen mit Schlauch-Rolle) - vorher das laufen lassen!
+    ("holzwagen_t1_bags.fbx",        "holzwagen_t1_world.fbx",        "holzwagen_t1_hand.fbx"),
+    ("holzwagen_t2_blur_bags.fbx",   "holzwagen_t2_blur_world.fbx",   "holzwagen_t2_blur_hand.fbx"),
+    ("holzwagen_fass_blur_bags.fbx", "holzwagen_fass_blur_world.fbx", "holzwagen_fass_blur_hand.fbx"),
 ]
 HAND_UP_DEG = 10.0   # Griff in der Hand: 10 Grad HOCH auf der Radachse
 

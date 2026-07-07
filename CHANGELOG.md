@@ -8,6 +8,16 @@ die Versionierung folgt [Semantic Versioning](https://semver.org/lang/de/).
 ## [Unreleased]
 
 ### Added
+- **Sichtbare Taschen am Modell.** Leder-Satteltaschen (Korpus, Deckel-Klappe,
+  Metall-Riemen) haengen jetzt sichtbar an den Seiten aller drei Wagen - je
+  Seite vor und hinter dem Rad (= die 4 Taschen-Slots); der Fasswagen zeigt
+  3 Taschen + eine aufgerollte Schlauch-Rolle am vierten Platz. Gebaut von
+  `tools/holzwagen_taschen.py` (Basis -> *_bags.fbx), die Kipp-Pipeline
+  (`holzwagen_world_tilt.py`) erzeugt daraus die _hand/_world-Varianten.
+  Hinweis: PZ kann Hand-Props nicht dynamisch umbauen -> Taschen sind immer
+  sichtbar, unabhaengig von eingehaengten Rucksaecken (Engine-Grenze).
+
+### Added
 - **Eigene Roll-Sounds (prozedural synthetisiert).** Drei nahtlose 1,4-s-Loops
   (`media/sound/HolzwagenRollT1/T2/Fass.ogg`, erzeugt von
   `tools/holzwagen_sounds.py`): T1 poltert schwer (Vollholz), T2 rollt leichter
