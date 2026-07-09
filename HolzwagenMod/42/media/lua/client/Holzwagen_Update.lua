@@ -95,8 +95,32 @@ local function onHolzwagenUpdate(playerObj)
 
         -- 6) Tooltip/Name: Ladung | Liter | Zustand
         updateCartName(cart)
+
+        -- 7) Fuellstands-Modell vormerken (greift beim naechsten Abstellen)
+        HW.updateWorldModel(cart)
     else
         lastPos[pn] = nil
+    end
+
+    -- Abgestellte Wagen in der Naehe: Fuellstands-Modell nachziehen (z. B.
+    -- wenn am Boden be-/entladen wurde). Kleiner Radius, gedrosselt genug.
+    local psq = playerObj:getCurrentSquare()
+    if psq and HW.updateWorldModel then
+        local cell = psq:getCell()
+        local px, py, pz = psq:getX(), psq:getY(), psq:getZ()
+        for dx = -4, 4 do
+            for dy = -4, 4 do
+                local s = cell and cell:getGridSquare(px + dx, py + dy, pz)
+                local objs = s and s:getWorldObjects()
+                if objs then
+                    for i = 0, objs:size() - 1 do
+                        local wo = objs:get(i)
+                        local it = wo and wo.getItem and wo:getItem()
+                        if it and HW.isCart(it) then HW.updateWorldModel(it) end
+                    end
+                end
+            end
+        end
     end
 
     -- 3) Lose Wagen im Inventar auf den Boden stellen

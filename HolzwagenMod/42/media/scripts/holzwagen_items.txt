@@ -57,6 +57,28 @@ module Base
         mesh = holzwagen_t2_blur_world, texture = holzwagen_t2_blur, scale = 0.007,
     }
 
+    /* FUELLSTANDS-VARIANTEN (nur Welt-Modell, abgestellt): Kisten/Saecke
+       fest ins Mesh gebacken (tools/holzwagen_ladung.py). Den Tausch je
+       Beladung macht HW.updateWorldModel (Holzwagen_Core.lua) ueber
+       InventoryItem:setWorldStaticModel. Hand-Modell bleibt enginebedingt
+       immer das leere. */
+    model wagenT1halbWorld
+    {
+        mesh = holzwagen_t1_halb_world, texture = holzwagen_tex, scale = 0.007,
+    }
+    model wagenT1vollWorld
+    {
+        mesh = holzwagen_t1_voll_world, texture = holzwagen_tex, scale = 0.007,
+    }
+    model wagenT2halbWorld
+    {
+        mesh = holzwagen_t2_blur_halb_world, texture = holzwagen_t2_blur, scale = 0.007,
+    }
+    model wagenT2vollWorld
+    {
+        mesh = holzwagen_t2_blur_voll_world, texture = holzwagen_t2_blur, scale = 0.007,
+    }
+
     /* =========================================================
        WAGEN ALS AUSRUESTBARES CONTAINER-ITEM (Schiebe-Prinzip)
        Engine-Felder wie bei SaucedCarts (funktionierender B42-Mod):

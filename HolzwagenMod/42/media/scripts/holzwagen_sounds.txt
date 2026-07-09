@@ -1,26 +1,26 @@
 module Base
 {
     /* =========================================================
-       ROLL-SOUNDS (prozedural erzeugt: tools/holzwagen_sounds.py)
-       T1 = Vollholz poltert schwer, T2 = Speichenrad rollt leichter,
-       Fass = T2 + tiefes Fass-Wummern. Abgespielt von
-       Holzwagen_CartSound.lua im Takt von HolzwagenConfig.sound.intervalMs.
-       Lautstaerke hier (volume) ist die AUDIO-Lautstaerke; die ZOMBIE-
-       Hoerweite steuert HolzwagenConfig.sound.noiseRadius/-Volume.
+       ACHS-QUIETSCHER (prozedural erzeugt: tools/holzwagen_quietschen.py)
+       Kein Dauer-Rollsound mehr - stattdessen kurze, trockene Quietscher,
+       die Holzwagen_CartSound.lua nur GELEGENTLICH abspielt (zufaelliger
+       Abstand, siehe HolzwagenConfig.sound.squeak). Drei Varianten gegen
+       Repetition. Die ZOMBIE-Hoerweite steuert weiterhin
+       HolzwagenConfig.sound.noiseRadius/-Volume (unabhaengig vom Hoerbaren).
        ========================================================= */
-    sound HolzwagenRollT1
+    sound HolzwagenQuietschen1
     {
         category = Item,
-        clip { file = media/sound/HolzwagenRollT1.ogg, distanceMax = 22, volume = 0.8, }
+        clip { file = media/sound/HolzwagenQuietschen1.ogg, distanceMax = 16, volume = 0.6, }
     }
-    sound HolzwagenRollT2
+    sound HolzwagenQuietschen2
     {
         category = Item,
-        clip { file = media/sound/HolzwagenRollT2.ogg, distanceMax = 14, volume = 0.55, }
+        clip { file = media/sound/HolzwagenQuietschen2.ogg, distanceMax = 16, volume = 0.6, }
     }
-    sound HolzwagenRollFass
+    sound HolzwagenQuietschen3
     {
         category = Item,
-        clip { file = media/sound/HolzwagenRollFass.ogg, distanceMax = 18, volume = 0.7, }
+        clip { file = media/sound/HolzwagenQuietschen3.ogg, distanceMax = 16, volume = 0.6, }
     }
 }

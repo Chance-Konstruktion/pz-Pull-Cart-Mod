@@ -32,6 +32,7 @@ local function dropCartAtPlayerPosition(playerObj, cartItem)
     if not square then return end
 
     HW.applyCapacity(cartItem)
+    HW.updateWorldModel(cartItem)   -- Fuellstands-Modell (leer/halb/voll)
     playerObj:removeFromHands(cartItem)
     playerObj:setVariable("RightHandMask", "")
     playerObj:setVariable("LeftHandMask", "")
@@ -278,8 +279,10 @@ HW.openCartContainer = openCartContainer
 local function cartInventoryContext(player, context, items)
     local playerObj = getSpecificPlayer(player)
     if not playerObj then return end
-    local item = items[1]
-    if not instanceof(item, "InventoryItem") then item = items[1].items[1] end
+    local item = items and items[1]
+    if item and not instanceof(item, "InventoryItem") then
+        item = (type(item) == "table" and item.items and item.items[1]) or nil
+    end
     if not item or not cartCanEquip(item:getFullType()) then return end
 
     local primaryItem = playerObj:getPrimaryHandItem()

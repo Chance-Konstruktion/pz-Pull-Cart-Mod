@@ -1,4 +1,8 @@
 """
+
+!!! AUSSER BETRIEB: Die fest gebackenen Satteltaschen sahen nicht gut aus
+und sind wieder entfernt (Basis fuer world_tilt sind die nackten Modelle).
+Datei bleibt nur als Referenz liegen.
 SICHTBARE TASCHEN an den Wagen-Modellen.
 
 PZ kann Hand-Prop-Modelle nicht dynamisch umbauen (gleiche Engine-Grenze wie

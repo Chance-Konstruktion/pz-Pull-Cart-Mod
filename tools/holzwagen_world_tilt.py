@@ -17,20 +17,28 @@ Aufruf: python3 tools/holzwagen_world_tilt.py
 """
 import bpy, math, os
 
-REPO = "/home/user/pz-Holzwagen-mod-/HolzwagenMod/42/media"
+HERE = os.path.dirname(os.path.abspath(__file__))
+REPO = os.path.join(HERE, "..", "HolzwagenMod", "42", "media")
 MODELS = os.path.join(REPO, "models_X")
 
 # Radgeometrie wie in den Bau-Skripten (alle drei Wagen identisch)
 WHEEL_R = 0.34   # Achshoehe = Radradius (Radunterseite liegt bei z=0)
 
 # (quelle, welt-datei [griff runter, winkel automatisch],
-#          hand-datei [griff HOCH, fester winkel HAND_UP_DEG])
+#          hand-datei [griff HOCH, fester winkel HAND_UP_DEG] oder None)
 SOURCES = [
-    # Basis sind die *_bags-Modelle (tools/holzwagen_taschen.py: sichtbare
-    # Satteltaschen, Fasswagen mit Schlauch-Rolle) - vorher das laufen lassen!
-    ("holzwagen_t1_bags.fbx",        "holzwagen_t1_world.fbx",        "holzwagen_t1_hand.fbx"),
-    ("holzwagen_t2_blur_bags.fbx",   "holzwagen_t2_blur_world.fbx",   "holzwagen_t2_blur_hand.fbx"),
-    ("holzwagen_fass_blur_bags.fbx", "holzwagen_fass_blur_world.fbx", "holzwagen_fass_blur_hand.fbx"),
+    # Basis sind die NACKTEN Modelle (keine Satteltaschen mehr - die fest
+    # gebackenen Taschen sahen nicht gut aus, tools/holzwagen_taschen.py
+    # ist damit ausser Betrieb).
+    ("holzwagen_t1.fbx",        "holzwagen_t1_world.fbx",        "holzwagen_t1_hand.fbx"),
+    ("holzwagen_t2_blur.fbx",   "holzwagen_t2_blur_world.fbx",   "holzwagen_t2_blur_hand.fbx"),
+    ("holzwagen_fass_blur.fbx", "holzwagen_fass_blur_world.fbx", "holzwagen_fass_blur_hand.fbx"),
+    # Fuellstands-Varianten (tools/holzwagen_ladung.py, vorher laufen lassen!)
+    # Nur Welt-Modelle: das Hand-Modell ist enginebedingt fest pro Item.
+    ("holzwagen_t1_halb.fbx",      "holzwagen_t1_halb_world.fbx",      None),
+    ("holzwagen_t1_voll.fbx",      "holzwagen_t1_voll_world.fbx",      None),
+    ("holzwagen_t2_blur_halb.fbx", "holzwagen_t2_blur_halb_world.fbx", None),
+    ("holzwagen_t2_blur_voll.fbx", "holzwagen_t2_blur_voll_world.fbx", None),
 ]
 HAND_UP_DEG = 10.0   # Griff in der Hand: 10 Grad HOCH auf der Radachse
 
@@ -112,5 +120,6 @@ def tilt_one(src_name, dst_name, tilt_deg=None):
 
 for src, dst_world, dst_hand in SOURCES:
     tilt_one(src, dst_world)                      # abgestellt: Griff am Boden
-    tilt_one(src, dst_hand, tilt_deg=-HAND_UP_DEG)  # in der Hand: Griff hoch
+    if dst_hand:
+        tilt_one(src, dst_hand, tilt_deg=-HAND_UP_DEG)  # in der Hand: Griff hoch
 print("FERTIG.")

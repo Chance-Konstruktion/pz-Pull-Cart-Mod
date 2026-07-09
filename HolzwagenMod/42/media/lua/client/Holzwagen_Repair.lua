@@ -16,8 +16,10 @@ end
 
 local function removeSome(inv, fullType, n)
     for _ = 1, n do
-        local it = inv:getFirstTypeRecurse and inv:getFirstTypeRecurse(fullType)
-                   or inv:getFirstType(fullType)
+        -- Existenzcheck mit PUNKT, Aufruf mit Doppelpunkt (":" ohne Aufruf
+        -- ist ein Lua-SYNTAXFEHLER und hat diese ganze Datei am Laden gehindert)
+        local it = (inv.getFirstTypeRecurse and inv:getFirstTypeRecurse(fullType))
+                   or (inv.getFirstType and inv:getFirstType(fullType))
         if it then
             local c = it:getContainer() or inv
             c:Remove(it)
@@ -65,8 +67,10 @@ end
 local function repairInventoryContext(player, context, items)
     local playerObj = getSpecificPlayer(player)
     if not playerObj then return end
-    local item = items[1]
-    if not instanceof(item, "InventoryItem") then item = items[1].items[1] end
+    local item = items and items[1]
+    if item and not instanceof(item, "InventoryItem") then
+        item = (type(item) == "table" and item.items and item.items[1]) or nil
+    end
     if item and HW.isCart(item) then addRepairOption(playerObj, context, item) end
 end
 
