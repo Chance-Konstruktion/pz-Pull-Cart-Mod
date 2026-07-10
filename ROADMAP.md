@@ -42,11 +42,19 @@ nicht in Stein gemeißelt – Feedback per Issue ist willkommen.
 - [x] **Eigene Item-Icons** für alle 9 Items statt Platzhalter (`Crate`/`Wheel`).
 - [x] **Poster-Bild** (`poster.png`) – neu gerendert aus dem echten T2-Modell
       (einachsig, abgestellte Pose, `tools/holzwagen_poster.py`).
-- [x] **Sound-Effekte** beim Ziehen – drei prozedural synthetisierte
-      Roll-Loops je Stufe inkl. Knarzen (`tools/holzwagen_sounds.py`).
-- [x] **Sichtbare Taschen am Modell.** Leder-Satteltaschen je Seite vor/hinter
-      dem Rad, Fasswagen mit Schlauch-Rolle (`tools/holzwagen_taschen.py`).
-      Immer sichtbar (PZ kann Hand-Props nicht dynamisch umbauen).
+- [x] **Sound-Effekte** beim Ziehen – die Dauer-Roll-Loops klangen synthetisch
+      ("Raumschiff") und sind ersetzt: jetzt nur ein **gelegentliches
+      Achs-Quietschen** (3 Varianten, zufälliger Abstand,
+      `tools/holzwagen_quietschen.py`). Zombie-Hörweite unverändert.
+- [x] ~~Sichtbare Taschen am Modell~~ – **wieder entfernt** (sah nicht gut aus,
+      da immer sichtbar). Die Taschen-Slots (Funktion) bleiben.
+- [x] **Füllstands-Modelle für die Ladefläche** (T1/T2): leer / halbvoll /
+      voll als gebackene Welt-Modelle (`tools/holzwagen_ladung.py`), Tausch je
+      Beladung beim Abstellen. Hand-Modell bleibt enginebedingt das leere.
+- [x] **Räder drehen sich nicht** – das ist eine harte Engine-Grenze: Hand-Props
+      teilen den AnimationsPlayer des Spielers, gerigte/animierte Meshes rendern
+      gar nicht (siehe `tools/RAEDER_TEST.md`). Ersatz bleibt die
+      Motion-Blur-Textur bei T2/Fass; echte Rotation ist in B42 nicht machbar.
 - [ ] **Zieh-Animation** statt nur belegter Hände (siehe Motion-Blur-Punkt:
       eigene Animationen für Hand-Props sind in PZ B42 nicht möglich – höchstens
       über eine eigene Push-Pose, kein aktiver Plan).

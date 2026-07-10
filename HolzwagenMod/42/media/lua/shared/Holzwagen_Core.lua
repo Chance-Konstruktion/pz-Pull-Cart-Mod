@@ -110,6 +110,32 @@ function HW.applyCapacity(item)
     end
 end
 
+-- ---------- Fuellstands-Modell (Weltmodell je Beladung) ----------
+-- Waehlt anhand des Fuellgrads das passende Welt-Modell (leer/halb/voll).
+function HW.worldModelFor(cart)
+    local lm = CFG.loadModels
+    local t = lm and lm[HW.cartTier(cart)]
+    if not t then return nil end   -- z. B. Fasswagen: keine Varianten
+    local th = lm.thresholds or {}
+    local f = HW.loadFactor(cart)
+    if f >= (th.full or 0.70) then return t.full end
+    if f >= (th.half or 0.25) then return t.half end
+    return t.empty
+end
+
+-- Weltmodell am Item setzen. Defensiv: setWorldStaticModel gibt es erst in
+-- neueren Builds - fehlt die API, passiert einfach nichts (Modell bleibt leer).
+function HW.updateWorldModel(cart)
+    if not (cart and HW.isCart(cart) and cart.setWorldStaticModel) then return end
+    local name = HW.worldModelFor(cart)
+    if not name then return end
+    if cart.getWorldStaticModel and cart:getWorldStaticModel() == name then return end
+    local ok, err = pcall(function() cart:setWorldStaticModel(name) end)
+    if not ok then
+        print("[Holzwagen] setWorldStaticModel fehlgeschlagen: " .. tostring(err))
+    end
+end
+
 -- ---------- Zustand / Abnutzung (modData, wandert mit dem Item) ----------
 -- Zustand 0..100 (%). Neue Wagen starten bei 100.
 function HW.getCondition(cart)

@@ -64,18 +64,17 @@ HolzwagenConfig.sound = {
     noiseRadius = { T1 = 20, T2 = 8,  FASS = 15 },
     -- Lautstaerke 0..100 des World-Sounds (beeinflusst, wie stark es zieht).
     noiseVolume = { T1 = 70, T2 = 25, FASS = 50 },
-    -- Hoerbares Roll-Geraeusch je Stufe: unsere eigenen prozeduralen Sounds
-    -- (media/sound/*.ogg + scripts/holzwagen_sounds.txt, erzeugt von
-    -- tools/holzwagen_sounds.py). "" = stumm. Alternativ geht weiterhin ein
-    -- einzelner String fuer alle Stufen (z. B. "FootstepWoodWalk").
-    rollSound  = {
-        T1   = "HolzwagenRollT1",
-        T2   = "HolzwagenRollT2",
-        FASS = "HolzwagenRollFass",
-    },
-    -- Mindestabstand zwischen zwei Geraeusch-Ausstoessen in Millisekunden.
-    -- Die Sound-Loops sind 1,4 s lang; 1300 laesst sie fast nahtlos anschliessen.
+    -- Mindestabstand zwischen zwei World-Sound-Ausstoessen (Zombie-Ohr) in ms.
     intervalMs = 1300,
+    -- Hoerbar: KEIN Dauer-Rollsound mehr (klang synthetisch), sondern ein
+    -- GELEGENTLICHES Achs-Quietschen waehrend der Wagen rollt. Abstand
+    -- zwischen zwei Quietschern wird zufaellig aus [minMs, maxMs] gezogen.
+    -- T1 (Vollholzachse) quietscht oefter als T2 (Speichenrad).
+    squeak = {
+        sounds = { "HolzwagenQuietschen1", "HolzwagenQuietschen2", "HolzwagenQuietschen3" },
+        minMs  = { T1 = 3000,  T2 = 6000,  FASS = 4000 },
+        maxMs  = { T1 = 8000,  T2 = 15000, FASS = 10000 },
+    },
 }
 
 -- ---------- Handhabung (Tasten / Ladezeit / Blockaden) ----------
@@ -86,6 +85,17 @@ HolzwagenConfig.handling = {
     -- Solange ein Wagen geschoben wird:
     blockClimb = true,  -- nicht über Zäune/Mauern klettern, nicht durch Fenster steigen
     blockDoors = true,  -- keine Türen öffnen/schließen
+}
+
+-- ---------- Fuellstands-Modelle (Ladeflaeche sichtbar beladen) ----------
+-- Je Beladung (Gewicht/Kapazitaet) ein anderes WELT-Modell (abgestellt):
+-- leer / halbvoll (Kisten+Saecke) / voll (gestapelt). Das Hand-Modell beim
+-- Schieben ist enginebedingt fest. Fasswagen hat kein offenes Bett -> keine
+-- Varianten. Modelle: tools/holzwagen_ladung.py + holzwagen_world_tilt.py.
+HolzwagenConfig.loadModels = {
+    thresholds = { half = 0.25, full = 0.70 },   -- Fuellgrad-Schwellen 0..1
+    T1 = { empty = "wagenT1world", half = "wagenT1halbWorld", full = "wagenT1vollWorld" },
+    T2 = { empty = "wagenT2world", half = "wagenT2halbWorld", full = "wagenT2vollWorld" },
 }
 
 -- Tag, an dem die Logik den Wagen erkennt.

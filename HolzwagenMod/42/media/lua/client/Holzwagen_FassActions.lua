@@ -133,10 +133,15 @@ end
 local function fassInventoryContext(player, context, items)
     local playerObj = getSpecificPlayer(player)
     if not playerObj then return end
-    local item = items[1]
-    if not instanceof(item, "InventoryItem") then item = items[1].items[1] end
+    -- items[1] kann ein InventoryItem ODER eine Stapel-Tabelle {items={...}}
+    -- sein - beides defensiv behandeln (war ein Crash-Kandidat).
+    local item = items and items[1]
+    if item and not instanceof(item, "InventoryItem") then
+        item = (type(item) == "table" and item.items and item.items[1]) or nil
+    end
     if not item or not HW.isFasswagen(item) then return end
-    buildFassMenu(playerObj, context, item)
+    local ok, err = pcall(buildFassMenu, playerObj, context, item)
+    if not ok then print("[Holzwagen][Fass] Menue-Fehler: " .. tostring(err)) end
 end
 
 -- ---------- Welt-Kontextmenü (abgestellter Fasswagen) ----------
@@ -147,7 +152,8 @@ local function fassWorldContext(player, context, worldobjects)
         local wo = worldobjects[i]
         if wo and instanceof(wo, "IsoObject") and wo.getItem and wo:getItem()
            and HW.isFasswagen(wo:getItem()) then
-            buildFassMenu(playerObj, context, wo:getItem())
+            local ok, err = pcall(buildFassMenu, playerObj, context, wo:getItem())
+            if not ok then print("[Holzwagen][Fass] Menue-Fehler: " .. tostring(err)) end
             return
         end
     end
