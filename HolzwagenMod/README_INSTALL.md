@@ -137,19 +137,6 @@ sonst sieht jede Stufe anders aus.
 - Echtes Material-/Skill-Balancing folgt nach dem Test (Rezepte aktuell im
   Test-Modus: 1 Baumstamm + Woodwork 1 pro Rezept).
 
-## 5b. 🔊 Geräusche & Zombie-Aufmerksamkeit einstellen
-Beim Schieben rollt der Wagen hörbar und erzeugt einen „World-Sound", den
-**Zombies wahrnehmen**. **T1 ist lauter als T2** (Vollholzräder) und lockt
-Zombies früher an. Alle Werte stehen in
-`42/media/lua/shared/Holzwagen_Config.lua` → `HolzwagenConfig.sound`:
-
-- `noiseRadius` (Kacheln) – wie weit Zombies das Rollen hören (größer = früher).
-- `noiseVolume` (0–100) – wie stark der Sound zieht.
-- `rollSound` – Name des hörbaren Geräusch-Clips aus den Spiel-Banks
-  (`""` = stumm; falls der Name nicht existiert, passiert einfach nichts).
-- `intervalMs` – Abstand zwischen zwei Geräusch-Ausstößen.
-- `enabled = false` schaltet alles ab.
-
 ## 6. Fasswagen (Flüssigkeits-Variante)
 Umbau aus dem T2-Wagen (`scripts/holzwagen_fasswagen.txt`). Das Fass ist fest
 verbaut (450er Fluid-Tank). Bett vom Fass belegt – **keine lose Ladung**, aber

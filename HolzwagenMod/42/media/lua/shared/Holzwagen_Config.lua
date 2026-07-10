@@ -26,7 +26,7 @@ HolzwagenConfig.rain = {
 
 -- Abnutzung + Reparatur: der Wagen verschleisst mit gefahrener Strecke.
 HolzwagenConfig.wear = {
-    enabled       = true,
+    enabled       = false,  -- deaktiviert: kein Verschleiss, keine Reparatur noetig
     tilesPerPoint = 60,   -- alle N Kacheln Strecke sinkt der Zustand um 1 % (60 => ~6000 Kacheln bis 0)
     repairPlanks  = 2,    -- Reparatur-Kosten: Bretter
     repairNails   = 4,    -- Reparatur-Kosten: Naegel
@@ -53,29 +53,6 @@ HolzwagenConfig.fass = {
 -- Falls ein Item nicht gleichzeitig Item- und Fluid-Container sein darf,
 -- werden die Fasswagen-Taschen an einem separaten versteckten Container gehalten.
 HolzwagenConfig.fassUsesSeparateBagContainer = false
-
--- ---------- Geraeusche / Zombie-Aufmerksamkeit ----------
--- Beim Schieben rollt der Wagen hoerbar UND erzeugt einen "World-Sound", den
--- Zombies wahrnehmen. T1 (Vollholzraeder) ist deutlich lauter als T2
--- (Speichenraeder) -> T1 lockt Zombies frueher an.
-HolzwagenConfig.sound = {
-    enabled    = true,
-    -- Radius in Kacheln, in dem Zombies das Rollen hoeren (groesser = frueher).
-    noiseRadius = { T1 = 20, T2 = 8,  FASS = 15 },
-    -- Lautstaerke 0..100 des World-Sounds (beeinflusst, wie stark es zieht).
-    noiseVolume = { T1 = 70, T2 = 25, FASS = 50 },
-    -- Mindestabstand zwischen zwei World-Sound-Ausstoessen (Zombie-Ohr) in ms.
-    intervalMs = 1300,
-    -- Hoerbar: KEIN Dauer-Rollsound mehr (klang synthetisch), sondern ein
-    -- GELEGENTLICHES Achs-Quietschen waehrend der Wagen rollt. Abstand
-    -- zwischen zwei Quietschern wird zufaellig aus [minMs, maxMs] gezogen.
-    -- T1 (Vollholzachse) quietscht oefter als T2 (Speichenrad).
-    squeak = {
-        sounds = { "HolzwagenQuietschen1", "HolzwagenQuietschen2", "HolzwagenQuietschen3" },
-        minMs  = { T1 = 3000,  T2 = 6000,  FASS = 4000 },
-        maxMs  = { T1 = 8000,  T2 = 15000, FASS = 10000 },
-    },
-}
 
 -- ---------- Handhabung (Tasten / Ladezeit / Blockaden) ----------
 HolzwagenConfig.handling = {
