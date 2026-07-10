@@ -97,35 +97,6 @@ Kleiner = langsamer. Das ist die **einzige aktive Tempo-Schraube**.
 
 ---
 
-## 4. 🔊 Geräusche & Zombie-Aufmerksamkeit
-
-**Datei:** `42/media/lua/shared/Holzwagen_Config.lua` → `HolzwagenConfig.sound`
-
-```lua
-HolzwagenConfig.sound = {
-    enabled     = true,
-    noiseRadius = { T1 = 20, T2 = 8,  FASS = 15 },
-    noiseVolume = { T1 = 70, T2 = 25, FASS = 50 },
-    rollSound   = { T1 = "HolzwagenRollT1", T2 = "HolzwagenRollT2", FASS = "HolzwagenRollFass" },
-    intervalMs  = 1300,
-}
-```
-
-| Wert | Bedeutung |
-|------|-----------|
-| `enabled` | `false` schaltet alle Wagen-Geräusche ab. |
-| `noiseRadius` | Wie weit (in Kacheln) Zombies das Rollen hören. T1 lauter = lockt früher. |
-| `noiseVolume` | Stärke des Geräuschs (0–100), beeinflusst die Anziehung. |
-| `rollSound` | Hörbarer Roll-Clip **je Stufe** (unsere eigenen Sounds aus `media/sound/`). `""` = stumm. Auch ein einzelner String für alle Stufen geht (z. B. `"FootstepWoodWalk"`). Existiert der Name nicht, bleibt es still (kein Absturz). |
-| `intervalMs` | Abstand zwischen zwei Geräuschen in Millisekunden (kleiner = öfter). Die eigenen Loops sind 1,4 s lang → 1300 schließt fast nahtlos an. |
-
-**Sound-Charakter ändern** (dumpfer, mehr Knarzen, andere Schlag-Frequenz):
-`tools/holzwagen_sounds.py` anpassen und neu laufen lassen
-(`python3 tools/holzwagen_sounds.py`). Audio-Lautstärke/Hörweite der Clips:
-`42/media/scripts/holzwagen_sounds.txt` (`volume`, `distanceMax`).
-
----
-
 ## 4b. 🚪 Handhabung: Ladezeit, Klettern & Türen sperren
 
 **Datei:** `42/media/lua/shared/Holzwagen_Config.lua` → `HolzwagenConfig.handling`
@@ -207,6 +178,5 @@ Pro `craftRecipe`:
 | Wagen in der Hand drehen/verschieben/größer | `scripts/holzwagen_items.txt` + `scripts/holzwagen_fasswagen.txt` (`attachment Bip01_Prop1`) |
 | Wie viel reinpasst | `lua/shared/Holzwagen_Core.lua` (`HW.cartCapacity`) |
 | Laufgeschwindigkeit | `scripts/holzwagen_items.txt` + `..._fasswagen.txt` (`RunSpeedModifier`) |
-| Lautstärke / Zombie-Radius / Sound | `lua/shared/Holzwagen_Config.lua` (`HolzwagenConfig.sound`) |
 | Tankgröße Fasswagen | `scripts/holzwagen_fasswagen.txt` (`FluidContainer.Capacity`) |
 | Rezepte / Material / Skill | `scripts/holzwagen_recipes.txt` (+ Fass-Rezepte) |

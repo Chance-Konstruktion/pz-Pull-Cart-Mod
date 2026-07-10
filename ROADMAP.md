@@ -25,8 +25,9 @@ nicht in Stein gemeißelt – Feedback per Issue ist willkommen.
       Regenwasser-Sammlung, 140-L-Kappe (B42-Engine-Limit empirisch ermittelt).
 - [x] Schnell-Ausrüsten mit `V`/`E` inkl. kurzer Anschirr-Zeit; blockiert
       Zaun-Klettern/Fenster/Türen solange der Wagen ausgerüstet ist.
-- [x] Leichen-Transport, Radverschleiß + Reparatur (Bretter+Nägel+Hammer),
-      Füllstand/Zustand direkt im Item-Namen.
+- [x] Leichen-Transport, Füllstand direkt im Item-Namen. (Radverschleiß +
+      Reparatur waren vorhanden, sind jetzt aber standardmäßig deaktiviert –
+      siehe Politur-Sektion.)
 - [x] MP-sichere Drop-/Pickup-Pfade (vanilla synchronisierte Aktionen).
 - [x] Performance: ein zentraler, throttled Update-Handler statt mehrerer
       Tick-Listener.
@@ -42,12 +43,16 @@ nicht in Stein gemeißelt – Feedback per Issue ist willkommen.
 - [x] **Eigene Item-Icons** für alle 9 Items statt Platzhalter (`Crate`/`Wheel`).
 - [x] **Poster-Bild** (`poster.png`) – neu gerendert aus dem echten T2-Modell
       (einachsig, abgestellte Pose, `tools/holzwagen_poster.py`).
-- [x] **Sound-Effekte** beim Ziehen – die Dauer-Roll-Loops klangen synthetisch
-      ("Raumschiff") und sind ersetzt: jetzt nur ein **gelegentliches
-      Achs-Quietschen** (3 Varianten, zufälliger Abstand,
-      `tools/holzwagen_quietschen.py`). Zombie-Hörweite unverändert.
+- [x] ~~Sound-Effekte beim Ziehen~~ – **komplett entfernt** (erst Dauer-Loops,
+      dann gelegentliches Quietschen – beides passte nicht). Auch die
+      Zombie-Aufmerksamkeits-Logik (World-Sound) ist raus. Der Wagen ist
+      wieder still.
 - [x] ~~Sichtbare Taschen am Modell~~ – **wieder entfernt** (sah nicht gut aus,
       da immer sichtbar). Die Taschen-Slots (Funktion) bleiben.
+- [x] ~~Radverschleiß + Reparatur~~ – **deaktiviert** (`HolzwagenConfig.wear.enabled
+      = false`). Kein Zustandsverfall mehr, kein Reparatur-Menüpunkt.
+- [x] ~~"Ladefläche öffnen"-Button~~ – **entfernt** (Inventar-/Welt-Kontextmenü).
+      Zugriff auf die Ladefläche läuft weiterhin über Ausrüsten/Taschen.
 - [x] **Füllstands-Modelle für die Ladefläche** (T1/T2): leer / halbvoll /
       voll als gebackene Welt-Modelle (`tools/holzwagen_ladung.py`), Tausch je
       Beladung beim Abstellen. Hand-Modell bleibt enginebedingt das leere.
