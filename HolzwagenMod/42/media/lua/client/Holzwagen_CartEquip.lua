@@ -22,10 +22,12 @@ local function cartCanEquip(itemFullType)
 end
 
 -- Wagen am Spieler ablegen (aus Hand/Inventar in die Welt).
--- MP-SICHER (Wheelbarrow-Prinzip): Im Multiplayer laeuft das Ablegen ueber den
--- Vanilla-Drop (ISInventoryPaneContextMenu.onDropItems) - der geht durch die
--- synchronisierte Timed Action, sodass Server und Mitspieler den Wagen sehen.
--- Direktes square:AddWorldInventoryItem ist nur der Singleplayer-Schnellpfad.
+-- DIREKTER Drop fuer SP UND MP: IsoGridSquare:AddWorldInventoryItem uebertraegt
+-- das Welt-Item im Multiplayer selbst an den Server (derselbe Weg, den auch die
+-- Vanilla-Drop-Aktion am Ende nimmt). Der fruehere Umweg ueber
+-- ISInventoryPaneContextMenu.onDropItems hat im MP eine Timed Action erzeugt,
+-- die nie fertig wurde -> Endlos-Ladebalken, Wagen blieb im Inventar, und der
+-- Kletter-Notabwurf (CartRestrict) griff nicht mehr (Wagen "durch die Wand").
 local function dropCartAtPlayerPosition(playerObj, cartItem)
     if not playerObj or not cartItem then return end
     local square = playerObj:getCurrentSquare()
@@ -37,17 +39,11 @@ local function dropCartAtPlayerPosition(playerObj, cartItem)
     playerObj:setVariable("RightHandMask", "")
     playerObj:setVariable("LeftHandMask", "")
 
-    if isClient() and ISInventoryPaneContextMenu and ISInventoryPaneContextMenu.onDropItems then
-        -- MP: Vanilla-Drop (synchronisiert). Item muss dafuer im Inventar bleiben.
-        if not playerObj:getInventory():contains(cartItem) then
-            playerObj:getInventory():AddItem(cartItem)
-        end
-        ISInventoryPaneContextMenu.onDropItems({ cartItem }, playerObj:getPlayerNum())
-    else
-        -- SP: direkter Drop auf die aktuelle Kachel.
-        playerObj:getInventory():Remove(cartItem)
-        square:AddWorldInventoryItem(cartItem, 0, 0, 0)
-    end
+    -- aus JEDEM Container loesen (Hauptinventar oder Rucksack), dann auf die Kachel
+    local cont = cartItem.getContainer and cartItem:getContainer()
+    if cont then cont:Remove(cartItem) end
+    playerObj:getInventory():Remove(cartItem)
+    square:AddWorldInventoryItem(cartItem, 0, 0, 0)
 
     local pdata = getPlayerData(playerObj:getPlayerNum())
     if pdata and pdata.playerInventory then
@@ -185,20 +181,33 @@ end
 -- ist dort wie eine Kiste oeffenbar (Boden-Loot). Ein Wagen gehoert nie lose
 -- ins Rucksack-Inventar: entweder in der Hand (schieben) oder auf dem Boden.
 -- Daher: jeder NICHT ausgeruestete Wagen im Spieler-Inventar wird abgestellt.
+-- MP-WICHTIG: Ein frisch GECRAFTETER Wagen haengt serverseitig noch in der
+-- Craft-Transaktion. Wird er in dem Moment schon aus dem Inventar gerissen,
+-- bricht der Server den Craft ab und legt das Material zurueck ("nicht
+-- baubar"). Darum eine Schonfrist: erst abstellen, wenn der Wagen ein paar
+-- Sekunden ununterbrochen im Inventar gesehen wurde.
+local GRACE_MS = 2000
+local firstSeen = {}
+setmetatable(firstSeen, { __mode = "k" })   -- weak keys: keine Item-Leichen halten
+
 local function autoDropLooseCarts(playerObj)
     if not playerObj or (playerObj.isLocalPlayer and not playerObj:isLocalPlayer()) then return end
-    -- MP-Guard: der Vanilla-Drop laeuft als Timed Action. Solange noch eine
-    -- Aktion laeuft/wartet, nicht erneut anstossen (sonst Drop-Spam im MP).
+    -- Solange noch eine Aktion laeuft (z. B. der Craft selbst), nichts anfassen.
     if ISTimedActionQueue and ISTimedActionQueue.isPlayerDoingAction
        and ISTimedActionQueue.isPlayerDoingAction(playerObj) then return end
     local inv = playerObj:getInventory()
     if not inv then return end
+    local t = (getTimestampMs and getTimestampMs()) or 0
     local items = inv:getItems()
     for i = 0, items:size() - 1 do
         local it = items:get(i)
         if it and cartCanEquip(it:getFullType()) and not it:isEquipped() then
-            dropCartAtPlayerPosition(playerObj, it)
-            return -- pro Durchlauf nur einen, Liste hat sich geaendert
+            if not firstSeen[it] then firstSeen[it] = t end
+            if (t - firstSeen[it]) >= GRACE_MS then
+                firstSeen[it] = nil
+                dropCartAtPlayerPosition(playerObj, it)
+                return -- pro Durchlauf nur einen, Liste hat sich geaendert
+            end
         end
     end
 end
