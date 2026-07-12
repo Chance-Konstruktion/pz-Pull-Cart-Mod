@@ -26,7 +26,12 @@ module Base
     {
         DisplayName      = Fasswagen,
         Type             = Container,      /* haelt die seitlichen Taschen-Slots */
-        Weight           = 16.0,
+        /* Basisgewicht bewusst niedrig: die Engine deckelt die Fuellung nicht
+           in Litern, sondern ueber das GESAMTGEWICHT des Items (empirisch:
+           Cap 450 -> Stopp bei 141,6 L; Cap 140 + Taschen an Bord -> Stopp bei
+           136,8 L; Basis+Fluid war beide Male ~gleich schwer). Je leichter der
+           Wagen selbst, desto mehr Liter passen wirklich rein. */
+        Weight           = 8.0,
         Capacity         = 50,
         WeightReduction  = 100,
         AcceptItemFunction = HolzwagenAccept,  /* Bett gesperrt: nur Taschen, kein loser Loot */
@@ -44,11 +49,12 @@ module Base
         component FluidContainer
         {
             ContainerName = Holzwagen_Fass,
-            /* B42 deckelt Fluid-Container offenbar bei ~142 L (Test: Fass wurde
-               nur bis 141,6 L voll). 450 war daher unerreichbar -> auf 140
-               gesetzt, damit der Tank sauber voll wird und ein voller Wagen
-               nicht absurd schwer ist (Grund, warum voll schwer abzustellen war). */
-            Capacity = 140.0,
+            /* Der Engine-Deckel wirkt uebers Gesamtgewicht (siehe Weight oben):
+               bei 140 L Capacity war mit Taschen an Bord schon bei 136,8 L
+               Schluss ("voll" ohne voll zu sein). 120 L + Basisgewicht 8 laesst
+               auch mit vollen Satteltaschen genug Luft, damit die Anzeige
+               wirklich 120/120 erreicht. */
+            Capacity = 120.0,
             /* KEIN Fluids-Startinhalt -> Fass startet LEER.
                Die alte Fluids{}-Liste (fluid = Water:1.0 usw.) hat das Fass
                beim Erstellen vorbefuellt (halb voll). Ein leerer FluidContainer

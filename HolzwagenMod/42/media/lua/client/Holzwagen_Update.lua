@@ -127,4 +127,20 @@ local function onHolzwagenUpdate(playerObj)
     if HW.autoDropLooseCarts then HW.autoDropLooseCarts(playerObj) end
 end
 
-Events.OnPlayerUpdate.Add(onHolzwagenUpdate)
+-- Fehler-Schutz: OnPlayerUpdate laeuft staendig - ein einziger Fehler hier
+-- wuerde den roten Fehlerzaehler pro Tick hochticken lassen und ausserdem
+-- diesen Handler faktisch lahmlegen. Jede eindeutige Fehlermeldung wird nur
+-- EINMAL in die Konsole geschrieben (Suche nach "[Holzwagen]").
+local reported = {}
+local function onHolzwagenUpdateSafe(playerObj)
+    local ok, err = pcall(onHolzwagenUpdate, playerObj)
+    if not ok then
+        local msg = tostring(err)
+        if not reported[msg] then
+            reported[msg] = true
+            print("[Holzwagen] Update-Fehler (wird nur einmal gemeldet): " .. msg)
+        end
+    end
+end
+
+Events.OnPlayerUpdate.Add(onHolzwagenUpdateSafe)

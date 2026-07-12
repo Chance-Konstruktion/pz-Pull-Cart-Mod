@@ -117,4 +117,18 @@ local function onClimbWatch(playerObj)
     end
     wasClimbing[pn] = climbing
 end
-Events.OnPlayerUpdate.Add(onClimbWatch)
+
+-- Fehler-Schutz wie in Holzwagen_Update.lua: dieser Waechter MUSS am Leben
+-- bleiben, sonst nimmt der Spieler den Wagen wieder mit ueber Zaeune/Waende.
+local reported = {}
+local function onClimbWatchSafe(playerObj)
+    local ok, err = pcall(onClimbWatch, playerObj)
+    if not ok then
+        local msg = tostring(err)
+        if not reported[msg] then
+            reported[msg] = true
+            print("[Holzwagen] Kletter-Waechter-Fehler (wird nur einmal gemeldet): " .. msg)
+        end
+    end
+end
+Events.OnPlayerUpdate.Add(onClimbWatchSafe)
